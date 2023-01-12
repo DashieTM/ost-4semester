@@ -1,0 +1,86 @@
+
+\documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\input{../ost-summary-template.tex}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
+
+\lstdefinelanguage{CSS}{
+    sensitive=true,
+    keywords={%
+    % JavaScript
+    typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break,
+    % HTML
+    html, title, meta, style, head, body, script, canvas,
+    % CSS
+    color:, border-radius:, border:, transform:, -moz-transform:, transition-duration:, transition-property:,
+    transition-timing-function, background:, background-size:, background-color:, background-image:, background-origin:, background-repeat:, background-position:, background-attachement:, border:, border-box:, border-width:, border-color:, border-bottom:, border-style:, border-radius:, border-spacing:, border-collapse:, text-transform:, text-decoration-thickness:, text-align:, text-indent:, text-shadow:, text-justify:, text-overflow:, text-decoration:, text-align-last:, text-decoration-line:, text-decoration-color:, text-decoration-style:, margin:, padding:, 
+    },
+    % http://texblog.org/tag/otherkeywords/
+    otherkeywords={<, >},   
+    ndkeywords={class, export, boolean, throw, implements, import, this},   
+    comment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morecomment=[s]{<!}{>},
+    morestring=[b]',
+    morestring=[b]",    
+    alsoletter={-},
+    alsodigit={:}
+}
+
+\lstdefinelanguage{HTML}{
+    sensitive=true,
+    keywords={%
+    % JavaScript
+    typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break,
+    % HTML
+    html, title, meta, style, head, body, script, canvas,
+    % CSS
+    color:, border-radius:, border:, transform:, -moz-transform:, transition-duration:, transition-property:,
+    transition-timing-function, background:, background-size:, background-color:, background-image:, background-origin:, background-repeat:, background-position:, background-attachement:, border:, border-box:, border-width:, border-color:, border-bottom:, border-style:, border-radius:, border-spacing:, border-collapse:, text-transform:, text-decoration-thickness:, text-align:, text-indent:, text-shadow:, text-justify:, text-overflow:, text-decoration:, text-align-last:, text-decoration-line:, text-decoration-color:, text-decoration-style:, margin:, padding:, 
+    },
+    % http://texblog.org/tag/otherkeywords/
+    ndkeywords={class, export, boolean, throw, implements, import, this},   
+    comment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morecomment=[s]{<!--}{-->},
+    morestring=[b]',
+    morestring=[b]",    
+    alsoletter={-},
+    %otherkeywords={<, >},   
+    alsodigit={:}
+}
+
+
+\begin{document}
+\tableofcontents
+
+\lstset{
+    language=JavaScript,
+    style=code,
+}
+
+\lstset{
+    language=CSS,
+    style=code,
+}
+
+\lstset{
+    language=HTML,
+    style=code,
+}
+
+
+\end{document}
