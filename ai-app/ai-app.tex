@@ -4,5 +4,99 @@
 \begin{document}
 \tableofcontents
 
+\lstset{
+    language=Python,
+    style=code,
+}
+
+\section{CNN Convolutional Neural Networks}
+
+\subsection{Keras}
+A python library that wraps tensorflow for classification.\newline
+We will use this in this module to classify images like so:\newline
+\includegraphics[scale=0.4]{2023_02_20_12_32_47.png}
+
+\subsection{Flattening}
+When we convert an image into a long vector, we lose information in the human sense, or rather make it hidden.\newline
+todo, explain what is hidden and why
+
+
+\section{Convolution}
+\subsection{Firing of neurons}
+Neurons are clearly connected to something very specific, this would then also be reflected in the artificial neural network. In other words, neuron 1 handles horizontal lines, another a line with a slight angle and so-on.\newline
+\includegraphics[scale=0.4]{2023_02_20_02_19_00.png}
+
+\subsection{mathematical model of a feature detector}
+\begin{itemize}
+\item \textcolor{purple}{Two Inputs}\newline
+  \begin{itemize}
+  \item \textcolor{orange}{a picture}\newline
+    Note that rgb would give you 3 channels red, green and blue
+  \item \textcolor{orange}{A filter(kernel)}\newline
+  \begin{itemize}
+  \item  an m by n matrix in the simplest case (1 channel, grayscale).
+  \item an m by n x 3 "stack of matrices" in the case of a 3 channel input (e.g. an RGB image)
+  \item an m by n x d "stack of matrices". The depth of the kernel must equal the number of input channels.
+  \end{itemize} 
+\end{itemize} 
+\item \textcolor{purple}{One Output}\newline
+  A feature map (where is the thing that we wanted to search / determine by)\newline
+  One convolution produces one feature map. Even if the input and the filter have multiple channels, the output of the convolution has one channel.
+\item \textcolor{purple}{The Operation: Convolution}\newline
+  We convolve the input image with the convolutional kernel
+\end{itemize} 
+
+\subsection{Example of convolution}
+\includegraphics[scale=0.4]{2023_02_20_02_23_12.png}\newline
+As you can see here, a filter will be used to detect something specific, like a pattern.\newline
+\textcolor{purple}{This means that you will be combining multiple different filters in order to properly figure out what picture the underlying image is composed of.}\newline
+\includegraphics[scale=0.4]{2023_02_20_02_23_46.png}\newline
+\textcolor{purple}{Explanation for the first calculation: 0 * -1 + 0 * -1 + 0 * 1 + 0 * 0 + 156 * 1 + 155 * -1 + 0 * 0 + 153 * 1 + 154 * 1 = 308}\newline
+multiply each number in the top red square with the number in the same position in the bottom square.
+We then proceed to do this for all channels (complexity of input, 3 for rgb), which \emph{will then be combined to 1 single output value}.\newline
+This output value will then also be combined with a \emph{bias}.\newline
+\textcolor{purple}{The entire reason we do this, is so that we can have an easier time calculating the images with a pc.}
+
+\subsection{Reasons for convolution}
+\begin{itemize}
+\item \textcolor{purple}{Features can be detected independent of location -> filters will always find what they are supposed/created to find}
+\item \textcolor{purple}{This calculation is done in parallel, which is very fast for gpus when doing matrix calculations! -> Hence the use of tensorflow with cuda!}
+\item \textcolor{purple}{Shared weights mean using the same \emph{kernel values}, this reduces the use of a singular value for each neuron. -> more processing etc}
+\end{itemize} 
+
+\subsection{Stride}
+\includegraphics[scale=0.4]{2023_02_20_02_44_29.png}\newline
+\textcolor{purple}{Stride is simply the offset by which we move towards the right and the bottom when we move to the next calculation.}\newline
+The default value here is 1, which means Stride 1.
+
+\subsection{Padding}
+\minipg{
+Padding is simply the edge of the matrix that has been predefined.\newline
+A same padding is made entirely of 0's!
+}{
+\includegraphics[scale=0.4]{2023_02_20_02_47_01.png}
+}[0.45,0.4]
+
+\subsection{Max Pooling}
+\includegraphics[scale=0.4]{2023_02_20_02_46_05.png}\newline
+\includegraphics[scale=0.4]{2023_02_20_02_48_45.png}\newline
+In this case we only take the \emph{max} value instead of some sum.\newline
+This leaves you with rgb again instead of a mixed value!!
+
+\subsection{Example with Keras}
+\begin{lstlisting}
+model = Sequential([
+  layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
+  layers.Conv2D(16, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Conv2D(32, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Conv2D(64, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Flatten(),
+  layers.Dense(128, activation='relu'),
+  layers.Dense(num_classes)
+])
+\end{lstlisting}
 
 \end{document}
