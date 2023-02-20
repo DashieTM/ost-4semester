@@ -10,5 +10,5 @@
 \contentsline {subsection}{\numberline {2.5}Stride}{2}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Padding}{2}{subsection.2.6}%
 \contentsline {subsection}{\numberline {2.7}Max Pooling}{2}{subsection.2.7}%
-\contentsline {subsection}{\numberline {2.8}Example with Keras}{2}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.8}Example with Keras}{3}{subsection.2.8}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

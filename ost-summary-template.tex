@@ -2,24 +2,22 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[dvipsnames]{xcolor}
-\usepackage[nswissgerman,english]{babel} 
+\usepackage[english]{babel} 
 \usepackage{hyperref}
 \renewcommand{\familydefault}{\sfdefault}
 
 % Format
-\usepackage[top=5mm,bottom=1mm,left=5mm,right=5mm]{geometry}
-%\setlength{\headheight}{\baselineskip}
-%\setlength{\headsep}{0mm}
+\usepackage[top=5mm,bottom=5mm,left=5mm,right=5mm]{geometry}
+\setlength{\headheight}{3\baselineskip}
+\setlength{\headsep}{2mm}
 
-%\usepackage{scrlayer-scrpage}
-%\clearpairofpagestyles
-%\chead{{\bfseries\TITLE, \AUTHOR, \pagename~\thepage}}
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
+\chead{{\bfseries\TITLE, \AUTHOR, \pagename~\thepage}}
 
-%\addtokomafont{pagehead}{\upshape}
-
-\usepackage{multicol}
-\setlength{\columnsep}{2mm}
-\setlength{\columnseprule}{0.1pt}
+% \usepackage{multicol}
+% \setlength{\columnsep}{2mm}
+% \setlength{\columnseprule}{0.1pt}
 
 % Math
 \usepackage{amsmath}
@@ -28,26 +26,6 @@
 
 % Code
 \usepackage{fancyvrb, etoolbox, listings, xcolor}
-%\usemintedstyle{bw}
-
-%\newminted[shell]{bash}{
-%fontsize=\footnotesize,
-%fontfamily=tt,
-%breaklines=true,
-%frame=single,
-%framerule=0.1pt,
-%framesep=2mm,
-%tabsize=2
-%}
-%\newminted{css}{
-%breaklines=true,
-%tabsize=4,
-%autogobble=true,
-%escapeinside=||,
-%stripall=true,
-%stripnl=true,
-%}
-
     \definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
     \definecolor{darkgray}{rgb}{0.4, 0.4, 0.4}
     \definecolor{purple}{rgb}{0.65, 0.12, 0.82}
@@ -71,10 +49,7 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    belowskip=-5pt
 }
-
-
 
 % Images
 \usepackage{graphicx}
@@ -98,17 +73,6 @@
 }
 \def\minipg@iiii#1#2[#3,#4]{\vspace{0.8mm}\begin{minipage}{#3\textwidth}#1\end{minipage}\begin{minipage}{#4\textwidth}#2\end{minipage}{\vspace{0.8mm}}}
 \makeatother
-
-%\newenvironment{minty}[2]% environment name
-%{% begin code
-%  \begin{minipage}{#1}
-%  \begin{minted}{#2}
-%}%
-%{% end code
-%  \end{minted}
-%  \end{minipage}
-%  \end{minty}\ignorespacesafterend
-%} 
 
 % Smaller Lists
 \usepackage{enumitem}
