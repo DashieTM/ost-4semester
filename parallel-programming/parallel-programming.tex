@@ -4,5 +4,230 @@
 \begin{document}
 \tableofcontents
 
+\lstset{
+    language=Java,
+    style=code,
+}
+
+\section{Motivation}
+
+\subsection{Moore's Law}
+Until now the idea was that more transistors, more GHz, etc means that we can go faster and faster.
+However, the issue is that the increases are getting slower and slower, while the workloads are getting increasingly complex with clear need for \emph{multithreading}.
+
+\subsection{Hyperthreading vs Multiple Cores}
+\minipg{
+Hyperthreading creates the illusion of multiple cores via switching the context of the registers efficiently.\newline
+In other words, it just properly streamlines computation similar to JS await/async.\newline
+\textcolor{purple}{Note the different instruction set and the same compute core with hyperthreading!}
+}{
+\includegraphics[scale=0.4]{2023_02_20_08_47_23.png}\newline
+}[0.55,0.5]
+
+\subsection{Concurrent vs Parallel}
+\includegraphics[scale=0.4]{2023_02_20_08_45_03.png}
+\includegraphics[scale=0.4]{2023_02_20_08_45_08.png}
+
+\subsubsection{Concurrency}
+Concurrency has the goal of \emph{simpler programs}, it does this by offering \emph{simultaneous or interleaved(time shared)} execution that accesses shared resources. 
+
+\subsubsection{Parallelism}
+Parallelism has the goal of \emph{faster programs}, it does this by decomposition of a program into \emph{several sub-programs}, which can run in parallel on multiple processors or cores.
+
+\section{Parallel Programming in OS Space}
+
+\subsection{Processes and threads}
+\minipg{
+A process is the instance of a program, while a thread is a subpart of a program, which will then have different callstacks. Meaning that each thread will have it's own callstack but share the same heap!
+}{
+\includegraphics[scale=0.4]{2023_02_20_09_03_15.png}
+}[0.7,0.3]\newline
+\includegraphics[scale=0.4]{2023_02_20_09_04_01.png}
+
+\subsection{Pros and Cons}
+\minipg{
+  Cons:
+\begin{itemize}
+\item \textcolor{red}{Interprocess Communication}
+\item \textcolor{red}{Process Management via system calls}
+\item \textcolor{red}{Memory isolation}
+\end{itemize} 
+}{
+  Pros:
+  \begin{itemize}
+  \item \textcolor{green}{Process isolation}
+  \item \textcolor{green}{Responsiveness}
+  \end{itemize} 
+}[0.4,0.4]
+
+\subsection{User threads vs Kernel threads}
+\minipg{
+  User level threads is a so-called \emph{green thread}, it can't offer true parallelism and is only scheduled by a runtime library or a virtual machine.
+}{
+  Kernel level thread is the true form of multithreading. \emph{native threads}\newline
+It offers context switching via \emph{SW interrupt}.
+}[0.25,0.25]
+
+\subsection{Context Switch}
+\begin{itemize}
+\item \textcolor{purple}{Synchronous}
+  \begin{itemize}
+  \item \textcolor{black}{Thread waiting for condition}
+  \item \textcolor{black}{queues itself as waiting and gives processor free}
+  \item \textcolor{black}{locks processor during usage}
+  \end{itemize} 
+\item \textcolor{purple}{Asynchronous}
+  \begin{itemize}
+  \item \textcolor{black}{after some defined time the thread should release the processor}
+  \item \textcolor{black}{prevent a thread from permanently occupying the processor (solves locks)}
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{Multi-Tasking}
+\begin{itemize}
+\item \textcolor{purple}{Cooperative}
+  \begin{itemize}
+  \item \textcolor{black}{threads must explicitly initiate context switches synchronously at the scheduler at intervals}
+  \item \textcolor{black}{scheduler cannot interrupt running thread}
+  \end{itemize} 
+\item \textcolor{purple}{Preemptive}
+  \begin{itemize}
+  \item \textcolor{black}{scheduler can interrupt the running thread asynchronously via timer interrupt}
+  \item \textcolor{black}{Time-Sliced scheduling: each thread has the processor for maximum time interval}
+  \end{itemize} 
+\end{itemize} 
+\textcolor{red}{Preemptive is used for the most part!!}
+
+\subsection{Thread States}
+\includegraphics[scale=0.4]{2023_02_20_09_14_43.png}
+
+\subsection{Non-determinism}
+When using multi-threading, you can't be sure which thread will be used to complete a task first, meaning that if you print 2 different statements in 2 threads, then you can't be sure of the order in which these statements will be printed.
+
+\section{Parallel Programming in Jafuck}
+\subsection{Thread Implementation}
+Java implements its own threads which are then linked to the kernel threads.\newline
+\includegraphics[scale=0.4]{2023_02_20_09_07_53.png}
+
+\subsection{JVM Thread Model}
+Java is a single process system -> JVM as one process on the operating system. \newline
+\textcolor{purple}{JVM creates a thread at startup which calls main().}\newline
+You are then free to call/create more threads as the programmer.
+
+\subsection{JVM Termination}
+\begin{itemize}
+\item \textcolor{purple}{The JVM runs as long as threads are running, the main function doesn't matter in this case}\newline
+  The only exception are so called \emph{daemon threads}, these are threads like the garbage collector, which ofc needs to be ignored for the jvm to EVER end.
+\item \textcolor{purple}{You can exit manually via System.exit() or Runtime.exit()}\newline
+  Note that this means uncontrolled termination of all threads.
+  This can lead to \emph{undefined behavior}.
+\end{itemize} 
+
+\subsection{Thread in Java}
+A thread in java takes a so called "runnable target", this is an interface that simply defines the type of behavior that can be run inside of a thread. \newline
+For example the thread might run something like a lambda.
+\begin{lstlisting}
+public class Thread implements Runnable {
+  private Runnable target;
+  public synchronized void start() {
+    if (threadStatus != 0)
+      throw new IllegalThreadStateException();
+    group.add(this);
+    boolean started = false;
+  }
+  public void run() {
+    if (target != null) {
+      target.run(); 
+    }
+  }
+  public Thread() {
+    this(null, null, "Thread-" + nextThreadNum(), 0);
+  }
+  public Thread(Runnable target) {
+    this(null, target, "Thread-" + nextThreadNum(), 0);
+  }
+}
+\end{lstlisting}
+\vspace{2mm}
+\textcolor{purple}{Note that should a thread cause an exception, the other threads will continue to run!}
+
+\subsection{Example for multithreading in java}
+\begin{lstlisting}
+public class MultiThreadTest {
+  public static void main(String[] args) {
+    var a = new Thread(() -> multiPrint("A"));
+    var b = new Thread(() -> multiPrint("B"));
+    a.start();
+    b.start();
+    System.out.println("main finished");
+  }
+  static void multiPrint(String label) {
+    for (int i = 0; i < 10; i++) {
+      System.out.println(label + ": " + i);
+    }
+  }
+}
+\end{lstlisting}
+\vspace{2mm}
+\textcolor{purple}{Lambdas as well as method references implement the runnable interface}
+
+\subsection{Explicit/Sub-class Thread behavior}
+You can explicitly set the behavior of a thread via overriding the run method of the runnable interface.\newline
+Note that this means you will implement your own thread!\newline
+\begin{lstlisting}
+class SimpleLogic implements Runnable {
+  @Override
+  public void run() {
+    // thread behavior
+  }
+}
+var myThread = new Thread(new SimpleLogic());
+myThread.start();
+\end{lstlisting}
+\vspace{2mm}
+If you simply with to extend it you can extend the thread class instead:\newline
+\begin{lstlisting}
+class SimpleThread extends Thread {
+  @Override
+  public void run() {
+    // thread behavior
+  }
+}
+var myThread = new SimpleThread();
+myThread.start();
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Thread join}
+\minipg{
+  This is used when you specifically want another thread to be blocked while another one is running, because you might have a usecase where that one thread needs to fulfill their job.
+}{
+  \includegraphics[scale=0.4]{2023_02_20_09_38_24.png}
+}[0.6,0.4]
+\begin{lstlisting}
+var a = new Thread(() -> multiPrint("A"));
+var b = new Thread(() -> multiPrint("B"));
+System.out.println("Threads start");
+a.start();
+b.start();
+…
+a.join();
+b.join();
+System.out.println("Threads joined");
+\end{lstlisting}
+\vspace{2mm}
+
+\subsection{Methods of a thread}
+\begin{itemize}
+\item \textcolor{purple}{thread.sleep(milliseconds)}\newline
+  waits until time has elapsed before becoming ready again -> wait until it is scheduled again to run
+\item \textcolor{purple}{thread.yield()}\newline
+  thread releases processor and will be ready to be used again -> wait until it is scheduled again to run\newline
+  \textcolor{purple}{For newer systems where preemptive multi-tasking is used, there is no need for yield, as allocation if time based either way!}
+\item \textcolor{purple}{thread.interrupt()}\newline
+  Used for cooperative canceling.\newline
+  This is an indication to the thread that it should stop current operation and do something else.\newline
+  This can be used by the programmer to decide how the thread will respond to an interrupt, however it is common for the thread to terminate on interrupt.
+\end{itemize} 
 
 \end{document}
