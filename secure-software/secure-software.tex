@@ -8,4 +8,64 @@
 \newcommand{\AUTHOR}{Fabio Lenherr}
 \setcounter{tocdepth}{1}
 
+\section{Secure Software Principles}
+\textcolor{Cyan}{Rather than trying to solve objectives in cyber security, you should have expectations of your software in terms of security.}
+
+\subsection{CVSS Common Vulnerability Scoring System}
+\begin{itemize}
+  \item \textcolor{red}{High}\newline
+    Heartbleed, log4j etc\newline
+    often not noticeable, concealed
+  \item \textcolor{blue}{Medium}\newline
+    unclear if it can be exploited
+  \item \textcolor{green}{Low}\newline
+    typical problems like outdated tls certificate
+\end{itemize}
+
+\subsection{Low-hanging fruits first}
+\textcolor{teal}{Before we go ahead and takle the biggest issues, we can solve a lot of problems by making sure that we do not fail at the basics.}\newline
+In other words, first try to solve the easy things.
+
+\subsection{80\%/20\% Problem}
+\begin{itemize}
+\item \textcolor{purple}{Secure the weakest link}\newline
+  A boomer might not know about phishing attacks, protect said user against doing something dumb!
+\item \textcolor{purple}{Practice defense in depth}\newline
+  Use multiple security layers, often 1 is not enough
+\item \textcolor{purple}{Fail secure}\newline
+  In terms of an error, don't just dump all information to some random person, eg. don't leak credit card information if the information is not 100\% correct.
+\item \textcolor{purple}{Follow the principle of least privilege}\newline
+  Don't give random people access to things they don't need
+\item \textcolor{purple}{Compartmentalize}\newline
+  Try to categorize tasks, this makes it easier for people to get access to something.
+\item \textcolor{purple}{Keep it simple}\newline
+  Try to keep it as simpe as possible
+\item \textcolor{purple}{Promote privacy}\newline
+  Handle privacy of users appropriately
+\item \textcolor{purple}{Remember that hiding secrets is hard}
+  In other words, security by obscurity is a novel practice and doesn't really work
+\item \textcolor{purple}{Be reluctant to trust}
+\item \textcolor{purple}{Use your ommunity resources}
+\end{itemize}
+
+\section{Threat Models \& Mitigations}
+
+\section{Software bugs and unexpected behavior}
+
+\section{Web Security}
+
+\section{Reverse Engineering}
+
+\section{Secure Software Lifecyle}
+
+\section{Mobile Security}
+
+\section{Security Testing}
+
+\section{Bug Bounty}
+
+\section{Software Security Assurance}
+
+\section{Summary}
+
 \end{document}

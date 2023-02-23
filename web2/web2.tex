@@ -75,10 +75,181 @@
     style=code,
 }
 
-\lstset{
-    language=TypeScript,
-    style=code,
+\section{NodeJS and other WebServers}
+This is the interface between the operating system and the actual website itself. -> Apache\newline
+\begin{itemize}
+\item \textcolor{green}{Runs everywhere}
+\item \textcolor{green}{async with events}
+\item \textcolor{green}{easy to deploy}
+\item \textcolor{green}{Lots of APIs for different usecases}\newline
+  HTTP/HTTPS, URL, FileSystem, Console, UDP, Cryptography, DNS
+\item \textcolor{green}{modular}
+\item \textcolor{green}{not that much "magic"}\newline
+  you need to write more yourself
+\end{itemize} 
+\textcolor{red}{negative: IT IS JS, FFS}\dots
+
+\subsection{Async via events}
+The idea of events is \emph{essentially a queue that doesn't block actual functionality}, this means that your UI still does what it should, as it will be prioritized compared to async functionaity.\newline
+\textcolor{teal}{Just like bevy, the events are handled in the next frame, or more precise \emph{whenever there is nothing else to do}.}\newline
+This means we will get the illusion of async/multi-threading, without js actually being able to do so.
+
+\subsection{Callback hell with async events}
+If you constantly need to check for finished events, then you will end up with unreadable code.\newline
+\textcolor{green}{The solution is simple: Promises}\newline
+The default in NodeJS is still callbacks, but there is work on this to change.\newline
+Example for callback 
+\begin{lstlisting}
+button.addEventListener('click', function (event) {
+  console.log("1. subscription");
+});
+\end{lstlisting}
+
+\subsection{Example for NodeJS}
+\begin{lstlisting}
+const http = require('node:http'); // lua?
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200; // HTTP response
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, World!\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+\end{lstlisting}
+
+\section{Modules}
+\subsection{NPM}
+\begin{itemize}
+\item \textcolor{purple}{npm init}\newline
+  \begin{itemize}
+  \item \textcolor{black}{-g for global installation}
+  \item \textcolor{black}{--save-dev for a module that will only be used during development}
+  \end{itemize} 
+\item \textcolor{purple}{}
+\item \textcolor{purple}{item 3}
+\item \textcolor{purple}{item 4}
+\end{itemize}
+
+\subsection{Exporting Modules}
+\begin{lstlisting}
+function add() { return ++counter; }
+function get() { return counter; }
+// default export
+export default {count: add, get: get};
+// named
+export {add, get};
+\end{lstlisting}
+
+\subsection{Importing Modules}
+\begin{lstlisting}
+// default
+import counterA from './counter.mjs';
+// Named
+import {add, get} from './counter.mjs';
+\end{lstlisting}
+
+\subsection{package.json}
+\begin{lstlisting}
+{
+  "name": "my_package",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgfeller/my_package.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mgfeller/my_package/issues"
+  },
+  "homepage": "https://github.com/mgfeller/my_package"
 }
+\end{lstlisting}
+
+\subsection{package-lock.json}
+\textcolor{teal}{This handles dependency problems, where one dependency will be updated but the first package still wants an older one.}\newline
+\begin{lstlisting}
+{
+  "name": "my_package",
+  "version": "1.0.0",
+  "lockfileVersion": 1,
+  "requires": true,
+  "dependencies": {
+    "fancy-calc-demo": {
+      "version": "5.0.2",
+      "resolved": "https://registry.npmjs.org/fancy-calc-demo/-/fancy-
+      calc-demo-5.0.2.tgz",
+      "integrity": "sha512-
+      93xBMjZMU6HfGLXlwi1uYtQKL6eiNqOsWqkuFmlWMGJqKVBMF3+jb/dSrsRHrvpplIIDxU
+      klwLNUzeZ5BTMjwQ=="
+    }
+  }
+}
+\end{lstlisting}
+\textcolor{red}{This \emph{must also be in the git repository!}}
+
+\subsection{Native Modules}
+\textcolor{teal}{These are modules that are performance critical and are therefore written in other languages such as c++.}\newline
+\textcolor{purple}{The problem with this is that you will now need OS specific versions again!}
+
+\subsection{nvm/nodenv}
+This is a tool to handle different node versions, you prob don't need this crap on arch, btw\dots
+
+\subsection{API versions}
+typically you will have 2 versions of a specific API, one that is synchronous, and one that is async.\newline
+The async will not throw an exception, as it is either handled with callbacks or with promises, the synchronous variant however will throw an exception if it fails.\newline
+\begin{lstlisting}
+// async
+let fs = require('fs');
+let path = "test.txt";
+fs.readFile(path, function(err, content) {
+  if (err) return console.error(err);
+  console.log('content of file: %s\n', path);
+  console.log(content.toString());
+});
+// the synchronous variant 
+// readFileSync
+
+// note this specific problem can be done better with streams, as you might have continous input/ouput
+let server = http.createServer(function (req, res) {
+  let stream = fs.createReadStream(__dirname + '/data.txt');
+  stream.pipe(res);
+});
+\end{lstlisting}
+
+\subsection{EventEmitter}
+Similar to bevy, nodejs has an event emitter, which can then also be used in classes:\newline
+\begin{lstlisting}
+import {EventEmitter} from 'events'
+export class Door extends EventEmitter {
+  constructor() {
+    super();
+  }
+  ring() {
+    setTimeout(() => {
+      this.emit('open');
+    }, 1000);
+  };
+}
+\end{lstlisting}
+
+% \lstset{
+%     language=TypeScript,
+%     style=code,
+% }
 
 \lstset{
     language=CSS,
