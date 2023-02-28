@@ -5,10 +5,13 @@
 \contentsline {section}{\numberline {2}Convolution}{1}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Firing of neurons}{1}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}mathematical model of a feature detector}{1}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Example of convolution}{1}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.3}Example of convolution}{2}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Reasons for convolution}{2}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Stride}{2}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Padding}{2}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Max Pooling}{2}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.7}Max Pooling}{3}{subsection.2.7}%
 \contentsline {subsection}{\numberline {2.8}Example with Keras}{3}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}Why?}{3}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Tensor}{3}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}An example for image classification}{4}{subsection.2.11}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

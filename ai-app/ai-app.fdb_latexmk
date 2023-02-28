@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1676925337 "ai-app.tex" "ai-app.pdf" "ai-app" 1676925338
+["pdflatex"] 1676971310 "ai-app.tex" "ai-app.pdf" "ai-app" 1676971310
   "../Screenshots/2023_02_20_02_19_00.png" 1676924607 54163 9d81467466a3d3f656e91ad953d63d77 ""
   "../Screenshots/2023_02_20_02_23_12.png" 1676924607 122467 3a900dd445ab18f55caf5fb21fc386f6 ""
   "../Screenshots/2023_02_20_02_23_46.png" 1676924607 310672 71e4e24a9c299404dd9ac7a4292bbdf9 ""
@@ -8,13 +8,17 @@
   "../Screenshots/2023_02_20_02_47_01.png" 1676924607 22695 93083124c14c206d42394d8952845e4c ""
   "../Screenshots/2023_02_20_02_48_45.png" 1676924607 12751 f68d8d14d1327794848ff63ba1cb5be4 ""
   "../Screenshots/2023_02_20_12_32_47.png" 1676924607 34303 fc7cd64c6ae44fa9f0bc824b2936a340 ""
+  "../Screenshots/2023_02_21_09_51_55.png" 1676969515 55344 babb21a8b39f73d0fbe96194a80be9eb ""
+  "../Screenshots/2023_02_21_09_56_23.png" 1676969783 69609 37647383c89c1087da1a1e52034ecdad ""
   "../ost-summary-template.tex" 1676925307 4094 5feb42ddd609c5c4a6e86a25f41ad73e ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1650183167 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1650183167 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1650183167 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecit0800.tfm" 1650183167 1536 09682d3e827df9145fea3c41a21d8b01 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm0800.tfm" 1650183167 3584 49064b465390a8e316a3c8417a050403 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecsi0800.tfm" 1650183167 3584 3dfe0566d0b48ead5866d1b455f67a43 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecso0800.tfm" 1650183167 3584 9d213a5e33aba09782ffab939fc38a6f ""
+  "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecss0700.tfm" 1650183167 3584 e28f0fb0aba9d9c9c92fb042624121e2 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecss0800.tfm" 1650183167 3584 885a9b5d0df19657ad7066a0c4430437 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecsx0800.tfm" 1650183167 3584 249e17f732ef0417cd23c68109f6bc4c ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ectt0800.tfm" 1650183167 1536 0b0b8ca286de6a006b681926403f35cd ""
@@ -127,10 +131,10 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1673951525 39912 9527090386e1210ce053841067df3920 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1668250869 4297179 cde969fc5132ec9073f01683acaf50ef ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1673951540 2926463 79763dc7433630c0fe6a445d554e651a ""
-  "ai-app.aux" 1676925338 3112 ee767a3ac6c38ad5ae99bddb9946c2c1 "pdflatex"
+  "ai-app.aux" 1676971310 3482 5383c738c4eb5c6c370f18e74290e9f7 "pdflatex"
   "ai-app.out" 0 -1 0 "pdflatex"
-  "ai-app.tex" 1676925336 4969 244b49366e5a59c9aaa38ac57ac0f7c1 ""
-  "ai-app.toc" 1676925338 1070 615de1df4e83d2abfd5a771688230558 "pdflatex"
+  "ai-app.tex" 1676971307 10676 bdcb9c2b6af8cbb3a1848e9ef68a7d1a ""
+  "ai-app.toc" 1676971310 1317 409ab5d611b6125a962799464171ebc5 "pdflatex"
   (generated)
   "ai-app.aux"
   "ai-app.log"
