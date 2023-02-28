@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.1.16)  21 FEB 2023 18:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.1.16)  28 FEB 2023 18:44
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -632,23 +632,35 @@ LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 1
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./besys2.aux)
+]
+./besys2.tex:114: Undefined control sequence.
+<argument> In this case you run in \emp 
+                                        {user mode}
+l.114 ...{In this case you run in \emp{user mode}}
+                                                  , this is also why anti-ch...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[2] [3] [4] (./besys2.aux)
 Package rerunfilecheck Info: File `besys2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19402 strings out of 478238
- 347441 string characters out of 5850456
- 874576 words of memory out of 10000000
- 37365 multiletter control sequences out of 15000+600000
+ 19492 strings out of 478238
+ 348713 string characters out of 5850456
+ 876576 words of memory out of 10000000
+ 37375 multiletter control sequences out of 15000+600000
  477285 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,19n,106p,10636b,1006s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,20n,106p,10636b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb>
-Output written on besys2.pdf (1 page, 79627 bytes).
+Output written on besys2.pdf (4 pages, 101352 bytes).
 PDF statistics:
- 116 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 49 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 246 PDF objects out of 1000 (max. 8388607)
+ 228 compressed objects within 3 object streams
+ 119 named destinations out of 1000 (max. 500000)
+ 57 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -79,6 +79,219 @@ struct File * file[256]; // OK: fixed size array
 // --> Type complete
 \end{lstlisting}
 
+\section{Operating System APIs}
+
+\subsection{Basic features of an Operating system}
+\begin{itemize}
+\item \textcolor{purple}{abstraction and portability}\newline
+  \begin{itemize}
+  \item \textcolor{black}{define generic APIs that work on all (as many as possible) devices}
+  \item \textcolor{black}{define abstractions that we don't care about -> how are files stored on the disk?}
+  \end{itemize} 
+\item \textcolor{purple}{Isolation and Resource Management}\newline
+  \begin{itemize}
+    \item Isolate each usecase from each other -> posx
+  \item \textcolor{black}{Runtime (make it blazingly fast)}
+  \item \textcolor{black}{Memory Management}
+  \item \textcolor{black}{Secondary Storage handling}
+  \end{itemize} 
+\item \textcolor{purple}{Security}
+\end{itemize} 
+
+\subsubsection{Limitations of Portability}
+While the operating system can define standards, there are often things that we as developers need to consider,
+for example, while the operating system can define how a user will interact with the keyboard etc, if said device \emph{doesn't have this input},
+then your application will not work... Eg. An application meant for touch on the desktop might work, but not properly, and the OS can't really help there. 
+
+\subsubsection{Limits of Isolation}
+Often, you want some form of interoperability, or you are basically forced to use that.\newline
+For example an application might want the focus of the keyboard, but then a popup appears.\newline
+If the application continues taking the focus, then the application now breaks the user experience. 
+
+\subsection{Processor Privilege}
+Modern operating systems define a range of instructions that only the kernel is allowed to perform.\newline
+This is done to protect the operating system from attacks that might be exploitable via these privlieges.\newline
+\textcolor{purple}{In this case you run in \emp{user mode}}, this is also why anti-cheats are often running in kernel mode,\newline
+in this mode, the anti-cheat can access any memory all the time for whatever reason the anti-cheat would like to do so. \newline
+\textcolor{teal}{Should an application break the rule of user-space, the operating system will be notified and can then kill or otherwise restrict the application.}
+
+\subsection{Kernel}
+\subsubsection{MicroKernel}
+\textcolor{purple}{Microkernel is the idea that only the \emph{absolutely necessary operations need to be in the kernel}, this means that often, \newline
+things like drivers run in the userspace, eg. Radv would be in userspace.}\newline
+Features: 
+\begin{itemize}
+\item \textcolor{green}{Reliability}\newline
+  less code is easier to maintain, which means a more stable operating system.
+\item \textcolor{green}{Analysability}\newline
+  less code is easier to bisect, meaning that bug hunting is easier.
+\item \textcolor{red}{Performance}\newline
+  Because drivers are now in a lower priority environment, they can no longer directly access hardware.\newline
+  This means that you will have a significant performance hit, which is also the reason that \emph{linux is not a microkernel!}.
+\end{itemize} 
+In the real world, there is no \emph{real microkernel}, they usually add the necessary functionality of drivers and leave it at that. 
+
+\subsubsection{Monolithic Kernel}
+Monolithic kernels have all the base functionality included. This means that you will not need to supply basic functionality to the kernel,\newline
+just to get a functional operating system.
+\begin{itemize}
+\item \textcolor{green}{Performance}\newline
+  Since drivers have direct access to hardware, this means they can run faster!
+\item \textcolor{red}{Security}\newline
+  Since drivers have direct access to hardware, this means that misconfigured or malicious hardware, \newline
+  can easily infiltrate the kernel
+\item \textcolor{red}{Reliablity} \newline
+  More code means more possible bugs, and in the kernel this is worse than in the usermode.
+\end{itemize} 
+
+\subsubsection{Unikernel}
+\textcolor{purple}{This is a kernel that is made for one specific application, which means \emph{it is an application!}.}\newline
+\begin{itemize}
+\item \textcolor{green}{Performance}
+\item \textcolor{green}{Seurity}
+\item \textcolor{green}{Reliablity}
+\item \textcolor{red}{Only one Usecase}
+\end{itemize} 
+
+\subsubsection{Running an instruction in Kernel Mode}
+\textcolor{purple}{When you want to run an instruction in the kernel mode, then you need to do a \emph{syscall}.\newline
+The processor will then switch into kernel mode (if the os has given the privelege) and run the instruction in kernel mode.}\newline
+
+\subsubsection{Syscall (SVC on ARM)}
+\textcolor{purple}{There is only one function to run something in kernel mode, this means that we have to use \emph{codes} instead.\newline
+Eg. a syscall with code 60 would be the exit code for a program. -> plox kill me}\newline
+\textcolor{red}{NOTE: Syscall also doesn't take arguments, therefore you need to place the arguments in registers. \newline
+This is exactly why you had to place all these things into registers, when you wanted to print a simple "hello world" in assembly. \newline
+\emph{The implication: output and input are kernel mode!!}}
+
+\subsection{ABI vs API}
+\minipg{
+  \textcolor{purple}{\emph{A}pplication \emph{B}inary \emph{I}nterface}
+  \begin{itemize}
+  \item \textcolor{teal}{concrete interfaces}
+  \item \textcolor{teal}{calling conventions}
+  \item \textcolor{teal}{projection of datastructures}
+  \end{itemize}
+}{
+  \textcolor{purple}{\emph{A}pplication \emph{P}rogramming \emph{I}nterface}
+  \begin{itemize}
+  \item \textcolor{teal}{abstract interfaces}
+  \item \textcolor{teal}{platform/OS independent aspects}
+  \end{itemize} 
+}[0.5,0.5]
+
+\subsubsection{ABI in Linux}
+\textcolor{purple}{Calling Conventions for syscall are different for different linux kernels!}\newline
+This means that you need to compile applications for each kernel!\newline
+\textcolor{purple}{To counter problems that will appear with this, there is a standard called \emph{Linux Standard Base}, which defines a set of conventions to use.}
+
+\subsubsection{API in Linux}
+\textcolor{purple}{The proper solution is to use APIs instead, which can be done with languages such as C (and tomorrow Rust).\newline
+This means that you \emph{no longer use syscall}, you instead use \emph{C functions}, which work on every kernel, not just on one.}
+
+\subsection{POSIX}
+In general, every OS has its own ABI and API.\newline
+\textcolor{purple}{The unix API has been developed alongside the C API, this lead to the ISO standard.}\newline
+However, at some point there were multiple standards, which meant the compatability was wrecked again.\newline
+\textcolor{purple}{Instead, the POSIX standard API was defined, which meant that if you wrote your program POSIX compliant, then it will run on any POSIX OS.}
+
+\subsubsection{POSIX Conformity}
+\begin{itemize}
+\item \textcolor{black}{MacOS: since version 10.5}
+\item \textcolor{black}{Linux, not certified, but somewhat POSIX conform}\newline
+  Bad: not everything is standard, but we all know that sometimes you either go your own way, or nothing happens -> matrix
+\item \textcolor{black}{Windows: no :)}
+\item \textcolor{black}{BSD: yes}
+\end{itemize} 
+
+\subsection{Man Pages}
+Man pages provide information about a POSIX system, it \emph{is made of 9 parts:}
+\begin{enumerate}
+\item \textcolor{purple}{Executable Programs or shell commands}
+\item \textcolor{purple}{System calls (functions provided by the kernel)}
+\item \textcolor{purple}{Library calls (functions within program libraries)}
+\item \textcolor{purple}{Special files (usually fond in /dev)}
+\item \textcolor{purple}{File formats and conventions, e.g. /etc/passwd}
+\item \textcolor{purple}{Games lol}
+\item \textcolor{purple}{Miscellaneous (including macro packages and convenstions)}
+\item \textcolor{purple}{System administration commands (usually only for root)}
+\item \textcolor{purple}{Kernel routines (not standard)}
+\end{enumerate} 
+
+\subsection{Shell}
+\begin{itemize}
+\item \textcolor{black}{Made of an ouput and input stream.}
+\item \textcolor{black}{many different shells, bash, dash, zsh, fish, nu}
+\item \textcolor{black}{doesn't need special rights or prerequisites}
+\item \textcolor{black}{Made to call OS functions via text}
+\end{itemize} 
+
+\subsubsection{Arguments in shell}
+\begin{itemize}
+\item \textcolor{purple}{All arguments are considered strings -> its just an IO stream}
+\item \textcolor{purple}{Spaces usually seperate the arguments}
+\item \textcolor{purple}{"\textbackslash" usually used to escape characters -> like space}
+\end{itemize} 
+\textcolor{purple}{These arguments are then passed to C or C++ program in the array called \emph{(char **argv)}, and the \emph{(int argc)} variable is the count of arguments.}\newline
+\textcolor{red}{The first entry in argv is the programname}
+
+\subsubsection{Env Vars}
+\begin{itemize}
+\item \textcolor{purple}{Key-Value pair}
+\item \textcolor{purple}{Example: MOZ\_ENABLE\_WAYLAND=1}
+\item \textcolor{purple}{can be set for the shell in .zshrc/.bashrc etc}
+\item \textcolor{purple}{can be set for environment in xdg-config/environment.d, /etc/environment or .profile, /etc/profile}
+\item \textcolor{purple}{Order is root first then local, if variable is set twice, then you will overwrite it!}
+\end{itemize}
+
+\textcolor{red}{To use variables in C: getenv, putenv, setenv, unsetenv}\newline
+Technically, there is a variable called \emph{environ}, which is an array of null pointers to strings which is 0 terminated.\newline
+However, this variable \emph{is not defined!!} \newline
+\textcolor{orange}{getenv}
+\begin{lstlisting}
+//definition 
+char * getenv (const char * key)
+
+char *value = getenv("PATH");
+// value = "/home/ost/bin:/home/ost/.local/bin"
+// returns nullptr -> 0 if variable not set
+\end{lstlisting}
+\textcolor{orange}{setenv}
+\begin{lstlisting}
+// definition 
+int setenv(const char *key, const char *value, int overwrite);
+
+int ret = setenv("HOME", "/usr/home", 1);
+// returns code 0 if ok, error code otherwise 
+// sets variable with value, overwrite if not 0
+// error if variable doesn't exist!
+\end{lstlisting}
+\textcolor{orange}{unsetenv}
+\begin{lstlisting}
+// definition
+int unsetenv(const char *key);
+
+int ret = unsetenv("HOME");
+// returns 0 if ok, error code otherwise
+// removes the env variable
+\end{lstlisting}
+\textcolor{orange}{putenv}
+\begin{lstlisting}
+//definition
+int putenv (char * kvp)
+
+int ret = putenv("HOME=/usr/home");
+// adds env variable pair
+// returns 0 if ok, error code otherwise
+// if variable already exists -> overwrite
+\end{lstlisting}
+
+\textcolor{teal}{In general, use env vars as a flag to configure things, not as a config that you \emph{need} to configure.}\newline
+For other operating systems this is done via other management solutions like windows -> registry.... haah get shit on windoof users
+
+
+\subsection{}
+
 \section{Filesystems}
 
 \subsection{Ext2}
