@@ -214,7 +214,6 @@ var b = new Thread(() -> multiPrint("B"));
 System.out.println("Threads start");
 a.start();
 b.start();
-…
 a.join();
 b.join();
 System.out.println("Threads joined");
@@ -233,5 +232,137 @@ System.out.println("Threads joined");
   This is an indication to the thread that it should stop current operation and do something else.\newline
   This can be used by the programmer to decide how the thread will respond to an interrupt, however it is common for the thread to terminate on interrupt.
 \end{itemize} 
+
+\section{Thread Synchronization}
+This is the try to get a synchronized order of running threads.\newline
+In other words, we sacrifice some performance for the sake of deterministic running of threads.
+
+\subsection{Race Condition}
+\minipg{
+When 2 threads try to access, more specifically \emph{write} to the same variable at the same time, you might lose one of these writes if their write overlaps.\newline
+This is yet another reason to just use rust, as this is handled via the borrow rules!\newline
+\emph{Only 1 mutable reference at a time, OR, unlimited immutable references.}
+}{ 
+  \includegraphics[scale=0.3]{2023_02_27_08_31_29.png}
+}[0.6,0.4]
+
+\subsection{Critical Section}
+This is a certain part of a job that must be done in sequence, for example a \emph{transaction of a bank}.\newline
+\textcolor{purple}{The solution might seem easy, why not just create a locked variable, however, if you do this then you will run into the same problem, When exactly will the lock be written? The same race condition can apply here.} 
+
+\subsection{Synchronized methods in java}
+\textcolor{purple}{In java you can mark a method as synchronied to make sure that you will not run into race conditions.}
+\begin{lstlisting}
+class BankAccount {
+  private int balance = 0;
+  // function that may not be "truly" multithreaded
+  public synchronized void deposit(int amount) {
+    this.balance += amount;
+  }
+}
+\end{lstlisting}
+\textcolor{purple}{When using these methods, make sure that \emph{ALL} methods that need to be synchronized also have this flag.\newline
+In other words if you have a withdraw function and a deposit method, make sure both are marked as synchronized}
+
+\subsubsection{Synchronized Blocks}
+You can also just specify a block to be synchronized.\newline
+\textcolor{purple}{In this case you need to pass a class to be locked!}
+\begin{lstlisting}
+class BankAccount {
+  private int balance = 0;
+  public void deposit(int amount) {
+    synchronized(this) {
+      // specify the this object to be locked
+      this.balance += amount;
+    }
+    System.out.println("Deposit done");
+  }
+}
+\end{lstlisting}
+Similar, you can make locks on both \emph{Classes and Objects}. 
+\begin{lstlisting}
+class Test {
+  synchronized void f() { ... } // object lock
+  static synchronized void g() { ... } // class lock
+}
+class Test {
+  void f() { // object lock
+    synchronized(this) { ... }
+  }
+  static void g() { // class lock
+    synchronized(Test.class) { ... }
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Multiple locks}
+\textcolor{purple}{When a method is recursive and synchronized, the method will have multiple locks, of these, it needs to release all of them at the end for the next thread to aquire the locks.}\newline
+In other words, the locks are like refcounting. 
+\begin{lstlisting}
+synchronized void limitedDeposit(int amount) {
+  if (amount + balance <= limit) {
+    deposit(amount);
+  }
+}
+synchronized void deposit(int amount) { … }
+// will free the locks once all of the calls are done.
+\end{lstlisting}
+
+\subsubsection{wait()}
+\textcolor{purple}{The wait method will release the lock and regain it after the thread has received a \emph{wake up call}.}
+\begin{lstlisting}
+class BankAccount {
+  private int balance = 0;
+  public synchronized void withdraw(int amount) throws InterruptedException {
+    while (amount > balance) {
+      wait(); // release lock and go into waiting mode
+    }
+    balance -= amount;
+  }
+}
+public synchronized void deposit(int amount) {
+  balance += amount;
+  notifyAll(); // wakeup all waiting threads!
+}
+\end{lstlisting}
+\textcolor{purple}{As you can see, if a thread goes into waiting mode and does not receive a wakeup call, it will not start again.\newline
+This can cause \emph{deadlocks}, as you might have multiple threads waiting for something to happen, but nothing ever will.}
+\begin{itemize}
+  \item \textcolor{orange}{notifyAll} wakes up \emph{all} waiting threads \emph{in the inner waiting room}
+  \item \textcolor{orange}{notify} wakes up \emph{a random waiting thread} which is in the \emph{inner waiting room}\newline
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_02_27_09_36_15.png}
+\includegraphics[scale=0.4]{2023_02_27_09_37_23.png}
+In other words, wait() will put the thread in the hallway, the operating system will then put the thread into the exclusive room after it is scheduled. From here it can be awoken early with \emph{notifyALL}, or it can wait until it is in the proper waiting room, where it can be called with \emph{notify()}.
+
+\subsubsection{Traps with Monitors}
+\textcolor{purple}{Trap 1: IF}
+\begin{lstlisting}
+public synchronized void put(T x) throws InterruptedException {
+  if (queue.size() == capacity) {
+    wait(); // await non-full
+  } // oops we only waited once, if the capacity is still to small we now have a problem!
+  queue.add(x);
+  notify(); // signal non-empty
+}
+// instead!
+while (!condition) {
+  wait(); // this makes sure that we will wait even after the thread gets another lock!
+}
+\end{lstlisting}
+\textcolor{purple}{Trap 2: Overtaking}\newline
+\textcolor{teal}{Here the issue is that if you use notify(), you are going to call a random thread, in case you need serialization, you will not be achieving this with notify(), \emph{instead use notifyALL()!}}
+\begin{lstlisting}
+// ...
+queue.add(x);
+notify(); // signal non-empty
+\end{lstlisting}
+\textcolor{purple}{Trap 3: Eternal Wait}\newline
+\textcolor{teal}{Here the issue is that with a single notify(), you might awaken a thread that will then also wait for another condition, which will not notify any other thread, meaning that there is no further notify chaining.\newline
+You will now wait for something that will never be done, good job :)}
+
+\subsection{Spurious Wake-up}
+\textcolor{purple}{This is a OS specific feature, for example for POSIX operating systems.}\newline
+Here the thread can \emph{spuriously awaken without a specific notify}, this is something that you as a developer have to guard against!
 
 \end{document}

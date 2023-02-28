@@ -8,4 +8,89 @@
 \newcommand{\AUTHOR}{Fabio Lenherr}
 \setcounter{tocdepth}{1}
 
+\section{C}
+
+\subsection{fixed size types}
+\begin{itemize}
+\item \textcolor{purple}{int8\_t, int16\_t, int32\_t, int64\_t}\newline
+  fixed integers with bit count
+\item \textcolor{purple}{intmax\_t} max size int on platform
+\item \textcolor{purple}{intptr\_t} signed integer with the size of an address on this platform
+\item \textcolor{purple}{uint8\_t, uintptr\_t} unsigned versions
+\item \textcolor{purple}{size\_t} \newline
+  this is used in containers, the reson for this is that \emph{this has the max size that for example an array can be.}\newline
+  \textcolor{orange}{This is unsigned!}
+\end{itemize}
+
+\subsection{Addition of pointers}
+If you try to add or subtract 2 pointers to get the amount of sizeof(t) difference, then you can only do this with the exact same type, something like signed int and unsigned int will not work!\newline
+\begin{lstlisting}
+int32_t *y = 100;
+int32_t *x = 120;
+ptrdiff_t z = x - y; // z == 5
+uint32_t *u = 120;  
+ptrdiff_t p = u - y;  // Error: Different ptr types
+\end{lstlisting}
+
+\subsection{Index Operator on Pointers}
+You can index on pointers like an array, this can be used to get elements on any object.\newline
+Note that you have to manually make sure to stay within the bounds of that object, as otherwise you will have \emph{undefined behavior}.\newline
+\begin{lstlisting}
+int32_t x = 0;
+int32_t *y = &x;
+y[0] = 0x42;      // same as: x = 0x42;
+(&x)[0] = 0x42;   // same
+0[&x] = 0x42;     // same
+100[200] = 0x42;  // Error: no address
+\end{lstlisting}
+
+\subsection{Padding}
+When you mix and match different types of different sizes inside of a struct, then the compiler will include padding based on the bigger type: \newline
+\begin{lstlisting}
+struct  {
+char c;     // Offset 0
+int32_t x;  // Offset 4 --> Padding
+char d;     // Offset 8
+} t;        // sizeof t == 12
+# structure matters!!
+struct  {
+char c;     // Offset 0
+char d;     // Offset 1
+int32_t x;  // Offset 2 --> Padding
+} t;        // sizeof t == 6
+\end{lstlisting}
+
+\subsection{Forwards Declaration}
+\begin{lstlisting}
+struct Folder;
+// Forward-Deklaration
+struct File {
+struct Folder *parent;
+// OK: all pointer types
+//
+have same size
+char name[256];
+// OK: fixed size array
+};
+// --> Type complete
+struct Folder {
+struct File * file[256]; // OK: fixed size array
+};
+// --> Type complete
+\end{lstlisting}
+
+\section{Filesystems}
+
+\subsection{Ext2}
+
+\subsection{Ext4}
+
+\section{Processmodels}
+
+\section{Communication and Synchronization}
+
+\section{Programs and libraries}
+
+\section{Graphical Overlays}
+
 \end{document}
