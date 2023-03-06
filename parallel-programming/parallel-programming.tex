@@ -304,7 +304,7 @@ synchronized void limitedDeposit(int amount) {
     deposit(amount);
   }
 }
-synchronized void deposit(int amount) { … }
+synchronized void deposit(int amount) { ... }
 // will free the locks once all of the calls are done.
 \end{lstlisting}
 
@@ -364,5 +364,200 @@ You will now wait for something that will never be done, good job :)}
 \subsection{Spurious Wake-up}
 \textcolor{purple}{This is a OS specific feature, for example for POSIX operating systems.}\newline
 Here the thread can \emph{spuriously awaken without a specific notify}, this is something that you as a developer have to guard against!
+
+\subsection{When a single notify is enough}
+\begin{lstlisting}
+public class Turnstile {
+  private boolean open = false;
+  public synchronized void pass()
+  throws InterruptedException {
+    while (!open) { wait(); }
+    open = false;
+  }
+  public synchronized void open() {
+    open = true;
+    notify(); // or notifyAll() ?
+  }
+}
+\end{lstlisting}
+\textcolor{purple}{Here the idea is that if one passes, only one new thread can be reactivated. 1 in, 1 out.\newline
+This means that you can't notify everyone -> would unnecessarily wake up other threads.}\newline
+\textcolor{teal}{The other condition that needs to be true is that every waiting thread is waiting for the same condition!} 
+\begin{itemize}
+\item \textcolor{teal}{1 in, 1 out}
+\item \textcolor{teal}{same condition for every thread}
+\end{itemize} 
+
+\subsection{Fairness}
+\textcolor{purple}{When calling notify, we have no guarantee of order which thread will be woken up. This is called the problem of \emph{fairness}.\newline
+notifyAll \emph{helps this by waking up EVERY thread.}}\newline
+\textcolor{red}{In short, with java monitor, you either have the \emph{fairness problem with notify}, or \emph{inefficiency with notifyAll}!}
+
+\section{Synchronization Methods}
+
+\subsection{Semaphore}
+\begin{itemize}
+\item \textcolor{purple}{Essentially a counter for resources}
+\item \textcolor{purple}{acquiring resource -> -1}
+\item \textcolor{purple}{releasing resource -> +1}
+\item \textcolor{purple}{wait for resource if necessary}
+\item \textcolor{purple}{relatively low level and efficient! -> no notifyAll!!}
+\end{itemize} 
+
+\subsubsection{Semaphore in java, geil}
+\begin{itemize}
+\item \textcolor{purple}{acquire() => P()}\newline
+  if not available, wait until another thread releases
+\item \textcolor{purple}{release() => V()}\newline
+  \textcolor{red}{You can always call release! This means you can create fake resources, it is your responsibility to make sure to not call release in this case!}
+\end{itemize} 
+\begin{lstlisting}
+public class Semaphore {
+  private int value;
+  public Semaphore(int initial) {
+    value = initial;
+  }
+  public synchronized void acquire() throws InterruptedException {
+    while (value <= 0) { wait(); }
+    value--;
+  }
+  public synchronized void release() {
+    value++;
+    notify();
+    here
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Types of semaphores}
+\begin{itemize}
+\item \textcolor{purple}{General Semaphore -> from 0 to N}\newline
+  \begin{itemize}
+  \item \textcolor{black}{new Semaphore(N)}
+  \item \textcolor{black}{Up to N threads are allowed to acquire at the same time.}
+  \item \textcolor{black}{for limited resources/quotas etc}
+  \end{itemize} 
+\item \textcolor{purple}{Binary Semaphore -> 0 or 1}\newline
+  \begin{itemize}
+  \item \textcolor{black}{new Semaphore(1)}
+  \item \textcolor{black}{For mutual exclusion (1 = open, 0 = closed)}
+  \end{itemize} 
+\item \textcolor{purple}{Fair Semaphore}\newline
+  \begin{itemize}
+  \item \textcolor{black}{New Semaphore(N, true)}
+  \item \textcolor{black}{uses FIFO for fairness}
+  \item \textcolor{black}{the longest waiting thread gets resource}
+  \item \textcolor{black}{slower than other variants}
+  \item the true or false flag defines if the semaphore is fair -> flag
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{Bounded Buffer with Semaphores}
+\begin{lstlisting}
+class BoundedBuffer<T> {
+  private Queue<T> queue = new LinkedList<>();
+  private Semaphore upperLimit = new Semaphore(Capacity, true); // lowerbound of buffer
+  private Semaphore lowerLimit = new Semaphore(0, true);        // upperbound of buffer
+  private Semaphore mutex = new Semaphore(1, true);             // mutex to ensure no race conditions
+  public void put(T item) throws InterruptedException {
+    upperLimit.acquire();
+    mutex.acquire(); queue.add(item); mutex.release();
+    lowerLimit.release();
+  }
+  public T get() throws InterruptedException {
+    lowerLimit.acquire();
+    mutex.acquire(); T item = queue.remove(); mutex.release();
+    upperLimit.release();
+    return item;
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Multi release/acquire}
+\textcolor{purple}{You can release or acquire multiple resources at once with \emph{release(n) or acquire(n)}, with n being a random number.}
+
+\section{Lock conditions}
+Before we only worked with one monitor, however that is not always ideal. Usually we want to work with many waiting rooms, monitors etc.\newline
+In this case using synchronized can be very harsh on performance, instead we can use \emph{multiple waiting rooms and locks.} 
+\begin{lstlisting}
+Lock monitor = new ReentrantLock(true);
+Condition nonFull = monitor.newCondition();
+Condition nonEmpty = monitor.newCondition();
+\end{lstlisting}
+\textcolor{purple}{Here we have a nonFull queue and a nonEmpty queue, as well as a lock to ensure no race conditions! -> mutex}\newline
+Here is how you would then go ahead to use this: \newline
+\begin{lstlisting}
+class BoundedBuffer<T> {
+  private Queue<T> queue = new LinkedList<>();
+  private Lock monitor = new ReentrantLock(true);
+  private Condition nonFull = monitor.newCondition();
+  private Condition nonEmpty = monitor.newCondition();
+  public void put(T item) throws InterruptedException {
+    monitor.lock();
+    try {
+      while (queue.size() == Capacity) { nonFull.await(); }
+      queue.add(item);
+      nonEmpty.signal(); Loop to avoid spurious wakeup
+    } finally { 
+    monitor.unlock();
+    }
+  }
+  public T get() throws InterruptedException {
+    monitor.lock();
+    try {
+      while (queue.size() == 0) { 
+      nonEmpty.await();
+      }
+      T item = queue.remove();
+      nonFull.signal();
+      return item;
+    } finally { 
+      monitor.unlock(); 
+    }
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Methods}
+\begin{itemize}
+\item \textcolor{purple}{room.signal() -> same as notify()}
+\item \textcolor{purple}{room.signalAll() -> same as notifyAll()}
+\item \textcolor{purple}{room.await() -> same as wait()}\newline
+  Just like wait() room.await() throws that annoying exception...
+\item \textcolor{purple}{lock()/unlock() -> same as synchronized blocks}
+\end{itemize} 
+
+\subsection{Read-Write Locks}
+\textcolor{purple}{Just like rust does by default, the idea is that you can read as long as you don't write, meaning you can either have \emph{unlimited reads OR one write}.}
+
+\subsection{Countdown Latch}
+\textcolor{purple}{This is simply condition where you would need \emph{more than 1 thread to be done with their execution}. \newline
+For example, in order for an F1 race to be over, you need all cars over the line. This can easily be done \emph{by using a counter}, each car will decrement the counter, and the race is over when the count is 0.}\newline
+\includegraphics[scale=0.4]{2023_03_06_09_43_52.png}
+
+\subsection{Cyclic Barrier}
+\textcolor{purple}{This is essentially a \emph{reusable countdown latch}, when the count is 0 at the end of the race, it will be reset for the new race.}\newline
+\includegraphics[scale=0.4]{2023_03_06_09_44_14.png}
+
+\subsection{Exchanger}
+\textcolor{purple}{When \emph{2 threads} stop simultaneously, they can exchange information. If one thread calls exchange, it is blocked until the other thread also calls exchange.}\newline
+\includegraphics[scale=0.4]{2023_03_06_09_47_31.png}\newline
+\textcolor{red}{Example:}
+\begin{lstlisting}
+var exchanger = new Exchanger<Integer>();
+for (int count = 0; count < 2; count++) {
+  new Thread(() -> {
+    for (int in = 0; in < 5; in++) {
+      try {
+        int out = exchanger.exchange(in);
+        System.out.println(
+        Thread.currentThread().getName() + " got " + out);
+      } catch (InterruptedException e) { }
+    }
+  }).start();
+}
+\end{lstlisting}
+
+
 
 \end{document}

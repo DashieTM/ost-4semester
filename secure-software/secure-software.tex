@@ -23,7 +23,7 @@
 \end{itemize}
 
 \subsection{Low-hanging fruits first}
-\textcolor{teal}{Before we go ahead and takle the biggest issues, we can solve a lot of problems by making sure that we do not fail at the basics.}\newline
+\textcolor{teal}{Before we go ahead and tackle the biggest issues, we can solve a lot of problems by making sure that we do not fail at the basics.}\newline
 In other words, first try to solve the easy things.
 
 \subsection{80\%/20\% Problem}
@@ -36,19 +36,122 @@ In other words, first try to solve the easy things.
   In terms of an error, don't just dump all information to some random person, eg. don't leak credit card information if the information is not 100\% correct.
 \item \textcolor{purple}{Follow the principle of least privilege}\newline
   Don't give random people access to things they don't need
-\item \textcolor{purple}{Compartmentalize}\newline
+\item \textcolor{purple}{To Compartmentalize}\newline
   Try to categorize tasks, this makes it easier for people to get access to something.
 \item \textcolor{purple}{Keep it simple}\newline
-  Try to keep it as simpe as possible
+  Try to keep it as simple as possible
 \item \textcolor{purple}{Promote privacy}\newline
   Handle privacy of users appropriately
 \item \textcolor{purple}{Remember that hiding secrets is hard}
   In other words, security by obscurity is a novel practice and doesn't really work
 \item \textcolor{purple}{Be reluctant to trust}
-\item \textcolor{purple}{Use your ommunity resources}
+\item \textcolor{purple}{Use your community resources}
 \end{itemize}
 
 \section{Threat Models \& Mitigations}
+\subsection{The 4 Questions}
+\begin{enumerate}
+\item \textcolor{purple}{What are we working on?}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Define scope and context}
+  \item \textcolor{black}{Description of requirements and design}
+  \end{itemize} 
+\item \textcolor{purple}{What can go wrong?}\newline
+  Anciticapte potential issues (think like the attacker)
+\item \textcolor{purple}{What are we going to do about it?}\newline
+  Define mitigations
+\item \textcolor{purple}{Did we do a good job?}\newline
+  Reflection and confirmation
+\end{enumerate} 
+
+\subsection{Methodology for Threat Risk Modeling}
+\begin{enumerate}
+\item \textcolor{purple}{Identify security objectives with a focus on:}\newline
+ \begin{itemize}
+ \item \textcolor{black}{sensitive information stored on device}
+ \item \textcolor{black}{third party libraries used}
+ \item \textcolor{black}{loss of repudation derived from misuse of the application}
+ \end{itemize} 
+\item \textcolor{purple}{Break down the application features, i.e. decomposition of the application into small feature sets with the goal to identify security impact}
+\item \textcolor{purple}{Identification of related threats and vulnerabilities in implementation}
+\end{enumerate} 
+
+\subsection{Process Steps}
+\begin{enumerate}
+\item \textcolor{purple}{Identity Assets}\newline
+What do we own and what do we want to protect? Not everything is worth protecting!
+\item \textcolor{purple}{Create an architecture overview}\newline
+  Simple diagrams which include application, subsystems, trust boundaries and data flow
+\item \textcolor{purple}{Decompose the application}\newline
+  The structure of your application -> network model, API, etc that can lead to potential vulnerabilities
+\item \textcolor{purple}{Identify the threats}\newline
+  From the attackers perspective, try to find loopholes etc to attack your application and \emph{document them}
+\item \textcolor{purple}{Document the threats}\newline
+\item \textcolor{purple}{Rate the threats} \newline
+  Rate the threats according to \emph{likelihood, impact damage (reputation, cost), damage of migitation (cost, annoyance or work)}
+\end{enumerate} 
+
+\subsection{Why?}
+The reason we do all this is that the following 3 groups have the these benefits: 
+\begin{itemize}
+\item \textcolor{purple}{Developers}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Know potential threats and develop with them in mind}
+  \item \textcolor{black}{priorization of threats to proper mitigations can be taken}
+  \end{itemize} 
+\item \textcolor{purple}{Penetration Testers}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Makes sure penetration testers don't waste time testing things that don't matter to you}
+  \item \textcolor{black}{Have a decent idea where to start}
+  \end{itemize} 
+\item \textcolor{purple}{Management}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Know the risks in their language -> cost}
+  \item \textcolor{black}{Don't make stupid decisions against developers etc since they don't understand IT}
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{STRIDE}
+\begin{itemize}
+\item \textcolor{purple}{Spoofing}\newline
+Using a false identity to gain access to a system.\newline
+\textcolor{green}{Mitigation: Authentication} Cookies, Signatures, updates TLS
+\item \textcolor{purple}{Tampering}\newline
+unauthorized changes/manipulation of data\newline
+\textcolor{green}{Mitigation: Integrity} ACLs, Digital Signatures
+\item \textcolor{purple}{Repudation}\newline
+The ability to deny having performed an attack,\newline
+\textcolor{green}{Mitigation: Nonrepudation} Secure logging and auditing, Digital Signatures
+\item \textcolor{purple}{Impersonation}\newline
+unauthorized revelation of classified(PROPRIETARY) private information.\newline
+\textcolor{green}{Mitigation: Confidentiality} Encryption, ACLS
+\item \textcolor{purple}{Denial of Service}\newline
+Prevent or restrict access to a service by flooding it.\newline
+\textcolor{green}{Mitigation: Availability} ACLs, Filtering, Quotas
+\item \textcolor{purple}{Elevation of Privilege}\newline
+Gaining unauthorized privileges on a system. For example: becoming root as regular user\newline
+\textcolor{green}{Mitigation: Authorization} ACLs, Group or role membership, privilege ownership, input validation
+\end{itemize} 
+
+\subsubsection{Stride and Thread Modeling}
+\includegraphics[scale=0.4]{2023_03_02_10_46_31.png}
+
+\subsection{Attack Tree}
+This is a list of attacks that can lead to another. This can help with attacks that are \emph{not obvious}.\newline
+\textcolor{puple}{Attack trees are complementary to threat modeling}\newline
+\textcolor{red}{Here an example of how they work:}\newline
+\includegraphics[scale=0.4]{2023_03_02_11_20_47.png}
+\includegraphics[scale=0.4]{2023_03_02_11_22_00.png}\newline
+\textcolor{purple}{Add labels for possible and impossible actions}\newline
+\includegraphics[scale=0.4]{2023_03_02_11_22_15.png}
+\includegraphics[scale=0.4]{2023_03_02_11_22_25.png}\newline
+\textcolor{purple}{Propagate the labels up so possible things are closer, after that \emph{define used tools for the actoins}}\newline
+\includegraphics[scale=0.4]{2023_03_02_11_23_15.png}
+\includegraphics[scale=0.4]{2023_03_02_11_23_34.png}\newline
+\textcolor{purple}{Define monetary costs for the attack and \emph{mark the route with least cost and the least tools used}}
+
+\subsection{Risk Management Acitivies}
+\includegraphics[scale=0.4]{2023_03_02_11_13_47.png}\newline
 
 \section{Software bugs and unexpected behavior}
 
@@ -56,7 +159,7 @@ In other words, first try to solve the easy things.
 
 \section{Reverse Engineering}
 
-\section{Secure Software Lifecyle}
+\section{Secure Software Lifecycle}
 
 \section{Mobile Security}
 

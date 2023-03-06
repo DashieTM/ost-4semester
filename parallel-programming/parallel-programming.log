@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.1.16)  27 FEB 2023 11:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  6 MAR 2023 09:50
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -630,7 +630,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
-<../Screenshots/2023_02_20_08_47_23.png, id=35, 625.33624pt x 304.13625pt>
+<../Screenshots/2023_02_20_08_47_23.png, id=50, 625.33624pt x 304.13625pt>
 File: ../Screenshots/2023_02_20_08_47_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_47_23.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_47_23.png  used on input line 29.
@@ -640,25 +640,25 @@ Overfull \hbox (28.45448pt too wide) in paragraph at lines 29--30
 []$[]$$[]$  
  []
 
-<../Screenshots/2023_02_20_08_45_03.png, id=36, 458.71375pt x 177.66376pt>
+<../Screenshots/2023_02_20_08_45_03.png, id=51, 458.71375pt x 177.66376pt>
 File: ../Screenshots/2023_02_20_08_45_03.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_03.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_03.png  used on input line 32.
 (pdftex.def)             Requested size: 183.48224pt x 71.06424pt.
-<../Screenshots/2023_02_20_08_45_08.png, id=37, 393.47pt x 216.81pt>
+<../Screenshots/2023_02_20_08_45_08.png, id=52, 393.47pt x 216.81pt>
 File: ../Screenshots/2023_02_20_08_45_08.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_08.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_08.png  used on input line 33.
 (pdftex.def)             Requested size: 157.38521pt x 86.72246pt.
-<../Screenshots/2023_02_20_09_03_15.png, id=38, 209.78375pt x 320.19624pt>
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+ <../Screenshots/2023_02_20_08_47_23.png (PNG copy)> <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)>]
+<../Screenshots/2023_02_20_09_03_15.png, id=108, 209.78375pt x 320.19624pt>
 File: ../Screenshots/2023_02_20_09_03_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_03_15.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_03_15.png  used on input line 48.
 (pdftex.def)             Requested size: 83.912pt x 128.07622pt.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
- <../Screenshots/2023_02_20_08_47_23.png (PNG copy)> <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)>]
-<../Screenshots/2023_02_20_09_04_01.png, id=79, 598.235pt x 353.32pt>
+<../Screenshots/2023_02_20_09_04_01.png, id=109, 598.235pt x 353.32pt>
 File: ../Screenshots/2023_02_20_09_04_01.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_04_01.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_04_01.png  used on input line 49.
@@ -667,13 +667,13 @@ LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 6
  (/usr/share/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-<../Screenshots/2023_02_20_09_14_43.png, id=80, 592.2125pt x 362.35374pt>
+<../Screenshots/2023_02_20_09_14_43.png, id=110, 592.2125pt x 362.35374pt>
 File: ../Screenshots/2023_02_20_09_14_43.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_14_43.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_14_43.png  used on input line 106.
 (pdftex.def)             Requested size: 236.8808pt x 144.93892pt.
  [2 <../Screenshots/2023_02_20_09_03_15.png (PNG copy)> <../Screenshots/2023_02_20_09_04_01.png (PNG copy)> <../Screenshots/2023_02_20_09_14_43.png (PNG copy)>]
-<../Screenshots/2023_02_20_09_07_53.png, id=86, 516.93124pt x 201.75375pt>
+<../Screenshots/2023_02_20_09_07_53.png, id=116, 516.93124pt x 201.75375pt>
 File: ../Screenshots/2023_02_20_09_07_53.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_07_53.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_07_53.png  used on input line 114.
@@ -684,75 +684,65 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <7> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 134.
-<../Screenshots/2023_02_20_09_38_24.png, id=87, 374.39874pt x 307.1475pt>
+ [3 <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
+<../Screenshots/2023_02_20_09_38_24.png, id=177, 374.39874pt x 307.1475pt>
 File: ../Screenshots/2023_02_20_09_38_24.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_38_24.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_38_24.png  used on input line 210.
 (pdftex.def)             Requested size: 149.75684pt x 122.85681pt.
- [3 <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
-<../Screenshots/2023_02_27_08_31_29.png, id=148, 663.47874pt x 440.64626pt>
+<../Screenshots/2023_02_27_08_31_29.png, id=178, 663.47874pt x 440.64626pt>
 File: ../Screenshots/2023_02_27_08_31_29.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_08_31_29.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_08_31_29.png  used on input line 247.
 (pdftex.def)             Requested size: 199.04515pt x 132.19489pt.
  [4 <../Screenshots/2023_02_20_09_38_24.png (PNG copy)> <../Screenshots/2023_02_27_08_31_29.png (PNG copy)>]
-
-./parallel-programming.tex:307: LaTeX Error: Invalid UTF-8 byte sequence (â\lst@FillFixed@\lst@EC€).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.307 synchronized void deposit(int amount) { â€¦ 
-                                                  }
-The document does not appear to be in UTF-8 encoding.
-Try adding \UseRawInputEncoding as the first line of the file
-or specify an encoding such as \usepackage [latin1]{inputenc}
-in the document preamble.
-Alternatively, save the file in UTF-8 using your editor or another tool
-
-
-./parallel-programming.tex:307: LaTeX Error: Invalid UTF-8 byte "A6.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.307 synchronized void deposit(int amount) { â€¦ 
-                                                  }
-The document does not appear to be in UTF-8 encoding.
-Try adding \UseRawInputEncoding as the first line of the file
-or specify an encoding such as \usepackage [latin1]{inputenc}
-in the document preamble.
-Alternatively, save the file in UTF-8 using your editor or another tool
-
-<../Screenshots/2023_02_27_09_36_15.png, id=181, 597.23125pt x 346.29375pt>
+<../Screenshots/2023_02_27_09_36_15.png, id=211, 597.23125pt x 346.29375pt>
 File: ../Screenshots/2023_02_27_09_36_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_36_15.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_09_36_15.png  used on input line 334.
 (pdftex.def)             Requested size: 238.88826pt x 138.51503pt.
-<../Screenshots/2023_02_27_09_37_23.png, id=182, 465.74pt x 249.93375pt>
+<../Screenshots/2023_02_27_09_37_23.png, id=212, 465.74pt x 249.93375pt>
 File: ../Screenshots/2023_02_27_09_37_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_37_23.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_09_37_23.png  used on input line 335.
 (pdftex.def)             Requested size: 186.2927pt x 99.97173pt.
-[5 <../Screenshots/2023_02_27_09_36_15.png (PNG copy)> <../Screenshots/2023_02_27_09_37_23.png (PNG copy)>] (./parallel-programming.aux)
+ [5 <../Screenshots/2023_02_27_09_36_15.png (PNG copy)> <../Screenshots/2023_02_27_09_37_23.png (PNG copy)>] [6]
+Overfull \hbox (1.88037pt too wide) in paragraph at lines 535--535
+[]\T1/cmss/m/n/8 For ex-am-ple, in or-der for an F1 race to be over, you need all cars over the line. This can eas-ily be done \T1/cmss/m/sl/8 by us-ing a counter\T1/cmss/m/n/8 , each car will decre-ment the counter, 
+ []
+
+<../Screenshots/2023_03_06_09_43_52.png, id=320, 256.96pt x 80.3pt>
+File: ../Screenshots/2023_03_06_09_43_52.png Graphic file (type png)
+<use ../Screenshots/2023_03_06_09_43_52.png>
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_43_52.png  used on input line 536.
+(pdftex.def)             Requested size: 102.78217pt x 32.11942pt.
+<../Screenshots/2023_03_06_09_44_14.png, id=321, 601.24625pt x 90.3375pt>
+File: ../Screenshots/2023_03_06_09_44_14.png Graphic file (type png)
+<use ../Screenshots/2023_03_06_09_44_14.png>
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_44_14.png  used on input line 540.
+(pdftex.def)             Requested size: 240.49423pt x 36.13435pt.
+<../Screenshots/2023_03_06_09_47_31.png, id=322, 646.415pt x 217.81375pt>
+File: ../Screenshots/2023_03_06_09_47_31.png Graphic file (type png)
+<use ../Screenshots/2023_03_06_09_47_31.png>
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_47_31.png  used on input line 544.
+(pdftex.def)             Requested size: 258.56142pt x 87.12395pt.
+[7 <../Screenshots/2023_03_06_09_43_52.png (PNG copy)> <../Screenshots/2023_03_06_09_44_14.png (PNG copy)> <../Screenshots/2023_03_06_09_47_31.png (PNG copy)>] (./parallel-programming.aux)
 Package rerunfilecheck Info: File `parallel-programming.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19783 strings out of 478238
- 355514 string characters out of 5850456
- 1234363 words of memory out of 10000000
- 37591 multiletter control sequences out of 15000+600000
+ 19961 strings out of 478238
+ 358619 string characters out of 5850457
+ 1242461 words of memory out of 10000000
+ 37656 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,20n,106p,10650b,1947s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on parallel-programming.pdf (5 pages, 471409 bytes).
+Output written on parallel-programming.pdf (7 pages, 527606 bytes).
 PDF statistics:
- 315 PDF objects out of 1000 (max. 8388607)
- 283 compressed objects within 3 object streams
- 171 named destinations out of 1000 (max. 500000)
- 88 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 482 PDF objects out of 1000 (max. 8388607)
+ 443 compressed objects within 5 object streams
+ 281 named destinations out of 1000 (max. 500000)
+ 119 words of extra memory for PDF output out of 10000 (max. 10000000)
 
