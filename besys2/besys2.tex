@@ -611,7 +611,88 @@ int fileno (FILE *stream)
 // returns file-descriptor for the stream, or -1 on error
 \end{lstlisting}
 
-\subsubsection{Error Codes in C}
+\subsubsection{read from file with C-API}
+\begin{lstlisting}
+int fgetc (FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{black}{reads the next byte from stream \emph{as unsigned char} and returns it as int}
+\item \textcolor{black}{increments the file-position indicator by 1}
+\end{itemize} 
+\begin{lstlisting}
+char * fgets (char *buf, int n, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{reads to n-1 symbols from stream, or until newline or EOF}
+\item \textcolor{black}{adds a 0 and creates a null terminated string}
+\item \textcolor{black}{returns buffer(string) or 0 on error}
+\item \textcolor{black}{increments the file-position indicator by the amount of read symbols}
+\end{itemize} 
+
+\subsubsection{"un"read from file with C-API}
+\begin{lstlisting}
+int ungetc (int c, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{black}{puts c(parameter -> file-descriptor) back to the stream into a special \emph{unget stack}}
+\item \textcolor{black}{the next fget call will prefer the symbols in the unget stack}
+\item \textcolor{black}{no change in the file itself}
+\item \textcolor{black}{unget stack has a minimum size of 1 -> works at least once, can work multiple times depending on implementation}
+\item returns c(parameter -> file-descriptor) or EOF on error
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_07_07_10_15.png}
+
+\subsubsection{Write to file with C-API}
+\begin{lstlisting}
+int fputc(int c, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{converts file-descriptor c in unsgined char and writes it to stream}
+\item \textcolor{black}{returns either c or EOF}
+\item \textcolor{black}{increments the file-position indicator by 1}
+\end{itemize} 
+\begin{lstlisting}
+int fputs (char *s, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{writes the symbols from the string s until the 0 termination symbol into the stream}
+\item \textcolor{black}{the 0 termination will not be written}
+\item \textcolor{black}{returns EOF on error}
+\end{itemize} 
+
+\subsubsection{End of file and Error in File C-API}
+\begin{lstlisting}
+int feof (FILE *stream)
+// returns 0 when end of file has NOT been reached
+
+int ferror (FILE *stream)
+// retuns 0 when NO error occurred
+
+// Example usage:
+int return_value = fgetc (stream);
+if (return_value == EOF) {
+  if (feof (stream) != 0) {
+    /* EOF reached */
+  } else if (ferror (stream) != 0) {
+    /* error occurred, check errno */
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Manipulation of file-position indicator with C-API}
+\begin{lstlisting}
+long ftell (FILE *stream)
+// returns the current file-indicator
+// POSIX extension of ftello with return type off_t
+
+int fseek (FILE *stream, long offset, int origin)
+// set the file-position indicator like lseek
+// POSIX extension of fseeko with off_t as type for the offset
+
+int rewind (FILE *stream)
+// reset the stream
+// equivalent to fseek(stream, 0, SEEK_SET) and clear the error state
+\end{lstlisting}
 
 
 \subsection{Ext2}

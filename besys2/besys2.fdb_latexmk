@@ -1,10 +1,11 @@
 # Fdb version 3
-["pdflatex"] 1678210848 "besys2.tex" "besys2.pdf" "besys2" 1678210850
+["pdflatex"] 1678212902 "besys2.tex" "besys2.pdf" "besys2" 1678212904
   "../Screenshots/2023_03_07_05_32_03.png" 1678206723 68573 39dd17e394983600aa0f8a9144577808 ""
   "../Screenshots/2023_03_07_05_43_05.png" 1678207385 31473 b668e97dfdcf4e1fd208701dfddcf29b ""
   "../Screenshots/2023_03_07_06_03_34.png" 1678208614 18546 b058623cc81f34a7fb47105fce0eaf89 ""
   "../Screenshots/2023_03_07_06_18_08.png" 1678209488 42488 1fe7197c9fbcd0c073742f07a26573fd ""
   "../Screenshots/2023_03_07_06_22_16.png" 1678209736 27505 aa4679a43b349fee0e66e04e37912a99 ""
+  "../Screenshots/2023_03_07_07_10_15.png" 1678212615 32276 7232a42a9c7031331d86cc0637d28166 ""
   "../ost-summary-template.tex" 1676979443 4094 5feb42ddd609c5c4a6e86a25f41ad73e ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1650183167 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1650183167 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -126,10 +127,10 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1673868694 39912 9527090386e1210ce053841067df3920 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1678087942 4275843 3cd66d3f1c87244a481e38a211dcefdc ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1678087915 2926463 41a5d310d4cf2fa533fb2450e7634c7a ""
-  "besys2.aux" 1678210850 10736 865ed42e5d1200192e0bc1c171222808 "pdflatex"
+  "besys2.aux" 1678212904 11184 92c27ed740dfe79b59b6e04e510e938d "pdflatex"
   "besys2.out" 0 -1 0 "pdflatex"
-  "besys2.tex" 1678210845 26542 9aa5a47f6960a846ba125f1e8558ed79 ""
-  "besys2.toc" 1678210850 5348 a88df2f798ffb474858af0b3ef46916a "pdflatex"
+  "besys2.tex" 1678212899 29006 0d2173a98e271bd1dc56f1863cf59266 ""
+  "besys2.toc" 1678212904 5673 261ccf476d33e035ccd4f4c89844b41a "pdflatex"
   (generated)
   "besys2.aux"
   "besys2.log"
