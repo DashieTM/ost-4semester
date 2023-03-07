@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.1.16)  28 FEB 2023 14:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  7 MAR 2023 14:44
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -643,12 +643,12 @@ LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <7> not available
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-<../Screenshots/2023_02_28_01_43_39.png, id=91, 591.20876pt x 157.58875pt>
+<../Screenshots/2023_02_28_01_43_39.png, id=102, 591.20876pt x 157.58875pt>
 File: ../Screenshots/2023_02_28_01_43_39.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_01_43_39.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_01_43_39.png  used on input line 105.
 (pdftex.def)             Requested size: 236.47931pt x 63.03436pt.
-<../Screenshots/2023_02_28_01_44_08.png, id=92, 881.2925pt x 350.30875pt>
+<../Screenshots/2023_02_28_01_44_08.png, id=103, 881.2925pt x 350.30875pt>
 File: ../Screenshots/2023_02_28_01_44_08.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_01_44_08.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_01_44_08.png  used on input line 106.
@@ -656,61 +656,59 @@ Package pdftex.def Info: ../Screenshots/2023_02_28_01_44_08.png  used on input l
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 108.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-<../Screenshots/2023_02_28_02_08_52.png, id=93, 777.90625pt x 377.41pt>
+) [2 <../Screenshots/2023_02_28_01_43_39.png (PNG copy)> <../Screenshots/2023_02_28_01_44_08.png (PNG copy)>]
+<../Screenshots/2023_02_28_02_08_52.png, id=146, 777.90625pt x 377.41pt>
 File: ../Screenshots/2023_02_28_02_08_52.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_02_08_52.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_02_08_52.png  used on input line 188.
 (pdftex.def)             Requested size: 233.37367pt x 113.22386pt.
-<../Screenshots/2023_02_28_02_09_12.png, id=94, 840.13875pt x 399.4925pt>
+<../Screenshots/2023_02_28_02_09_12.png, id=147, 840.13875pt x 399.4925pt>
 File: ../Screenshots/2023_02_28_02_09_12.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_02_09_12.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_02_09_12.png  used on input line 189.
 (pdftex.def)             Requested size: 294.05296pt x 139.82446pt.
- [2 <../Screenshots/2023_02_28_01_43_39.png (PNG copy)> <../Screenshots/2023_02_28_01_44_08.png (PNG copy)>]
-<../Screenshots/2023_02_28_02_10_51.png, id=130, 758.835pt x 234.8775pt>
+<../Screenshots/2023_02_28_02_10_51.png, id=148, 758.835pt x 234.8775pt>
 File: ../Screenshots/2023_02_28_02_10_51.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_02_10_51.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_02_10_51.png  used on input line 190.
 (pdftex.def)             Requested size: 265.59624pt x 82.20834pt.
-<../Screenshots/2023_02_28_02_11_11.png, id=131, 874.26625pt x 324.21124pt>
+<../Screenshots/2023_02_28_02_11_11.png, id=149, 874.26625pt x 324.21124pt>
 File: ../Screenshots/2023_02_28_02_11_11.png Graphic file (type png)
 <use ../Screenshots/2023_02_28_02_11_11.png>
 Package pdftex.def Info: ../Screenshots/2023_02_28_02_11_11.png  used on input line 191.
 (pdftex.def)             Requested size: 262.28189pt x 97.26411pt.
+<../Screenshots/2023_02_28_02_42_31.png, id=150, 910.40125pt x 440.64626pt>
+File: ../Screenshots/2023_02_28_02_42_31.png Graphic file (type png)
+<use ../Screenshots/2023_02_28_02_42_31.png>
+Package pdftex.def Info: ../Screenshots/2023_02_28_02_42_31.png  used on input line 198.
+(pdftex.def)             Requested size: 364.15404pt x 176.25537pt.
 
+./cpp.tex:202: Undefined control sequence.
+l.202 \subsectin
+                {The problem with func(T const\&)}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-LaTeX Warning: File `2023_02_28_02_42_32.png' not found on input line 198.
-
-
-./cpp.tex:198: Package pdftex.def Error: File `2023_02_28_02_42_32.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.198 ...phics[scale=0.4]{2023_02_28_02_42_32.png}
-                                                  \newline
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[3 <../Screenshots/2023_02_28_02_08_52.png (PNG copy)> <../Screenshots/2023_02_28_02_09_12.png (PNG copy)> <../Screenshots/2023_02_28_02_10_51.png (PNG copy)> <../Screenshots/2023_02_28_02_11_11.png (PNG copy)>] (./cpp.aux)
+[3 <../Screenshots/2023_02_28_02_08_52.png (PNG copy)> <../Screenshots/2023_02_28_02_09_12.png (PNG copy)> <../Screenshots/2023_02_28_02_10_51.png (PNG copy)> <../Screenshots/2023_02_28_02_11_11.png (PNG copy)> <../Screenshots/2023_02_28_02_42_31.png (PNG copy)>] [4] [5] (./cpp.aux)
 Package rerunfilecheck Info: File `cpp.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19812 strings out of 478238
- 354879 string characters out of 5850456
- 1343209 words of memory out of 10000000
- 37679 multiletter control sequences out of 15000+600000
+ 20025 strings out of 478238
+ 357634 string characters out of 5850457
+ 1663936 words of memory out of 10000000
+ 37731 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,20n,106p,10633b,1408s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,20n,106p,10633b,1952s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on cpp.pdf (3 pages, 387508 bytes).
+Output written on cpp.pdf (5 pages, 488736 bytes).
 PDF statistics:
- 188 PDF objects out of 1000 (max. 8388607)
- 164 compressed objects within 2 object streams
- 97 named destinations out of 1000 (max. 500000)
- 39 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 421 PDF objects out of 1000 (max. 8388607)
+ 392 compressed objects within 4 object streams
+ 273 named destinations out of 1000 (max. 500000)
+ 52 words of extra memory for PDF output out of 10000 (max. 10000000)
 
