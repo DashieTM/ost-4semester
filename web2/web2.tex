@@ -246,6 +246,289 @@ export class Door extends EventEmitter {
 }
 \end{lstlisting}
 
+
+\section{Web Framework Patterns}
+
+\subsection{MVC}
+\begin{itemize}
+\item \textcolor{purple}{Model}\newline
+  Only responsible for the data
+\item \textcolor{purple}{View}\newline
+  Only responsible for the presentation
+\item \textcolor{purple}{Controller}\newline
+  The connection between the two
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_09_03_18_14.png}
+\includegraphics[scale=0.4]{2023_03_09_03_19_43.png}
+
+\subsection{ExpressJS}
+\begin{itemize}
+\item \textcolor{black}{Most used framework}
+\item \textcolor{black}{Javascript}
+\item \textcolor{black}{rather old}
+\item Integrated Middleware
+\end{itemize} 
+Base Usage: 
+\begin{lstlisting}
+import http from 'http';
+import express from 'express';
+
+const app = express();
+http.createServer(app).listen(3000);
+
+// OR 
+
+import express from 'express';
+const app = express();
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});
+\end{lstlisting}
+
+\subsection{Middleware}
+\includegraphics[scale=0.4]{2023_03_09_03_24_51.png}\newline
+\textcolor{purple}{Modular components, that will handle individual tasks -> one for authentication, one for authorization.}
+
+\subsubsection{Usage of Middlewares in ExpressJS}
+\textcolor{teal}{In order to register a middleware in expressJS, use the app.use(middleware) function.}
+\begin{lstlisting}
+import express from 'express';
+import bodyParser from 'body-parser';
+
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(router);
+
+const app = express();
+const router = express.Router();
+\end{lstlisting}
+
+\subsubsection{Middleware archive "Connect"}
+\begin{itemize}
+\item \textcolor{purple}{body-parser}
+\item \textcolor{purple}{cookie-parser}
+\item \textcolor{purple}{cookie-session}
+\item \textcolor{purple}{errorhandler}
+\item \textcolor{purple}{method-override}
+\item \textcolor{purple}{serve-static}
+\end{itemize} 
+
+\subsubsection{ExpressJS defaults}
+\minipg{
+Middlewares:
+\begin{itemize}
+\item \textcolor{purple}{Router}
+\item \textcolor{purple}{Static}
+\end{itemize} 
+}{
+  \textcolor{purple}{Server-Side-Rendering}
+}[0.25,0.25]\newline
+\minipg{
+Request extensions:
+\begin{itemize}
+\item \textcolor{purple}{params}
+\item \textcolor{purple}{is()} -> checks if content-type is correct
+\item \textcolor{purple}{get()} -> check header
+\end{itemize} 
+}{
+Response extensions:
+\begin{itemize}
+\item \textcolor{purple}{sendFile}
+\item \textcolor{purple}{format}
+\item \textcolor{purple}{json/jsonop}
+\end{itemize} 
+}[0.25,0.25]
+
+\subsubsection{Routing}
+Routers handle requests with endings. This enables you to easily create single page application swith REST.\newline
+\includegraphics[scale=0.4]{2023_03_09_03_29_44.png}\newline
+Setup:
+\begin{lstlisting}
+import express from 'express';
+const router = express.Router();
+\end{lstlisting}
+Example for \emph{all methods}:
+\begin{lstlisting}
+router.all('/', function(req, res){
+res.send('hello world');
+}); // will be called without checking the method
+\end{lstlisting}
+Example with a specific method
+\begin{lstlisting}
+router.get('/', function(req, res){
+res.send('hello world');
+}); // will only be called if it is a get method
+\end{lstlisting}
+Example with multiple defined methods
+\begin{lstlisting}
+app.route('/book')
+.get(function(req, res) {res.send('Get a random book');})
+.post(function(req, res) {res.send('Add a book');})
+// used to map multiple methods to one route
+\end{lstlisting}
+
+\subsubsection{Route Specifics}
+\textcolor{purple}{Router uses pattern matching, this means that you can check for things such as:}
+\begin{itemize}
+\item \textcolor{black}{/ab*de} -> c or something else implied
+\item \textcolor{black}{/*} map to anything
+\end{itemize} 
+\textcolor{purple}{You can use variables to store requests from users:}
+\begin{lstlisting}
+router.get('/something/:id', function(req, res) ... // this set the variable id as req.params.id
+// note that the req is passed to the function in question, meaning you can handle that variable in that function!
+\end{lstlisting}
+
+\subsubsection{Satic-Middleware}
+In order to always deliver something like a png, you can use static.
+\begin{lstlisting}
+app.use(express.static(__dirname + '/public'))
+\end{lstlisting}
+
+\subsubsection{Custom Middleware}
+In order to create a middleware, you need to use 3 functions/parameters.\newline
+The next() has to be called, in order to end the request, otherwise the page will load indefinitely!\newline
+Reponse and Request are represented as the res and req in the function.
+\begin{lstlisting}
+function myDummyLogger( options ) {
+  options = options ? options : {};
+  return function myInnerDummyLogger(req, res, next) {
+    console.log(req.method +":"+ req.url);
+    next();
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Error Middleware}
+\textcolor{purple}{This should always be registered as the last middleware -> makes sure it catches all errors.\newline
+You can however define multiple error middlewares, the last one just needs to end the request.}\newline
+\textcolor{teal}{Will be called if an "error-object" is passed to the next() function inside another middleware.}
+\begin{lstlisting}
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+\end{lstlisting}
+
+\textcolor{red}{Note for forms, you can only use the GET and POST methods in forms, this means that something like delete won't work!\newline
+\emph{It will be converted to GET requests!}}\newline
+As a solution, \emph{use the POST method as a workaround.}
+
+\subsection{Databases and Frameworks}
+\textcolor{purple}{You can use any kind of databases like SQL -> Postgres, NoSQL, JSON, in memory databases etc.}
+
+\subsubsection{Example with nedb (NoSQL)}
+\begin{lstlisting}
+import Datastore from '@seald-io/nedb';
+const db = new Datastore({filename: './data/order.db', autoload: true});
+
+// insert 
+db.insert(order, function(err, newDoc){
+  if(callback){
+    callback(err, newDoc);
+  }
+});
+
+// find or findOne
+db.findOne({ _id: id }, function (err, doc) {
+  callback( err, doc);
+});
+
+// update 
+db.update({_id: id}, {$set: {"state": "DELETED"}}, {}, function (err, doc) {
+  publicGet(id,callback);
+});
+\end{lstlisting}
+
+\subsubsection{Templating engine with DatabaseTemplating engine with Databasess}
+The question is, how do we generate html when we want to do it dynamically? \newline
+Meaning how do we interact with html and database? Templates!\newline
+\includegraphics[scale=0.4]{2023_03_09_04_28_05.png}
+\begin{itemize}
+\item \textcolor{black}{definition of look -> handlebar framework language}
+\item \textcolor{black}{definition of tables -> json}
+\item \textcolor{black}{caching}
+\item \textcolor{black}{Partials}
+\item converts html and json to the result document.
+\end{itemize} 
+
+\subsubsection{Handlebars template engine}
+Exmple for handlebars: \newline
+\includegraphics[scale=0.4]{2023_03_09_04_37_20.png}\newline
+\begin{lstlisting}
+// 1. import express-handlebars
+import exphbs from 'express-handlebars';
+
+const app = express();
+
+// 2. configure
+const hbs = exphbs.create({
+  extname: '.hbs',
+  defaultLayout: "default",
+  helpers: {
+    ...helpers
+  }
+});
+
+// 3. set engine and global values
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
+
+// 4. path to views
+app.set('views', path.resolve('views'));
+
+// usage afterwards
+// app.render(view, [locals], callback)
+createPizza = async (req, res) => {
+  res.render("succeeded", await orderStore.add(req.body.name, "unkown"));
+};
+\end{lstlisting}
+
+\begin{lstlisting}
+<p>Order-Informationen</p>
+{{#if pizzaName}}
+  <p>Bestellte Pizza: {{pizzaName}}</p>
+  {{#if_eq state "OK"}}
+    <form action='/orders/{{_id}}' method='post'><input type='hidden' name='_method' value='delete'><input
+      type='submit' value='Delete order'></form>
+  {{/if_eq}}
+{{/if}}
+
+// render 
+async showOrder(req, res) {
+  res.render("showorder", await orderStore.get(req.params.id));
+};
+\end{lstlisting}
+\textcolor{purple}{You can also send data to the template from within javascript}\newline
+\includegraphics[scale=0.4]{2023_03_09_04_32_07.png}\newline
+\textcolor{purple}{In loops, the current object is the current context:}\newline
+\begin{lstlisting}
+<ul>
+  {{#each items}}
+  <li>
+    <h3>{{title}}</h3>
+    <p>{{this.artist}}</p>
+  </li>
+  {{/each}}
+</ul>
+// you can access the root with {{@root}}
+\end{lstlisting}
+
+\textcolor{purple}{Handlebars only defines a few helpers (functions), but you can define some yourself!}
+\begin{lstlisting}
+//Usage: {{? hasError 'error' 'ok'}}
+Handlebars.registerHelper('?', function(exp, value1, value2, options) {
+  if(exp) {
+    return value1;
+  }
+    return value2;
+  });
+{{? hasError 'FEHLER' 'OK' }}
+\end{lstlisting}
+
+
+
 % \lstset{
 %     language=TypeScript,
 %     style=code,

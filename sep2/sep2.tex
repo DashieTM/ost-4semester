@@ -8,4 +8,102 @@
 \newcommand{\AUTHOR}{Fabio Lenherr}
 \setcounter{tocdepth}{1}
 
+\section{Software Quality}
+\subsection{Therac25 Rontgen overdosis (causes)}
+\begin{itemize}
+\item \textcolor{black}{unknown, single developer}
+\item \textcolor{black}{reused parts by former employees without documentation}
+\item \textcolor{black}{Bad UI -> misuse}
+\item \textcolor{black}{bad documentation}
+\item missing processes for identifying problems -> testing
+\item missing processes for solving issues after accidents happen 
+\item self written real-time OS instead of proven standard 
+\item Software only tested with simulator, not with real hardware
+\end{itemize} 
+
+\subsection{Rules for Good Quality}
+\begin{enumerate}
+\item \textcolor{purple}{Conform to requirements}\newline
+Write and test according to the customers needs, a smartphone app may crash, but a plane definitely not!
+\item \textcolor{purple}{Use multiple layers of quality control}\newline
+  Multiple layers of control will have a better chance of elmiminating the risk -> swiss cheese model
+\end{enumerate} 
+
+\subsection{Requirements}
+\minipg{
+\textcolor{purple}{Functional:}
+\begin{itemize}
+\item \textcolor{black}{acquired together with the customer}
+\item \textcolor{black}{Userstories etc}
+\item \textcolor{black}{easy to verify -> customer says yes}
+\item WHAT does the system do?
+\end{itemize} 
+}{
+\textcolor{purple}{Non-Functional:}
+\begin{itemize}
+\item \textcolor{black}{Defined by the customer AND the developer}
+\item \textcolor{black}{Developer stories etc}
+\item \textcolor{black}{Harder to verify}
+\item \textcolor{black}{HOW does the system work? PSQL? GIN? BEVY?}
+\end{itemize} 
+}[0.25,0.25]
+
+\subsubsection{Requirements Overview}
+\includegraphics[scale=0.4]{2023_03_09_05_19_14.png}
+
+\subsection{Overengineering and Underengineering}
+\includegraphics[scale=0.4]{2023_03_09_05_22_07.png}\newline
+The right side wastes money, while the left side saves money at the cost of reputation.
+
+\subsubsection{Technical Depth}
+\textcolor{purple}{This is essentially just a backlog of things that you should still do. Ex. Tests, or better documentation, or a cleaner implementation.}\newline
+Technical depth will often accumulate and you will end up at the left side, -> underengineering.\newline
+It is important to keep track of this with developer stories and try to achieve \emph{more overengineering, rather than being complacent}.
+
+\subsection{Software Aging}
+\begin{itemize}
+\item \textcolor{purple}{Causes}\newline
+  \begin{itemize}
+  \item \textcolor{black}{lack of change in technology}
+  \item \textcolor{black}{update without thinking}
+  \end{itemize} 
+\item \textcolor{purple}{Costs}\newline
+  \begin{itemize}
+  \item \textcolor{black}{inability to keep up}
+  \item \textcolor{black}{reduced performance}
+  \item \textcolor{black}{decreasing reliability}
+  \end{itemize} 
+\item \textcolor{purple}{Remedy}\newline
+  \begin{itemize}
+  \item \textcolor{black}{stop the deterioration}
+  \item \textcolor{black}{design for success}
+  \item \textcolor{black}{plan ahead}
+  \end{itemize} 
+\end{itemize} 
+\textcolor{red}{Important: Over time, the quality will pretty much always decline! -> wayland over Xorg!}
+
+\subsubsection{Impact of complacency}
+\textcolor{purple}{If you start to accept bugs, it will likely lead to more acceptence of more bugs. \newline
+Eg. do not accept things such as not tested code, as it will likely reduce the quality of code in the long run!}
+
+\subsubsection{Tools for Quality}
+\includegraphics[scale=0.4]{2023_03_09_05_37_49.png}
+\includegraphics[scale=0.4]{2023_03_09_05_38_24.png}
+
+\subsection{Maintainability of Code}
+\begin{itemize}
+\item \textcolor{purple}{POSIX function -> 1 functionality  per function}
+\item \textcolor{purple}{Code Coverage}
+\item \textcolor{purple}{Code Smells} LOC
+\item \textcolor{purple}{Lines of code} CC
+\item \textcolor{purple}{Cyclomatic Complexity} McCC
+\end{itemize} 
+
+\subsubsection{McCC}
+\includegraphics[scale=0.4]{2023_03_09_06_09_37.png}
+\includegraphics[scale=0.4]{2023_03_09_06_09_46.png}\newline
+\textcolor{red}{Do NOT calculate this by hand, only let a tool do this task for you.}\newline
+\textcolor{purple}{There are also a lot of tools that visualize the metric in order to stand out more to human eyes.}\newline
+\includegraphics[scale=0.4]{2023_03_09_06_19_01.png}
+
 \end{document}
