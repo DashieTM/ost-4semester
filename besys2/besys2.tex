@@ -8,6 +8,11 @@
 \newcommand{\AUTHOR}{Fabio Lenherr}
 \setcounter{tocdepth}{1}
 
+\lstset{
+    language=C,
+    style=code,
+}
+
 \section{C}
 
 \subsection{fixed size types}
@@ -111,7 +116,7 @@ If the application continues taking the focus, then the application now breaks t
 \subsection{Processor Privilege}
 Modern operating systems define a range of instructions that only the kernel is allowed to perform.\newline
 This is done to protect the operating system from attacks that might be exploitable via these privlieges.\newline
-\textcolor{purple}{In this case you run in \emp{user mode}}, this is also why anti-cheats are often running in kernel mode,\newline
+\textcolor{purple}{In this case you run in \emph{user mode}}, this is also why anti-cheats are often running in kernel mode,\newline
 in this mode, the anti-cheat can access any memory all the time for whatever reason the anti-cheat would like to do so. \newline
 \textcolor{teal}{Should an application break the rule of user-space, the operating system will be notified and can then kill or otherwise restrict the application.}
 
@@ -289,10 +294,406 @@ int ret = putenv("HOME=/usr/home");
 \textcolor{teal}{In general, use env vars as a flag to configure things, not as a config that you \emph{need} to configure.}\newline
 For other operating systems this is done via other management solutions like windows -> registry.... haah get shit on windoof users
 
-
-\subsection{}
-
 \section{Filesystems}
+\textcolor{purple}{Essentially an API that makes sure that applications do not need to understand/know how the hardware works}
+
+\subsection{Files}
+Files have 2 parts: 
+\begin{itemize}
+\item \textcolor{purple}{Data}\newline
+  Sequence of bytes that represent the file
+\item \textcolor{purple}{Metadata}\newline
+  visible for users: size, date, owner, filetype hint\newline
+  not visible for users: place on hardware, connection of blocks on hardware
+\end{itemize} 
+
+\subsubsection{FileTypes}
+\begin{itemize}
+\item \textcolor{black}{ending after . -> .pdf}
+\item \textcolor{black}{File-endings have pretty much no point, they are just for the user}
+\item \textcolor{black}{File-endings are used as a hint to open said file with a specific program}
+\item \textcolor{black}{Type can be deducted via \emph{magic numbers} inside of the file}
+\end{itemize} 
+\textcolor{purple}{General Advice:}
+\begin{itemize}
+\item \textcolor{teal}{Data is trash unless proven otherwise}
+\item \textcolor{teal}{Validate ALL data}
+\item \textcolor{purple}{General advice: when decoding a file, continuously check if the file is really a pdf, or whatever you expect, test it to be. \newline
+A few lines may not be enough to prove that it really is of said type.}
+\end{itemize} 
+
+\subsection{Directories}
+\begin{itemize}
+\item \textcolor{purple}{Essentially a file with a special type}
+\item \textcolor{purple}{Each directory other than root directory has exactly one parent -> tree}
+\item \textcolor{purple}{root directory is often / -> penguinOS}
+\end{itemize} 
+
+\subsubsection{Special directories}
+\begin{itemize}
+\item \textcolor{black}{. -> reference on self}
+\item \textcolor{black}{.. -> parent reference}\newline
+  for root this would just be itself..
+\item \textcolor{black}{\$PWD -> working directory. getcwd in C}
+\item \textcolor{black}{chdir / fchdir -> cd in C}
+\end{itemize} 
+Example for getting the current working directory in C:
+\begin{lstlisting}
+int main (int argc, char** argv) {
+  char *wd = malloc (PATH_MAX);
+  getcwd (wd, PATH_MAX);
+  printf ("Current WD is %s", wd);
+  free (wd);
+  return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Paths}
+\begin{itemize}
+\item \textcolor{purple}{absolute path /home/dashie/../dashie/.zshrc}\newline
+  The reason for the .. in the middle is that a canonical path is an absolute path, but without either .. or . in the middle.
+\item \textcolor{purple}{relative path ../ai-app/ai-app.tex}
+\item \textcolor{purple}{canonical path /home/dashie/.zshrc}\newline
+  can be received with "realpath".
+\end{itemize}
+
+\subsubsection{Max Path}
+\textcolor{purple}{POSIX systems can have different max path lengths, these are defined in "limits.h".}\newline
+Macros: 
+\begin{itemize}
+\item \textcolor{purple}{NAME\_MAX} max length of filename (exclusive 0 termination)
+\item \textcolor{purple}{PATH\_MAX} max length of path (inclusive 0 termination)
+\item \textcolor{purple}{\_POSIX\_NAME\_MAX} minimal value of NAME\_MAX according to posix
+\item \textcolor{purple}{\_POSIX\_PATH\_MAX} minimal value of PATH\_MAX according to posix
+\end{itemize} 
+
+\subsubsection{Rights}
+\textcolor{purple}{There are 3 permission categories, each having 3 groups, \emph{read-write-execute} with \emph{owner-group-other}}\newline
+Technically there is one more bit, the sticky bit, but this is not really used anymore.\newline
+\textcolor{purple}{110-110-110 -> owner and group can do all, other can't do anything}\newline
+\textcolor{teal}{Note that this can also be done with numbers -> 7 would be all -> 111}\newline
+\includegraphics[scale=0.4]{2023_03_07_05_32_03.png}\newline
+\textcolor{purple}{These rights are also stored as Macros in POSIX -> "sys/stat.h"}\newline
+These can be chained with | -> S\_IRWXU | S\_IRGRP
+
+\section{File API}
+\includegraphics[scale=0.4]{2023_03_07_05_43_05.png}
+\textcolor{purple}{The main difference with the POSIX API to the C API, is that the POSIX API gives us raw data, without any interpretation of the data, while the C API supports more specific things such as sockets, decoding etc.}
+
+\subsection{POSIX File API}
+General Info:
+\begin{itemize}
+\item \textcolor{purple}{All file functions are declared in <unistd.h> and <fcntl.h>}
+\item \textcolor{purple}{error codes can be checked with "errno"}
+\item \textcolor{purple}{raw data}
+\item \textcolor{purple}{should only be used for binary data, not for anything that needs interpretation}
+\end{itemize} 
+
+\subsubsection{Usage of errno}
+\begin{lstlisting}
+if (chdir("docs") < 0) { // type is int
+  if (errno == EACCESS) { // EACCESS defined in the function documentation
+    printf ("Error: %s\n", strerror (errno));
+    // or you can use perror
+    perror ("Error"); // this makes use of the standard error stream
+  }
+}
+\end{lstlisting}
+Note, not all function set this flag, and should be used immediately, as other function will overwrite it.\newline
+\textcolor{teal}{Codes for the error are directly defined in the function documentation.}\newline
+\textcolor{purple}{Returns the address of a string, which describes the code in text.}\newline
+perror is the same as strerror but with a special error stream.
+
+\subsubsection{File-Descriptor}
+\begin{itemize}
+\item \textcolor{purple}{valid within a process}
+\item \textcolor{purple}{indexed in a table of all open files in a process}
+\item \textcolor{purple}{Process file table is indexed in the global table of all open files}
+\item \textcolor{purple}{Receives data in order to identify physical file (correct hardware with correct driver)}
+\item \textcolor{purple}{State defined: knows current offset (offset of byte that will be read next)}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_07_06_03_34.png}\newline
+\textcolor{purple}{In each process open file index for a process there are 3 predefined file descriptors}\newline
+\begin{lstlisting}
+// STDIN_FILENO = 0  -> standard input
+// STDOUT_FILENO = 1 -> standard output
+// STDERR_FILENO = 2 -> standard error
+\end{lstlisting}
+
+\subsubsection{Opening files with POSIX API}
+\begin{lstlisting}
+int open (char *path, int flags, ...)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{O\_RDONLY:} Read only
+\item \textcolor{black}{O\_RDWR:} read and write
+\item \textcolor{black}{O\_CREAT:} create file if not exists, needs another parameter for access rights
+\item \textcolor{black}{O\_APPEND:} set offset to end of file before each write access
+\item O\_TRUNC: set length of file to 0
+\end{itemize} 
+
+\subsubsection{Close files with POSIX API}
+\begin{lstlisting}
+int close(int fd)
+\end{lstlisting}
+deallocates file descriptor fd, which can now be used by other functions.\newline
+returns 0 if ok, and -1 for error
+
+\subsubsection{Usage of open and close}
+\begin{lstlisting}
+int fd = open("filename.file", O\_RDONLY);
+if (fd < 0) {
+  // le error handling
+}
+// do something with file
+close(df);
+\end{lstlisting}
+
+\subsubsection{Read data with POSIX API}
+\begin{lstlisting}
+ssize_t read (int fd, void *buffer, size_t n)
+// ssize_t is a signed size_t
+\end{lstlisting}
+\begin{itemize}
+  \item tries to copy the next n(parameter) bytes to current offset from fd to the buffer 
+\item returns count of read bytes or -1 when error
+\item blocks thread until: n bytes are copied, error occurs, end of file has been reached
+\item increments offset of fd by the amount of read bytes
+\end{itemize} 
+
+\subsubsection{Write data with POSIX API}
+\begin{lstlisting}
+ssize_t write (int fd, void *buffer, size_t n)
+// ssize_t is a signed size_t
+\end{lstlisting}
+\begin{itemize}
+  \item tries to copy the n bytes from the buffer to the offset on fd 
+\item returns count of written bytes or -1 on error
+\item blocks thread until n bytes are written, error occurs, or the end of file has been reached
+\item increments offset of fd by the amount of bytes written
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_07_06_18_08.png}
+
+\subsubsection{Jump in a file with POSIX API}
+\begin{lstlisting}
+off_t lseek (int fd, off_t offset, int origin)
+\end{lstlisting}
+\begin{itemize}
+\item parameter offset that should be the new offset of fd
+\item origin = SEEK\_SET for start of file
+\item origin = SEEK\_CUR for current offset
+\item origin = SEEK\_END for end of file
+\item returns new offset or -1 on error
+\end{itemize} 
+Example usage:
+\begin{lstlisting}
+lseek (fd, 0, SEEK_CUR) return current offset
+lseek (fd, 0, SEEK_END) return size of file
+lseek (fd, n, SEEK_END) go beyond end of file, which will make write put 0s in this space if called. 
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_03_07_06_22_16.png}
+
+\subsubsection{pread and pwrite in POSIX API}
+\begin{lstlisting}
+ssize_t pread (int fd, void *buffer, size_t n, off_t offset)
+ssize_t pwrite (int fd, void *buffer, size_t n, off_t offset)
+\end{lstlisting}
+\textcolor{purple}{These are alternatives to write and read, that do not change the offset, however, this means that you will need to define where we are currently!}
+
+\subsubsection{windoof proprietary paths}
+\begin{itemize}
+  \item \textbackslash instead of / because fuck you
+  \item \textbackslash also needs to be escaped if you want to write it
+\item root directory per disk instead of per system
+\item C is the default disk, A and B were reserved for floppy disks
+\item functions in windoof: \newline
+  \begin{itemize}
+  \item \textcolor{black}{open -> CreateFile}
+  \item \textcolor{black}{read -> ReadFile}
+  \item \textcolor{black}{write -> WriteFile}
+  \item \textcolor{black}{lseek -> SetFilePointer}
+  \item close -> CloseHandle
+  \end{itemize} 
+\end{itemize} 
+
+\subsubsection{Example for reading and writing data in POSIX API}
+\begin{lstlisting}
+#define N 32
+char buf[N];
+char spath[PATH_MAX];
+char dpath[PATH_MAX];
+
+/* get paths from somewhere */
+
+int src = open(spath, O_RDONLY);
+int dst = open(dpath, O_WRONLY | O_CREAT, S_IRWXU);
+ssize_t read_bytes = read(src, buf, N);
+write(dst, buf, read_bytes);
+close(src);
+close(dst);
+\end{lstlisting}
+
+\subsection{C Stream API}
+Idea: Operating systems do things differently, even something as simple as a newline is handled differently, so we need an API that can translate this to the correct symbol:\newline
+\begin{lstlisting}
+// Windows: \r \n = 13d 10d = 0Dh 0Ah
+// Linux: \n = 10d = 0Ah
+// Mac OS: \r = 13d = 0Dh (before Mac OSX, now just like penguinOS)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{purple}{OS independent}
+\item \textcolor{purple}{stream-based: symbol-oriented}
+\item \textcolor{purple}{can be buffered or unbuffered}\newline
+  dependent on the implementation, transparent for applications
+\item \textcolor{purple}{normally buffered for files}\newline
+  independently transfers data-blocks between files and buffers
+\item \textcolor{purple}{Has a file Position indicator}\newline
+  - for buffered streams: defines position in buffer\newline
+  - for unbuffered streams: is the offset in the file-descriptor
+\end{itemize} 
+
+\subsubsection{FILE datastructure}
+\begin{itemize}
+\item \textcolor{purple}{has information about a stream}
+\item \textcolor{purple}{should not be used directly, instead only per pointers that are created via the C-API}
+\item \textcolor{purple}{should not be copied, pointer can be used as ID by the API}
+\item \textcolor{purple}{three predefined standard-streams}\newline
+  \begin{itemize}
+  \item \textcolor{black}{FILE *stdin}
+  \item \textcolor{black}{FILE *stdout}
+  \item \textcolor{black}{FILE *stderr}
+  \end{itemize} 
+\end{itemize} 
+
+\subsubsection{open file with C-API}
+\begin{lstlisting}
+FILE * fopen (char const *path, char const *mode)
+// flags
+// "r": like O_RDONLY
+// "w": like O_WRONLY | O_CREAT | O_TRUNC
+// "a": like O_WRONLY | O_CREAT | O_APPEND
+// "r+": like O_RDWR
+// "w+": like O_RDWR | O_CREAT | O_TRUNC
+// "a+": like O_RDWR | O_CREAT | O_APPEND
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{creates FILE-Object and stream for the file}
+\item \textcolor{black}{returns pointer to created FILE-Object or 0 on error}
+\end{itemize}
+
+\subsubsection{close file with C-API}
+\begin{lstlisting}
+int fclose (FILE *file)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{calls fflush}
+\item \textcolor{black}{closes stream defined by file parameter}
+\item \textcolor{black}{removes file from memory}
+\item \textcolor{black}{returns 0 when ok, otherwise EOF}
+\end{itemize} 
+
+\subsubsection{flush of file with C-API}
+\begin{lstlisting}
+int fflush (FILE *file)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{writes content to write from memory into file (if content exists)}
+\item \textcolor{black}{will automatically be called when the buffer is full or file is closed}
+\item \textcolor{black}{returns 0 when of, otherwise EOF}
+\end{itemize} 
+
+\subsubsection{Conversion from POSIX-API to C-API}
+\begin{lstlisting}
+FILE * fdopen (int fd, char const *mode)
+// like fopen, but instead of path, we use a file descriptor
+
+int fileno (FILE *stream)
+// returns file-descriptor for the stream, or -1 on error
+\end{lstlisting}
+
+\subsubsection{read from file with C-API}
+\begin{lstlisting}
+int fgetc (FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{black}{reads the next byte from stream \emph{as unsigned char} and returns it as int}
+\item \textcolor{black}{increments the file-position indicator by 1}
+\end{itemize} 
+\begin{lstlisting}
+char * fgets (char *buf, int n, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{reads to n-1 symbols from stream, or until newline or EOF}
+\item \textcolor{black}{adds a 0 and creates a null terminated string}
+\item \textcolor{black}{returns buffer(string) or 0 on error}
+\item \textcolor{black}{increments the file-position indicator by the amount of read symbols}
+\end{itemize} 
+
+\subsubsection{"un"read from file with C-API}
+\begin{lstlisting}
+int ungetc (int c, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{black}{puts c(parameter -> file-descriptor) back to the stream into a special \emph{unget stack}}
+\item \textcolor{black}{the next fget call will prefer the symbols in the unget stack}
+\item \textcolor{black}{no change in the file itself}
+\item \textcolor{black}{unget stack has a minimum size of 1 -> works at least once, can work multiple times depending on implementation}
+\item returns c(parameter -> file-descriptor) or EOF on error
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_07_07_10_15.png}
+
+\subsubsection{Write to file with C-API}
+\begin{lstlisting}
+int fputc(int c, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{converts file-descriptor c in unsgined char and writes it to stream}
+\item \textcolor{black}{returns either c or EOF}
+\item \textcolor{black}{increments the file-position indicator by 1}
+\end{itemize} 
+\begin{lstlisting}
+int fputs (char *s, FILE *stream)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{writes the symbols from the string s until the 0 termination symbol into the stream}
+\item \textcolor{black}{the 0 termination will not be written}
+\item \textcolor{black}{returns EOF on error}
+\end{itemize} 
+
+\subsubsection{End of file and Error in File C-API}
+\begin{lstlisting}
+int feof (FILE *stream)
+// returns 0 when end of file has NOT been reached
+
+int ferror (FILE *stream)
+// retuns 0 when NO error occurred
+
+// Example usage:
+int return_value = fgetc (stream);
+if (return_value == EOF) {
+  if (feof (stream) != 0) {
+    /* EOF reached */
+  } else if (ferror (stream) != 0) {
+    /* error occurred, check errno */
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Manipulation of file-position indicator with C-API}
+\begin{lstlisting}
+long ftell (FILE *stream)
+// returns the current file-indicator
+// POSIX extension of ftello with return type off_t
+
+int fseek (FILE *stream, long offset, int origin)
+// set the file-position indicator like lseek
+// POSIX extension of fseeko with off_t as type for the offset
+
+int rewind (FILE *stream)
+// reset the stream
+// equivalent to fseek(stream, 0, SEEK_SET) and clear the error state
+\end{lstlisting}
+
 
 \subsection{Ext2}
 

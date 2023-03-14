@@ -1,4 +1,5 @@
 # Fdb version 3
+<<<<<<< HEAD
 ["pdflatex"] 1677934801 "ai-app.tex" "ai-app.pdf" "ai-app" 1677934801
   "../Screenshots/2023_02_20_02_19_00.png" 1676924607 54163 9d81467466a3d3f656e91ad953d63d77 ""
   "../Screenshots/2023_02_20_02_23_12.png" 1676924607 122467 3a900dd445ab18f55caf5fb21fc386f6 ""
@@ -14,6 +15,25 @@
   "../Screenshots/2023_02_27_05_50_28.png" 1677574996 105321 fa4812bd99e6e1545a3214c899dd0dbd ""
   "../Screenshots/2023_02_27_05_54_10.png" 1677574996 77664 334104a9fbf82bd255c1816d60417fad ""
   "../ost-summary-template.tex" 1676925307 4094 5feb42ddd609c5c4a6e86a25f41ad73e ""
+=======
+["pdflatex"] 1678109822 "ai-app.tex" "ai-app.pdf" "ai-app" 1678109824
+  "../Screenshots/2023_02_20_02_19_00.png" 1676899140 54163 9d81467466a3d3f656e91ad953d63d77 ""
+  "../Screenshots/2023_02_20_02_23_12.png" 1676899393 122467 3a900dd445ab18f55caf5fb21fc386f6 ""
+  "../Screenshots/2023_02_20_02_23_46.png" 1676899427 310672 71e4e24a9c299404dd9ac7a4292bbdf9 ""
+  "../Screenshots/2023_02_20_02_44_29.png" 1676900669 24432 cd9abaaf3fca85e44e89b7a7989e2b49 ""
+  "../Screenshots/2023_02_20_02_46_05.png" 1676900765 18573 12cdc8b26bf3ce89b3591902f53e2a9d ""
+  "../Screenshots/2023_02_20_02_47_01.png" 1676900821 22695 93083124c14c206d42394d8952845e4c ""
+  "../Screenshots/2023_02_20_02_48_45.png" 1676900925 12751 f68d8d14d1327794848ff63ba1cb5be4 ""
+  "../Screenshots/2023_02_20_12_32_47.png" 1676892767 34303 fc7cd64c6ae44fa9f0bc824b2936a340 ""
+  "../Screenshots/2023_02_21_09_51_55.png" 1677575202 55344 babb21a8b39f73d0fbe96194a80be9eb ""
+  "../Screenshots/2023_02_21_09_56_23.png" 1677575202 69609 37647383c89c1087da1a1e52034ecdad ""
+  "../Screenshots/2023_02_27_01_28_25.png" 1677500905 106765 7aa01bc8aec800c5a54defe78b06c3d8 ""
+  "../Screenshots/2023_02_27_05_50_28.png" 1677516628 105321 fa4812bd99e6e1545a3214c899dd0dbd ""
+  "../Screenshots/2023_02_27_05_54_10.png" 1677516850 77664 334104a9fbf82bd255c1816d60417fad ""
+  "../Screenshots/2023_03_06_01_44_16.png" 1678106656 118484 9cb7a82ad9033f2993a822e4aacefed5 ""
+  "../Screenshots/2023_03_06_02_33_17.png" 1678109597 65754 a427082e6df2d117c071ed47d909b057 ""
+  "../ost-summary-template.tex" 1676979443 4094 5feb42ddd609c5c4a6e86a25f41ad73e ""
+>>>>>>> d552fbf30b8bfa2c01ff06986c5a5c2636331c65
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1650183167 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1650183167 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1650183167 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -21,7 +41,6 @@
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm0800.tfm" 1650183167 3584 49064b465390a8e316a3c8417a050403 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecsi0800.tfm" 1650183167 3584 3dfe0566d0b48ead5866d1b455f67a43 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecso0800.tfm" 1650183167 3584 9d213a5e33aba09782ffab939fc38a6f ""
-  "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecss0700.tfm" 1650183167 3584 e28f0fb0aba9d9c9c92fb042624121e2 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecss0800.tfm" 1650183167 3584 885a9b5d0df19657ad7066a0c4430437 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecsx0800.tfm" 1650183167 3584 249e17f732ef0417cd23c68109f6bc4c ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ectt0800.tfm" 1650183167 1536 0b0b8ca286de6a006b681926403f35cd ""
@@ -131,6 +150,7 @@
   "/usr/share/texmf-dist/tex/latex/tools/array.sty" 1650183167 12694 6c23725d50ab9d1e2d3ce482c58ffcf3 ""
   "/usr/share/texmf-dist/tex/latex/url/url.sty" 1650183167 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty" 1650183167 56029 3f7889dab51d620aa43177c391b7b190 ""
+<<<<<<< HEAD
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1673951525 39912 9527090386e1210ce053841067df3920 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1677375891 4297179 cde969fc5132ec9073f01683acaf50ef ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1677375888 2926455 b39f36918695e7290dce418c5136615b ""
@@ -138,6 +158,15 @@
   "ai-app.out" 0 -1 0 "pdflatex"
   "ai-app.tex" 1677934797 11215 8675d4b4333584e63fc0949865e6104a ""
   "ai-app.toc" 1677575077 1536 2cc0294ba80a91a29c6adb6b67220830 "pdflatex"
+=======
+  "/usr/share/texmf-dist/web2c/texmf.cnf" 1673868694 39912 9527090386e1210ce053841067df3920 ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1678087942 4275843 3cd66d3f1c87244a481e38a211dcefdc ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1678087915 2926463 41a5d310d4cf2fa533fb2450e7634c7a ""
+  "ai-app.aux" 1678109823 4313 f52f94a938d133b84e834f6f0d361aa5 "pdflatex"
+  "ai-app.out" 0 -1 0 "pdflatex"
+  "ai-app.tex" 1678109800 12381 3f42fcc3e044b7040e2b25a0ce837be2 ""
+  "ai-app.toc" 1678109823 1639 620300fbc6f45e8bb07d1a2ffe66ee9c "pdflatex"
+>>>>>>> d552fbf30b8bfa2c01ff06986c5a5c2636331c65
   (generated)
   "ai-app.aux"
   "ai-app.log"

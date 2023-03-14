@@ -16,4 +16,9 @@
 \contentsline {subsection}{\numberline {2.11}Why?}{3}{subsection.2.11}%
 \contentsline {subsection}{\numberline {2.12}Tensor}{4}{subsection.2.12}%
 \contentsline {subsection}{\numberline {2.13}An example for image classification}{5}{subsection.2.13}%
+<<<<<<< HEAD
+=======
+\contentsline {section}{\numberline {3}Encoder and Decoder}{5}{section.3}%
+\contentsline {subsubsection}{\numberline {3.0.1}Audio transformation}{5}{subsubsection.3.0.1}%
+>>>>>>> d552fbf30b8bfa2c01ff06986c5a5c2636331c65
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

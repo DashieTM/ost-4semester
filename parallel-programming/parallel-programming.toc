@@ -3,8 +3,8 @@
 \contentsline {subsection}{\numberline {1.1}Moore's Law}{1}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Hyperthreading vs Multiple Cores}{1}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}Concurrent vs Parallel}{1}{subsection.1.3}%
-\contentsline {subsubsection}{\numberline {1.3.1}Concurrency}{1}{subsubsection.1.3.1}%
-\contentsline {subsubsection}{\numberline {1.3.2}Parallelism}{1}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.1}Concurrency}{2}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}Parallelism}{2}{subsubsection.1.3.2}%
 \contentsline {section}{\numberline {2}Parallel Programming in OS Space}{2}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Processes and threads}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Pros and Cons}{2}{subsection.2.2}%
@@ -12,7 +12,7 @@
 \contentsline {subsection}{\numberline {2.4}Context Switch}{2}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Multi-Tasking}{2}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Thread States}{2}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Non-determinism}{2}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.7}Non-determinism}{3}{subsection.2.7}%
 \contentsline {section}{\numberline {3}Parallel Programming in Jafuck}{3}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Thread Implementation}{3}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}JVM Thread Model}{3}{subsection.3.2}%
@@ -31,4 +31,18 @@
 \contentsline {subsubsection}{\numberline {4.3.3}wait()}{5}{subsubsection.4.3.3}%
 \contentsline {subsubsection}{\numberline {4.3.4}Traps with Monitors}{5}{subsubsection.4.3.4}%
 \contentsline {subsection}{\numberline {4.4}Spurious Wake-up}{5}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}When a single notify is enough}{6}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Fairness}{6}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Synchronization Methods}{6}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Semaphore}{6}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Semaphore in java, geil}{6}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Types of semaphores}{6}{subsubsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.2}Bounded Buffer with Semaphores}{6}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Multi release/acquire}{6}{subsubsection.5.2.1}%
+\contentsline {section}{\numberline {6}Lock conditions}{7}{section.6}%
+\contentsline {subsubsection}{\numberline {6.0.1}Methods}{7}{subsubsection.6.0.1}%
+\contentsline {subsection}{\numberline {6.1}Read-Write Locks}{7}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Countdown Latch}{7}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Cyclic Barrier}{7}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Exchanger}{7}{subsection.6.4}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

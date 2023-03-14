@@ -195,8 +195,239 @@ void fancyNameForFunction() {
 \textcolor{teal}{In general you should make sure that \emph{ANY form of memory management doesn't throw exceptions!!!}}
 
 \subsection{Default Constructors and user defined Constructors}
-\includegraphics[scale=0.4]{2023_02_28_02_42_32.png}\newline
+\includegraphics[scale=0.4]{2023_02_28_02_42_31.png}\newline
 \textcolor{teal}{The ! means that it is a standard library bug, don't use those defaulted ones!!!}\newline
 \textcolor{red}{Note that deleting a constructor will be the same as "user declared"!!}
+
+\subsectin{The problem with func(T const\&)}
+\textcolor{purple}{When working with const T references, this implies that we can either \emph{copy or move it}, this means we will not necessarily know what we get.}\newline
+\textcolor{teal}{The only possible way without type deduction is an overload for both.}
+\begin{lstlisting}
+template <typename T>
+  auto log_and_do(T const& param) -> void {
+  //log
+  do_something(param);
+} // lvalue 
+template <typename T>
+  auto log_and_do(T&& param) -> void {
+  //log
+  do_something(std::move(param));
+} // lvalue and rvalue!!
+\end{lstlisting}
+\textcolor{red}{Note, with more parameters, you would need x amount of overloads for each combination of parameters!!}
+
+\section{Type Deduction}
+
+\subsection{Forwarding Reference}
+\textcolor{purple}{A T\&\& is not always an rvalue! In some cases, it is a forwarding reference, which can be either an lvalue or an rvalue!!}\newline
+\begin{lstlisting}
+template <typename T>
+auto f(T && param) -> void;
+
+// lvalue
+int x = 23;
+f(x);
+// auto f(int & param) -> void; (inferred)
+
+// rvalue
+f(23);
+// auto f(int && param) -> void; (inferred)
+\end{lstlisting}
+
+\subsection{Rules for Type Deduction}
+\begin{lstlisting}
+// base function
+template <typename T>
+auto f(T param) -> void;
+
+// type usages with function instances and deduced T
+int          x = 23; // f(x) = f(int param) -> T = int
+int const   cx = x; // f(cx) = f(int param) -> T = int
+int const& crx = x; // f(crx) = f(int param) -> T = int
+char const * const ptr = /* something */; // f(ptr) = f(char const * param) -> T = char const*;
+// -- ignore outermost const
+// -- ignore reference types
+// -- take base type
+
+// base function 2 
+template <typename T>
+auto f(T & param) -> void;
+
+// type usages with function instances and deduced T
+int          x = 23;  // f(x) = f(int& param) -> T = int
+int const   cx = x;   // f(cx) = f(int const& param) -> T =int const
+int const& crx = x;   // f(crx) = f(int const& param) -> T = int const
+// -- ignore reference type
+
+// base function 3
+template <typename T>
+auto f(T const& param) -> void;
+
+// type usages with function instances and deduced T
+int          x = 23; // f(x) = f(int const& param) -> T = int
+int const   cx = x;  // f(cx) = f(int const& param) -> T = int
+int const& crx = x;  // f(crx) = f(int const& param) -> T = int
+// -- ignore reference types
+// -- take base type
+
+// base function 4
+template <typename T>
+auto f(T&& param) -> void;
+
+// type usages with function instances and deduced T
+int          x = 23; // f(x) = f(int& param) -> T = int&
+int const   cx = x;  // f(cx) = f(int const& param) -> T = int const&
+int const& crx = x;  // f(crx) = f(int const& param) -> T = int const&
+//                   // f(27) = f(int&& param) -> T = int 
+// -- if param is an lvalue, then they become lvalue references
+// -- otherwise rvalue, default rules for references
+
+\end{lstlisting}
+
+\subsubsection{Deducing Initializer Lists}
+\textcolor{purple}{With initializer lists, you can't directly deduce the type as it will think T is the entire list, which is nonsense!}
+\begin{lstlisting}
+template <typename T>
+auto f(T param) -> void;
+f({23}); //error
+
+template <typename T>
+auto f(std::initializer_list<T> param) -> void;
+f({23}); //T = int
+//ParamType = std::initializer_list<int>
+\end{lstlisting}
+
+\subsubsection{Deducing auto types}
+\begin{lstlisting}
+autox = 23;         //auto is a value type
+auto const cx = x;  //auto is a value type
+auto& rx = x;       //auto is a reference type
+auto&& uref1 = x;   //x is an lvalue, uref1 is int&
+auto&& uref2 = cx;  //cx is an lvalue, uref2 is int const&
+auto&& uref3 = 23;  //23 is an rvalue, uref3 is int&&
+
+// special cases
+auto init_list1 = {23};  //std::initializer_list<int>
+auto init_list2{23};     //int, was std::initializer_list<int>
+auto init_list3{23, 23}; //Error, requires one single argument
+\end{lstlisting}
+\textcolor{purple}{Note that auto type deduction works with parameters and return types, with the special cases like initializer list still applying!!}
+
+\subsubsection{Type Deduction with Decltype}
+\begin{lstlisting}
+int           x       = 23;
+int const     cx      = x;
+decltype(cx)  cx_too  = cx; //type of cx_too is int const
+int&          rx      = x;
+decltype(rx)  rx_too  = rx; //type of rx_too is int&
+
+// these two are the only surprises! auto only gives the base type without reference, while the other gives the full reference type
+auto just_x = rx; //type of just_x is int
+decltype(auto) more_rx = rx; //type of more_rx is int&
+\end{lstlisting}
+\textcolor{orange}{decltype(auto) etc can also be used for returning something specific:} 
+\begin{lstlisting}
+// auto decltype
+template <typename Container, typename Index>
+decltype(auto) access(Container & c, Index i) {
+  return c[i];
+}
+
+// specific decltype
+template <typename Container, typename Index>
+auto access(Container & c, Index i) -> decltype(c[i]) {
+  return c[i];
+}
+\end{lstlisting}
+\textcolor{red}{Note we can only declare decltype(c[i]) as a trailing type! The reason for this is that c and i are only known AFTER the parameters!}
+
+\subsubsection{Returns with decltype}
+\begin{lstlisting}
+decltype(auto) funcName() {
+  int local = 42;
+  return local; // decltype(local) => int
+} // lvalue -> T
+decltype(auto) funcNameRef() {
+  int local = 42;
+  int & lref = local;
+  return lref; // int & -> bad (dangling)
+} // lvalue reference -> T&
+decltype(auto) funcXvalue() {
+  int local = 42;
+  return std::move(local); // int && -> bad (dangling)
+} // rvalue reference -> T&&
+decltype(auto) funcLvalue() {
+  int local = 42;
+  return (local); // int & -> bad (dangling)
+} // lvalue reference -> T&
+decltype(auto) funcPrvalue() {
+  return 5; // int
+} // prvalue -> T
+\end{lstlisting}
+
+\subsection{Checking for r and l-values}
+\textcolor{purple}{We learned that we can solve the issue of multiple overloads with T\&\&, but what if we want to differentiate after the fact? std::forward!}
+\begin{lstlisting}
+template <typename T>
+auto log_and_do(T&& param) -> void {
+  //log
+  do_something(std::forward<T>(param));
+}
+
+// example for implementation
+template <typename T>
+  decltype(auto) forward(std::remove_reference_t<T>& param) {
+  return static_cast<T&&>(param);
+}
+// explanation
+// this will check if we have an lvalue or not by trying to cast to an rvalue reference
+// if & and && are casted, it will always result in &
+// this means only an rvalue will result in an rvalue being returned, everything else will result in lvalue being returned
+// this is called reference collapsing!
+// example -> when T is int& the static cast will be int& && and hence collapsed to int&
+// when T is int&& the static cast will be int&& && and hence collapsed to int&&
+// when T is int, the static cast will be int&&, no collapse is needed here.
+// note references are only checked for the type, the actual references are removed, as can be seen by the std::remove_reference_t
+\end{lstlisting}
+\textcolor{orange}{This means that forwards is essentially \emph{a conditional cast to an rvalue reference!}}\newline
+Rules for reference collapsing:
+\begin{itemize}
+  \item \textcolor{purple}{\& and \& = \&}
+  \item \textcolor{purple}{\&\& and \& = \&}
+  \item \textcolor{purple}{\& and \&\& = \&}
+  \item \textcolor{purple}{\&\& and \&\& = \&\&}
+\end{itemize} 
+
+\subsubsection{std::move vs std::forward}
+\textcolor{purple}{While forward is the \emph{conditional cast}, std::move is the \emph{unconditional cast}! This means you will always receive an rvalue!}
+\begin{lstlisting}
+// std::forward
+template <typename T>
+  decltype(auto) forward(std::remove_reference_t<T>& param) {
+  return static_cast<T&&>(param); 
+} // will collapse dynamically
+// std::move
+template <typename T>
+decltype(auto) move(T&& param) { // param is always T&& !!!
+  return static_cast<std::remove_reference_t<T>&&>(param);
+} // will always collapse to && and && meaning && is returned
+\end{lstlisting}
+
+\section{Lambdas}
+
+\subsection{From lambda to actual code}
+\begin{lstlisting}
+// lambda
+int i0 = 42;
+auto missingMutable = [i0] {return i0++;};
+
+// compiler code
+struct CompilerKnows {
+  auto operator()() const -> int {
+    return i0++;
+  }
+  int i0;
+};
+\end{lstlisting}
 
 \end{document}

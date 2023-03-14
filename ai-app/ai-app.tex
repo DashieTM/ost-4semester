@@ -111,10 +111,13 @@ model = Sequential([
 \includegraphics[scale=0.4]{2023_02_27_05_50_28.png}
 
 \subsection{Drop Out}
-\textcolor{purple}{This is similar but not quite the same as emsemble method learning.\newline
+\minipg{
+\textcolor{purple}{This is similar but not quite the same as ensemble method learning.\newline
 It is used to get models that are more robust than otherwise.}\newline
 \textcolor{teal}{This entire ordeal is done during training, not during inference!}
+}{
 \includegraphics[scale=0.4]{2023_02_27_05_54_10.png}
+}[0.45,0.45]
 
 \subsection{Why?}
 The entire filter is essentially just a shape, packed into a matrix.\newline
@@ -244,6 +247,26 @@ print(test_acc)
 
 \end{lstlisting}
 \href{https://www.tensorflow.org/tutorials/images/cnn}{full tutorial}
+
+
+
+\section{Encoder and Decoder}
+\includegraphics[scale=0.4]{2023_03_06_01_44_16.png}\newline
+\textcolor{purple}{The idea here is that we can compress the data from the "noisy" picture into it's base shapes. \newline
+While this means we will lose the detail, we will also lose the "noise", that came along with the picture.}\newline
+\textcolor{orange}{Base ideas:}
+\begin{itemize}
+\item \textcolor{black}{Bottleneck layer -> force the image into smaller layers}
+\item \textcolor{black}{code in the middle is \emph{a feature vector}}
+\item \textcolor{black}{Base idea: if we know the structure, we do not need to know every pixel!}
+\item Unsupervised learning, there are no labels!
+\item transfer learning: reuse part of the network for other tasks
+\end{itemize} 
+\href{https://www.tensorflow.org/tutorials/generative/autoencoder}{Tutorial for Encoder}
+
+\subsubsection{Audio transformation}
+\includegraphics[scale=0.4]{2023_03_06_02_33_17.png}\newline
+\textcolor{purple}{The idea here is that you take small portions of audio (11ms or something similar), then you turn the frequency table. This gives you the "modified" output on the right.}
 
 
 \end{document}
