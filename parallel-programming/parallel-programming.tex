@@ -1,7 +1,9 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
 \input{../ost-summary-template.tex}
 
+\allsectionsfont{\centering}
 \begin{document}
+\centering
 \tableofcontents
 
 \lstset{
@@ -558,6 +560,133 @@ for (int count = 0; count < 2; count++) {
 }
 \end{lstlisting}
 
+\section{Problems with concurrency}
 
+\subsection{Race Conditions}
+This is nondeterministic behavior. \newline
+Eg. wrong order of execution -> addition before multiplication.\newline
+This can occur with, OR without data races.\newline
+An example of a race condition even with synchronized is this:
+\begin{lstlisting}
+class BankAccount {
+int balance = 0;
+synchronized int getBalance() { return balance; }
+synchronized void setBalance(int x) { balance = x; }
+} // problem: we can use getBalance and setBalance in the wrong order, even though
+// the updates themselves are now protected, meaning there is no write or read at the same time! 
+// Rust also can't solve this issue, this is a programmer issue!!
+\end{lstlisting}
+
+\subsubsection{Data Races}
+Eg. two threads that want to access the same variable/object at the same time.\newline
+In this case there is no method that guarantees any sort of serialization, instead it is random.\newline
+\textcolor{teal}{Note, for a data race to occur, there needs to be \emph{at least one write access with either one or more additional write OR read access}, \newline
+this is exactly what the rust borrow checker enforces!}\newline
+
+\includegraphics[scale=0.4]{2023_03_13_08_42_17.png}
+
+\subsection{Confinement / Thread Safety}
+This limits the availability of objects/variables to something specific, eg. specific thread, or only inside synchronized functions/objects.\newline
+\textcolor{teal}{Thread safety simply means the elimination of data races. Note, race conditions can still occur!}
+
+\subsubsection{Thread Confinement}
+This ensures that the object is only accessible via a reference of a specific thread.
+
+\subsubsection{Object Confinement}
+This ensures that the object is only accessible inside of other synchronized objects.
+\begin{lstlisting}
+class ProductDatabase {
+  private final HashMap<String, Product> productMap = new HashMap<>();
+  public synchronized void addProduct(String name, String details) {
+    productMap.put(name, new Product(details));
+  }
+  public synchronized String getProductDetails(String name) {
+    return productMap.get(name).getDetails();
+  }
+  public synchronized void notifySale(String name) {
+    productMap.get(name).increaseSales();
+  }
+}
+\end{lstlisting}
+
+\subsection{Thread Safety and Jafuck collections}
+\includegraphics[scale=0.4]{2023_03_13_09_09_23.png}\newline
+\textcolor{teal}{In general, you always need to make sure that everything you use is thread safe, in general, older collections are thread safe with more modern ones not being thread safe for some reason.\newline
+Probably because jafuck is a horrible language and no longer has any right to exist.}
+
+\subsection{Deadlocks}
+\includegraphics[scale=0.4]{2023_03_13_09_17_53.png}\newline
+Deadlocks can also happen with synchronized, as the thread itself will be locked when used: 
+\begin{lstlisting}
+class BankAccount {
+  private int balance;
+  public synchronized void transfer(BankAccount
+  to, int amount) {
+    balance -= amount;
+    to.deposit(amount);
+  }
+  public synchronized void deposit(int amount) {
+    balance += amount;
+  }
+}
+a.transfer(b, 20); // acquires lock to b
+b.transfer(a, 50); // oops....
+\end{lstlisting}
+
+\subsubsection{Live Locks}
+\textcolor{red}{This is a special case of deadlocks, where the cpu is actually still working, eg. it is in a while loop waiting for a lock to be released.\newline
+However, that lock will never be released, as two threads have blocked each other!}\newline
+This is even worse than deadlocks, as this means the cpu will waste power on garbage.
+
+\subsubsection{Dealing with Deadlocks}
+\textcolor{teal}{You could lock linearly, meaning that you will start with 1 lock and expand as needed.\newline
+Other threads can't start locking, as the base is already locked. \newline
+Note that depending on how deep the base lock is, you can call it a "granular lock" -> lock at root}\newline
+\includegraphics[scale=0.4]{2023_03_13_09_34_03.png}
+\includegraphics[scale=0.4]{2023_03_13_09_35_29.png}
+
+\subsection{Starvation}
+\textcolor{red}{This happens when the lock avoidance leads to certain threads not being able to do their job. \newline
+Eg the submissive thread that always releases its lock as soon as someone else wants it will never actually be able to finish its task, meaning that you might end up with a problematic state that blocks or even crashes your program.}\newline
+\textcolor{teal}{The best way to deal with this is using something like semaphores that will enforce fairness, but always keep in mind that this will be \emph{at the cost of performance.}}
+
+\subsection{Parallelism}
+In the end what we want is a program that has \emph{no race conditions, no deadlocks and no starvation, with still decent performance.}
+
+\section{C\#}
+
+\subsection{Basics}
+
+\subsubsection{Spawning Threads}
+\begin{lstlisting}
+var myThread = new Thread(() => {
+  for (int i = 0; i < 100; i++) {
+    Console.WriteLine("MyThread step {0}", i);
+  }
+});
+myThread.Start();
+myThread.Join();
+\end{lstlisting}
+
+\subsubsection{Monitor in C\#}
+\begin{lstlisting}
+class BankAccount {
+  private decimal balance;
+  public void Withdraw(decimal amount) {
+    lock (syncObject) {
+      while (amount > balance) {
+        Monitor.Wait(syncObject);
+      }
+      balance -= amount;
+    }
+  }
+  public void Deposit(decimal amount) {
+    lock (syncObject) {
+      balance += amount;
+      Monitor.PulseAll(syncObject);
+    }
+  }
+}
+\end{lstlisting}
 
 \end{document}

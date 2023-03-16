@@ -288,7 +288,11 @@ app.listen(3000, function () {
 
 \subsection{Middleware}
 \includegraphics[scale=0.4]{2023_03_09_03_24_51.png}\newline
-\textcolor{purple}{Modular components, that will handle individual tasks -> one for authentication, one for authorization.}
+\textcolor{purple}{Modular components, that will handle individual tasks -> one for authentication, one for authorization.}\newline
+\begin{itemize}
+\item \textcolor{purple}{Authorization: What am I allowed to do?}
+\item \textcolor{purple}{Authentication: Who am I?}
+\end{itemize} 
 
 \subsubsection{Usage of Middlewares in ExpressJS}
 \textcolor{teal}{In order to register a middleware in expressJS, use the app.use(middleware) function.}
@@ -527,7 +531,138 @@ Handlebars.registerHelper('?', function(exp, value1, value2, options) {
 {{? hasError 'FEHLER' 'OK' }}
 \end{lstlisting}
 
+\subsection{Security with ExpressJS}
+\subsubsection{Authentication with Cookies}
+Cookies represent a small piece of data. This can be a state in which the website was in before the client left the last time.\newline
+Data is represented as a key=value pair.\newline
+\includegraphics[scale=0.4]{2023_03_16_03_17_28.png}\newline
+Usage: \newline
+\textcolor{purple}{npm install cookie-parser -save \newline
+app.use(require("cookie-parser"){} );}
 
+\subsubsection{Session with Cookies}
+Usage:\newline
+\textcolor{purple}{npm install session-parser -save\newline
+app.use(session((secret: ,'1234567', resave: false, saveUninitialized: true)));}\newline
+\includegraphics[scale=0.4]{2023_03_16_03_20_23.png}
+
+\subsubsection{Storing cookies}
+\textcolor{purple}{Cookies (more likely its data) are often stored in json, this can be done as follows}\newline
+\begin{lstlisting}
+// valid but dangerous
+JSON.stringify([1,2,4,5]);
+// better:
+json = JSON.stringify({elements : [1,2,4,5]});
+
+// get the elements again with 
+elements = JSON.parse(json); 
+\end{lstlisting}
+
+\subsection{REST with Cookies}
+\textcolor{purple}{The problem is that with REST we want a stateless connection, this means that we need to change the way data is transferred, by changing the format.}\newline
+\begin{lstlisting}
+res.format({
+  'text/html': function () {
+    res.redirect("/");
+  },
+  'application/json': function () {
+    res.send(true);
+  },
+});
+\end{lstlisting}
+\textcolor{teal}{The problem is that now, because of the stateless connection, we need to send all data each time.\newline
+For example you would need to send something like a \emph{token} to login. -> see discord and why you can create bridges.}\newline
+Token requirements:
+\begin{itemize}
+\item \textcolor{purple}{creation date }
+\item \textcolor{purple}{expiry date }
+\item \textcolor{purple}{signature}
+\item \textcolor{purple}{Other data that might help protect user and server}
+\end{itemize} 
+\minipg{
+\begin{itemize}
+\item \textcolor{green}{Connection can be sent to any server!}
+\end{itemize} 
+}{
+  \begin{itemize}
+  \item \textcolor{red}{What happens if the token gets stolen?}
+  \item \textcolor{red}{What happens when a device gets stolen? \newline
+    How would we invalidate the token on it?}
+  \end{itemize} 
+}[0.25,0.25]
+\textcolor{teal}{Tokens can be used either as a pseudo key, which can be used to connect to services, or as a temporary login -> remember that you are logged in for a while. RIGHT MOODLE??}\newline
+Libraries:
+\begin{itemize}
+\item \textcolor{black}{oauth}
+\item \textcolor{black}{express-jwt}
+\item \textcolor{black}{node-jsonwebtoken}
+\end{itemize} 
+
+\subsubsection{JWT Token}
+\includegraphics[scale=0.4]{2023_03_16_03_56_53.png}
+\includegraphics[scale=0.4]{2023_03_16_03_56_22.png}
+
+\subsection{AJAX}
+\textcolor{purple}{When using ajax on webpages, make sure to change the state of the application so that a redo or undo button doesn't end redirecting you back to google. \newline
+As an alternative use frameworks like react which do this automatically.}
+\begin{lstlisting}
+history.pushState({}, "Demo", "bar.html");
+\end{lstlisting}
+
+\subsection{Fetch}
+\begin{lstlisting}
+fetch(url, {
+  method: method,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+}).then(x => {
+  return x.json();
+});
+\end{lstlisting}
+Possible other data: 
+\begin{itemize}
+\item \textcolor{purple}{arrayBuffer()}
+\item \textcolor{purple}{blob()}
+\item \textcolor{purple}{formData()}
+\item \textcolor{purple}{text()}
+\end{itemize} 
+
+\subsubsection{Cookies with Fetch}
+Cookies aren't sent automatically, this means you have to send them alongside!
+\begin{lstlisting}
+fetch('https://example.com', {
+  credentials: 'include'
+})
+\end{lstlisting}
+
+\subsubsection{Fetch helper classes for requests}
+\begin{lstlisting}
+const myHeaders = new Headers();
+myHeaders.append('Content-Type', 'text/plain');
+const myInit = {
+  method: 'GET',
+  headers: myHeaders,
+  cache: 'default'
+};
+const myRequest = new Request('/example', myInit);
+fetch(myRequest) /*…*/
+\end{lstlisting}
+
+\subsectin{CORS}
+\textcolor{purple}{AJAX security feature. It basically says that a client may only request ajax promises from the one main server.}\newline
+\includegraphics[scale=0.4]{2023_03_16_04_32_40.png}\newline
+\textcolor{purple}{You can define yourself, who exactly is allowed use what type of functions.}
+\begin{lstlisting}
+const allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+};
+app.use(allowCrossDomain);
+\end{lstlisting}
 
 % \lstset{
 %     language=TypeScript,

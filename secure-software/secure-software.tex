@@ -1,6 +1,11 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
 \input{../ost-summary-template.tex}
 
+\lstset{
+    language={[x86masm]Assembler},
+    style=code,
+}
+
 \begin{document}
 \tableofcontents
 
@@ -154,6 +159,100 @@ This is a list of attacks that can lead to another. This can help with attacks t
 \includegraphics[scale=0.4]{2023_03_02_11_13_47.png}\newline
 
 \section{Software bugs and unexpected behavior}
+\subsection{Types of bugs and issues}
+\begin{itemize}
+\item \textcolor{purple}{security bug}\newline
+These are a misimplementation and are easy to discover and remediate using modern code review tools.\newline
+Examples include buffer overflows, race conditions and unsafe system calls
+\item \textcolor{purple}{security flaw}\newline
+This is a design flaw and is hence impossible to detect by automated tools. \newline
+This might be bad error handling, type confusion, or just plain wrong usage of something
+\item \textcolor{purple}{Decurity defect: security bug + security flaw}
+\end{itemize} 
+
+\subsection{Buffer overflow}
+\textcolor{purple}{Buffer overflow attacks are common in the C language space. Mostly this is because of use of legacy functions that fail to check for safety.\newline
+This can lead to examples where you would like to check a password, however, the attacker provides not just a password, but something longer. When comparing with unsafe code, this could lead to the actual password being overwritten and the attacker therefore gaining access even with a faulty password.}\newline
+Here a concrete example for this:
+\begin{lstlisting}
+#include <stdio.h>
+#include <string.h>
+void printstr(char *str, int len) {
+  for (int i = 0; i < len; i++) {
+    printf("%c", str[i]);
+  }
+  printf("\n");
+}
+
+void printstr_unsafe(char *str) {
+  int i = 0;
+  while (str[i] != '\0') {
+    printf("%c", str[i]);
+    i++;
+  }
+  printf("\n");
+}
+
+int compstr(char* str1, char* str2, int lower) {
+  for(int i = 0; i < lower; i++) {
+    // printf("%c", str1[i]);
+    // printf("%c", str2[i]);
+    if(str1[i] != str2[i]) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int main(int argc, char **argv) {
+  int a = 5;
+  int b = 7;
+  int c = a + b;
+
+  char arr[] = {'g', 'e', 't', 'm', 'e', 'h', 'a', 'c', 'k', 'e', 'd'};
+  char arr3[8];
+  char arr2[] = "pwsecret";
+  
+  strcpy(arr3, argv[1]);
+  if (compstr(arr2, arr3, 8) == 1) {
+    printstr(arr, sizeof(arr));
+    return 1;
+  }
+
+  printf("you fucked up\n");
+  // printstr(arr2, sizeof(arr2));
+  // printstr_unsafe(arr2);
+  printstr(arr3, sizeof(arr3));   
+  printstr(arr2, sizeof(arr2));   
+
+  return 0;
+}
+\end{lstlisting}
+\textcolor{teal}{Note that if the attacker overdoes the length of the malicious string, then the program will read into unallocated memory. This will lead to the OS segfaulting this program.}\newline
+\textcolor{red}{Solution: Use modern and secure functions for C/C++ OR use more modern languages such as rust.}
+
+\subsection{Image Visualization of Stack}
+\includegraphics[scale=0.4]{2023_03_16_11_27_16.png}
+\includegraphics[scale=0.4]{2023_03_16_11_27_42.png}
+
+\subsection{Image Visualization of an attack}
+\includegraphics[scale=0.4]{2023_03_16_11_28_24.png}\newline
+\textcolor{red}{However, you can just simply create a different return location, since we can override the return address :)}\newline
+For this we first have to choose a function to use, let's take execve in order to replace the current program with a shell.\newline
+\includegraphics[scale=0.4]{2023_03_16_11_31_03.png}\newline
+Then we have to create a main function with a call to execve in order to be able to jump to it.\newline
+\textcolor{teal}{Even more important, the function then needs to be disassembled and formatted in order to be used.}\newline
+\includegraphics[scale=0.4]{2023_03_16_11_31_59.png}\newline
+We can now start to override the return function with this new text.\newline
+\includegraphics[scale=0.4]{2023_03_16_11_33_05.png}
+
+\subsubsection{NOP}
+\textcolor{purple}{The problem we face with return addresses, is that we do not know the exact address that we need to call. This means that we might miss the actual address of our code.\newline
+Keep in mind that our address is just offset from the stackpointer. }\newline
+\textcolor{teal}{However, there is a solution, we can use NOP instructions as padding around the code. This means that if we jump too high, we will simply run into these NOP statements, which do nothing other than telling the cpu to move to the next statement below.\newline
+We can simply repeat this until we are at the evil code.\newline
+Should we land below the evil code, then we can use ret statements with an address that is prob above the evil code to run it.}
+
 
 \section{Web Security}
 

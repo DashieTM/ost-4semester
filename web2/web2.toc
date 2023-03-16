@@ -12,4 +12,31 @@
 \contentsline {subsection}{\numberline {2.6}Native Modules}{2}{subsection.2.6}%
 \contentsline {subsection}{\numberline {2.7}nvm/nodenv}{2}{subsection.2.7}%
 \contentsline {subsection}{\numberline {2.8}API versions}{2}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}EventEmitter}{2}{subsection.2.9}%
+\contentsline {section}{\numberline {3}Web Framework Patterns}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}MVC}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}ExpressJS}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Middleware}{3}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Usage of Middlewares in ExpressJS}{3}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Middleware archive "Connect"}{3}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}ExpressJS defaults}{3}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Routing}{3}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.5}Route Specifics}{4}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.6}Satic-Middleware}{4}{subsubsection.3.3.6}%
+\contentsline {subsubsection}{\numberline {3.3.7}Custom Middleware}{4}{subsubsection.3.3.7}%
+\contentsline {subsubsection}{\numberline {3.3.8}Error Middleware}{4}{subsubsection.3.3.8}%
+\contentsline {subsection}{\numberline {3.4}Databases and Frameworks}{4}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Example with nedb (NoSQL)}{4}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Templating engine with DatabaseTemplating engine with Databasess}{5}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Handlebars template engine}{5}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Security with ExpressJS}{6}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Authentication with Cookies}{6}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Session with Cookies}{6}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Storing cookies}{6}{subsubsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.6}REST with Cookies}{6}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}JWT Token}{7}{subsubsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.7}AJAX}{7}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Fetch}{7}{subsection.3.8}%
+\contentsline {subsubsection}{\numberline {3.8.1}Cookies with Fetch}{7}{subsubsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.2}Fetch helper classes for requests}{7}{subsubsection.3.8.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
