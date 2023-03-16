@@ -106,4 +106,78 @@ Eg. do not accept things such as not tested code, as it will likely reduce the q
 \textcolor{purple}{There are also a lot of tools that visualize the metric in order to stand out more to human eyes.}\newline
 \includegraphics[scale=0.4]{2023_03_09_06_19_01.png}
 
+\section{Software Architecture}
+\includegraphics[scale=0.4]{2023_03_16_05_06_11.png}
+
+\subsection{Architecture vs Design}
+Architecture focuses on big changes while design is something that deals with smaller, more precise changes.
+
+\subsection{Non-Functional Requirements}
+\begin{itemize}
+\item \textcolor{purple}{security}
+\item \textcolor{purple}{reliability}
+\item \textcolor{purple}{performance}
+\item \textcolor{purple}{maintainability}
+\item \textcolor{purple}{scalability}
+\item \textcolor{purple}{usability}
+\end{itemize} 
+\textcolor{red}{These are often more important than the functional requirements, as it defines whether or not you can maintain this or not.\newline
+Customers will often not like this, since it seems like a waste of time and money to them, but without this no software can truly become good.}
+
+\subsection{Context and Components}
+\textcolor{purple}{Drawing lines outside the system}\newline
+\includegraphics[scale=0.4]{2023_03_16_05_26_27.png}\newline
+\textcolor{purple}{Drawing lines inside the system}\newline
+\includegraphics[scale=0.4]{2023_03_16_05_27_26.png}\newline
+The idea here is that you need to make sure that you differentiate the domain model from the technology used.\newline
+E.g you do not want to be dependent on jafuck with your software, it should also be possible to be written in a proper language such as rust.
+
+\subsction{ACT Desirable Characteristics}
+\begin{itemize}
+\item \textcolor{purple}{Adequacy}
+  Use proper tools for the job\newline
+  Use as much time as needed... \newline
+\item \textcolor{purple}{Timeliness}\newline
+  Eliminate risks early\newline
+  However, also leave some decicions out if possible -> iterative 
+\item \textcolor{purple}{Consistency}\newline
+\end{itemize} 
+
+\subsection{The Software Architect Role}
+
+\subsubsection{Responsibilities}
+\includegraphics[scale=0.4]{2023_03_16_05_36_00.png}
+
+\subsubsection{Different Types}
+\includegraphics[scale=0.4]{2023_03_16_05_36_46.png}
+
+\subsubsection{Scaling of the Role}
+\includegraphics[scale=0.4]{2023_03_16_05_37_10.png}
+
+\subsubsection{Communication of Architects}
+\includegraphics[scale=0.4]{2023_03_16_05_41_47.png}
+
+\subsection{Documentation}
+There are multiple templates that you can use in order to write your documentation. \newline
+It is recommended that you use these templates as it makes your documentation more consistent.\newline
+\begin{itemize}
+\item \textcolor{purple}{arc42}
+\item \textcolor{purple}{C4 model}
+\item \textcolor{purple}{4+1 View Model of Architecture}
+\item \textcolor{purple}{Software Architecture Document (SAD)}
+\end{itemize} 
+\textcolor{teal}{Most of them are \emph{high level}, and use \emph{building blocks}, with \emph{different views}.}
+
+\subsubsection{arc42 Template}
+\includegraphics[scale=0.4]{2023_03_16_06_24_43.png}
+
+\subsection{Architectural Patterns}
+\includegraphics[scale=0.4]{2023_03_16_06_33_19.png}
+
+\subsection{Architecture types}
+\includegraphics[scale=0.4]{2023_03_16_06_33_28.png}
+\includegraphics[scale=0.4]{2023_03_16_06_33_39.png}\newline
+\includegraphics[scale=0.4]{2023_03_16_06_33_54.png}
+
+
 \end{document}
