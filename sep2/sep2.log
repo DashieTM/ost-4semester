@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  9 MAR 2023 19:32
+=======
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.2.26)  4 MAR 2023 14:00
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -150,7 +154,12 @@ Package: babel 2022/02/26 3.73 The Babel package
  (/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
 \bbl@readstream=\read2
 \bbl@dirlevel=\count195
+<<<<<<< HEAD
  (/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
+=======
+
+(/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
@@ -288,6 +297,7 @@ Package scrlayer Info: Using already defined \footheight
 (scrlayer)             not only a macro on input line 136.
 Package scrlayer Info: patching LaTeX kernel macro \pagestyle on input line 2162.
 )
+<<<<<<< HEAD
 Package scrlayer-scrpage Info: Makeing stand-alone element `pagehead' from
 (scrlayer-scrpage)             alias to `pageheadfoot' on input line 1085.
 Package scrlayer-scrpage Info: deactivating warning for font element
@@ -295,6 +305,29 @@ Package scrlayer-scrpage Info: deactivating warning for font element
 )
 Package scrlayer-scrpage Info: auto-selection of `pagestyleset=KOMA-Script'.
  (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+=======
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlayer-scrpage.sty
+Package: scrlayer-scrpage 2021/11/13 v3.35 KOMA-Script package (end user interf
+ace for scrlayer)
+
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlayer.sty
+Package: scrlayer 2021/11/13 v3.35 KOMA-Script package (defining layers and pag
+e styles)
+Package scrlayer Info: Using already defined \footheight
+(scrlayer)             hoping, that this is a length and
+(scrlayer)             not only a macro on input line 136.
+Package scrlayer Info: patching LaTeX kernel macro \pagestyle on input line 216
+2.
+)
+Package scrlayer-scrpage Info: Makeing stand-alone element `pagehead' from
+(scrlayer-scrpage)             alias to `pageheadfoot' on input line 1085.
+Package scrlayer-scrpage Info: deactivating warning for font element
+(scrlayer-scrpage)             `pagefoot' on input line 1109.
+)
+Package scrlayer-scrpage Info: auto-selection of `pagestyleset=KOMA-Script'.
+
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: amsmath 2021/10/15 v2.17l AMS math features
 \@mathmargin=\skip64
 
@@ -305,10 +338,19 @@ Package: amstext 2021/08/26 v2.01 AMS text
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks20
 \ex@=\dimen152
+<<<<<<< HEAD
 )) (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen153
 ) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+=======
+))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen153
+)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: amsopn 2021/08/26 v2.02 operator names
 )
 \inf@bad=\count275
@@ -368,7 +410,12 @@ Package: fancyvrb 2022/04/12 4.2 verbatim text (tvz,hv)
 ) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count290
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/listings/listings.sty
+=======
+)
+(/usr/share/texmf-dist/tex/latex/listings/listings.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 \lst@mode=\count291
 \lst@gtempboxa=\box55
 \lst@token=\toks25
@@ -381,12 +428,22 @@ Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \lst@newlines=\count295
 \lst@lineno=\count296
 \lst@maxwidth=\dimen164
+<<<<<<< HEAD
  (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+=======
+
+(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 \c@lstnumber=\count297
 \lst@skipnumbers=\count298
 \lst@framebox=\box56
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
+=======
+)
+(/usr/share/texmf-dist/tex/latex/listings/listings.cfg
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
@@ -403,7 +460,12 @@ Package graphics Info: Driver file: pdftex.def on input line 107.
 )
 \Gin@req@height=\dimen165
 \Gin@req@width=\dimen166
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
+=======
+)
+(/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip67
 \enit@outerparindent=\dimen167
@@ -411,7 +473,12 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box57
 \enit@count@id=\count299
 \enitdp@description=\count300
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+=======
+)
+(/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \ttl@box=\box58
 \beforetitleunit=\skip68
@@ -479,7 +546,12 @@ Package footmisc Info: Declaring symbol style lamport*-robust on input line 764.
 \RaggedLeftParindent=\skip81
 \RaggedRightParindent=\skip82
 \JustifyingParindent=\skip83
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/tools/array.sty
+=======
+)
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \col@sep=\dimen175
 \ar@mcellbox=\box59
@@ -488,7 +560,12 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \extratabsurround=\skip84
 \backup@length=\skip85
 \ar@cellbox=\box60
+<<<<<<< HEAD
 ) (/usr/share/texmf-dist/tex/latex/makecell/makecell.sty
+=======
+)
+(/usr/share/texmf-dist/tex/latex/makecell/makecell.sty
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen177
 \c@nlinenum=\count301
@@ -627,6 +704,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write5
 \openout5 = `sep2.toc'.
 
+<<<<<<< HEAD
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 14.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
@@ -680,10 +758,16 @@ File: ../Screenshots/2023_03_09_06_19_01.png Graphic file (type png)
 Package pdftex.def Info: ../Screenshots/2023_03_09_06_19_01.png  used on input line 107.
 (pdftex.def)             Requested size: 348.89731pt x 75.48065pt.
 [2 <../Screenshots/2023_03_09_05_22_06.png (PNG copy)> <../Screenshots/2023_03_09_05_37_49.png (PNG copy)> <../Screenshots/2023_03_09_05_38_24.png (PNG copy)> <../Screenshots/2023_03_09_06_09_37.png (PNG copy)> <../Screenshots/2023_03_09_06_09_46.png (PNG copy)>] [3 <../Screenshots/2023_03_09_06_19_01.png (PNG copy)>] (./sep2.aux)
+=======
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+] (./sep2.aux)
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 Package rerunfilecheck Info: File `sep2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  19182 strings out of 478238
  347553 string characters out of 5850457
  824568 words of memory out of 10000000
@@ -693,6 +777,19 @@ Here is how much of TeX's memory you used:
  108i,20n,106p,10634b,443s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb>
 Output written on sep2.pdf (3 pages, 529535 bytes).
+=======
+ 19060 strings out of 478238
+ 344012 string characters out of 5850456
+ 803568 words of memory out of 10000000
+ 37064 multiletter control sequences out of 15000+600000
+ 476945 words of font info for 48 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 108i,19n,106p,10634b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/t
+exmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts
+/type1/public/cm-super/sfsx0800.pfb>
+Output written on sep2.pdf (1 page, 39708 bytes).
+>>>>>>> 40b09a5332af51e0e76cd337cb4147ff7f28b00c
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  64 compressed objects within 1 object stream
