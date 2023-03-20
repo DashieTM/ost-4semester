@@ -268,5 +268,44 @@ While this means we will lose the detail, we will also lose the "noise", that ca
 \includegraphics[scale=0.4]{2023_03_06_02_33_17.png}\newline
 \textcolor{purple}{The idea here is that you take small portions of audio (11ms or something similar), then you turn the frequency table. This gives you the "modified" output on the right.}
 
+\section{RNN}
+
+\subsection{Sequential Data}
+\textcolor{teal}{This is the 1 input 1 output criteria, basically the one thing haskell is actually quite good at!}\newline
+\includegraphics[scale=0.4]{2023_03_20_01_46_19.png}\newline
+\includegraphics[scale=0.4]{2023_03_20_01_44_14.png}
+\includegraphics[scale=0.4]{2023_03_20_01_45_11.png}\newline
+\textcolor{teal}{These are all fine, but the limitation is that we do not have a memory. So the usefulness is limited at best.}
+
+\subsection{Dealing with memory}
+When you need to remember about previous states, then you can't use ANN or CNN.\newline
+\textcolor{teal}{For regular ANNs the problem is that they add things together and forget about the initial state.\newline
+Take this FFNN for example:}\newline
+\includegraphics[scale=0.4]{2023_03_20_02_08_30.png}\newline
+The problem here is that the FFNN adds together the inputs, meaning that you will not remember what the inputs were at the start.\newline
+So how about CNN?\newline
+\textcolor{teal}{For CNN the problem is that you only see whether or not somehting was/is there with a clear information loss.\newline
+This means you can't remember the exact input, you only know, input class x was there!} 
+
+\subsection{The Solution}
+\subsubsection{How do we handle the time component?}
+\includegraphics[scale=0.4]{2023_03_20_02_10_55.png}
+\subsubsection{Adding Connections}
+\includegraphics[scale=0.4]{2023_03_20_02_11_08.png}
+\subsubsection{Recurrence}
+\includegraphics[scale=0.4]{2023_03_20_02_11_18.png}
+\subsubsection{Memory Cell}
+\includegraphics[scale=0.4]{2023_03_20_02_11_30.png}
+\subsubsection{simpleRNNCell (keras)}
+\includegraphics[scale=0.4]{2023_03_20_02_13_13.png}
+\subsubsection{Conputations across time/Forward Propagation}
+\includegraphics[scale=0.4]{2023_03_20_02_13_34.png}
+\subsubsection{How to train RNN?}
+\includegraphics[scale=0.4]{2023_03_20_02_26_37.png}
+\subsubsection{Loss across time steps}
+\includegraphics[scale=0.4]{2023_03_20_02_40_41.png}
+\subsubsection{Backpropagation through Time}
+\includegraphics[scale=0.4]{2023_03_20_02_40_58.png}
+
 
 \end{document}

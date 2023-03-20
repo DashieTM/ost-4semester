@@ -16,9 +16,19 @@
 \contentsline {subsection}{\numberline {2.11}Why?}{3}{subsection.2.11}%
 \contentsline {subsection}{\numberline {2.12}Tensor}{4}{subsection.2.12}%
 \contentsline {subsection}{\numberline {2.13}An example for image classification}{5}{subsection.2.13}%
-<<<<<<< HEAD
-=======
 \contentsline {section}{\numberline {3}Encoder and Decoder}{5}{section.3}%
 \contentsline {subsubsection}{\numberline {3.0.1}Audio transformation}{5}{subsubsection.3.0.1}%
->>>>>>> d552fbf30b8bfa2c01ff06986c5a5c2636331c65
+\contentsline {section}{\numberline {4}RNN}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Sequential Data}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Dealing with memory}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}The Solution}{6}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}How do we handle the time component?}{6}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Adding Connections}{7}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Recurrence}{7}{subsubsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.4}Memory Cell}{7}{subsubsection.4.3.4}%
+\contentsline {subsubsection}{\numberline {4.3.5}simpleRNNCell (keras)}{7}{subsubsection.4.3.5}%
+\contentsline {subsubsection}{\numberline {4.3.6}Conputations across time/Forward Propagation}{7}{subsubsection.4.3.6}%
+\contentsline {subsubsection}{\numberline {4.3.7}How to train RNN?}{8}{subsubsection.4.3.7}%
+\contentsline {subsubsection}{\numberline {4.3.8}Loss across time steps}{8}{subsubsection.4.3.8}%
+\contentsline {subsubsection}{\numberline {4.3.9}Backpropagation through Time}{8}{subsubsection.4.3.9}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
