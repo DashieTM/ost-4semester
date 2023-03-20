@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  13 MAR 2023 09:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  20 MAR 2023 09:36
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -631,7 +631,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--7
 |[][][][][][]|
  []
 
-(./parallel-programming.toc)
+(./parallel-programming.toc
+./parallel-programming.toc:79: Undefined control sequence.
+\sls@ps@scrheadings@odd@middle@head ...ies \TITLE 
+                                                  , \AUTHOR , \pagename ~\th...
+l.79 ...h explicit tasks}{12}{subsubsection.9.5.5}
+                                                  %
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./parallel-programming.toc:79: Undefined control sequence.
+\sls@ps@scrheadings@odd@middle@head ... , \AUTHOR 
+                                                  , \pagename ~\thepage }
+l.79 ...h explicit tasks}{12}{subsubsection.9.5.5}
+                                                  %
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+])
 \tf@toc=\write5
 \openout5 = `parallel-programming.toc'.
 
@@ -652,7 +677,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--24
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_08_47_23.png, id=66, 625.33624pt x 304.13625pt>
+<../Screenshots/2023_02_20_08_47_23.png, id=172, 625.33624pt x 304.13625pt>
 File: ../Screenshots/2023_02_20_08_47_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_47_23.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_47_23.png  used on input line 31.
@@ -662,19 +687,17 @@ Overfull \hbox (28.45448pt too wide) in paragraph at lines 31--32
  []$[]$$[]$ 
  []
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-]
 Underfull \hbox (badness 10000) in paragraph at lines 33--33
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_08_45_03.png, id=138, 458.71375pt x 177.66376pt>
+<../Screenshots/2023_02_20_08_45_03.png, id=173, 458.71375pt x 177.66376pt>
 File: ../Screenshots/2023_02_20_08_45_03.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_03.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_03.png  used on input line 34.
 (pdftex.def)             Requested size: 183.48224pt x 71.06424pt.
-<../Screenshots/2023_02_20_08_45_08.png, id=139, 393.47pt x 216.81pt>
+<../Screenshots/2023_02_20_08_45_08.png, id=174, 393.47pt x 216.81pt>
 File: ../Screenshots/2023_02_20_08_45_08.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_08.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_08.png  used on input line 35.
@@ -699,12 +722,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 45--45
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_03_15.png, id=140, 209.78375pt x 320.19624pt>
+<../Screenshots/2023_02_20_09_03_15.png, id=175, 209.78375pt x 320.19624pt>
 File: ../Screenshots/2023_02_20_09_03_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_03_15.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_03_15.png  used on input line 50.
 (pdftex.def)             Requested size: 83.912pt x 128.07622pt.
-<../Screenshots/2023_02_20_09_04_01.png, id=141, 598.235pt x 353.32pt>
+<../Screenshots/2023_02_20_09_04_01.png, id=176, 598.235pt x 353.32pt>
 File: ../Screenshots/2023_02_20_09_04_01.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_04_01.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_04_01.png  used on input line 51.
@@ -722,7 +745,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--69
 |[][][][][][][]|
  []
 
-
+[2 <../Screenshots/2023_02_20_08_47_23.png (PNG copy)> <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)> <../Screenshots/2023_02_20_09_03_15.png (PNG copy)> <../Screenshots/2023_02_20_09_04_01.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 77--77
 |[][][][][][][]|
  []
@@ -732,12 +755,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--92
 |[][][][][][][]|
  []
 
-[2 <../Screenshots/2023_02_20_08_47_23.png (PNG copy)> <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)> <../Screenshots/2023_02_20_09_03_15.png (PNG copy)> <../Screenshots/2023_02_20_09_04_01.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 107--107
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_14_43.png, id=147, 592.2125pt x 362.35374pt>
+<../Screenshots/2023_02_20_09_14_43.png, id=192, 592.2125pt x 362.35374pt>
 File: ../Screenshots/2023_02_20_09_14_43.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_14_43.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_14_43.png  used on input line 108.
@@ -757,7 +780,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 114--114
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_07_53.png, id=148, 516.93124pt x 201.75375pt>
+<../Screenshots/2023_02_20_09_07_53.png, id=193, 516.93124pt x 201.75375pt>
 File: ../Screenshots/2023_02_20_09_07_53.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_07_53.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_07_53.png  used on input line 116.
@@ -783,12 +806,12 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <7> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 136.
-
+ [3 <../Screenshots/2023_02_20_09_14_43.png (PNG copy)> <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 160--160
 |[][][][][][][]|
  []
 
-[3 <../Screenshots/2023_02_20_09_14_43.png (PNG copy)> <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 180--180
 |[][][][][][][]|
  []
@@ -798,7 +821,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 207--207
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_38_24.png, id=187, 374.39874pt x 307.1475pt>
+<../Screenshots/2023_02_20_09_38_24.png, id=218, 374.39874pt x 307.1475pt>
 File: ../Screenshots/2023_02_20_09_38_24.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_38_24.png>
 Package pdftex.def Info: ../Screenshots/2023_02_20_09_38_24.png  used on input line 212.
@@ -818,12 +841,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 242--242
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_27_08_31_29.png, id=188, 663.47874pt x 440.64626pt>
+<../Screenshots/2023_02_27_08_31_29.png, id=219, 663.47874pt x 440.64626pt>
 File: ../Screenshots/2023_02_27_08_31_29.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_08_31_29.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_08_31_29.png  used on input line 249.
 (pdftex.def)             Requested size: 199.04515pt x 132.19489pt.
-
+[4 <../Screenshots/2023_02_20_09_38_24.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 251--251
 |[][][][][][][]|
  []
@@ -833,7 +856,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 255--255
 |[][][][][][][]|
  []
 
-[4 <../Screenshots/2023_02_20_09_38_24.png (PNG copy)> <../Screenshots/2023_02_27_08_31_29.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 269--269
 |[][][][][][][]|
  []
@@ -848,12 +871,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 313--313
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_27_09_36_15.png, id=224, 597.23125pt x 346.29375pt>
+[5 <../Screenshots/2023_02_27_08_31_29.png (PNG copy)>]
+<../Screenshots/2023_02_27_09_36_15.png, id=327, 597.23125pt x 346.29375pt>
 File: ../Screenshots/2023_02_27_09_36_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_36_15.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_09_36_15.png  used on input line 336.
 (pdftex.def)             Requested size: 238.88826pt x 138.51503pt.
-<../Screenshots/2023_02_27_09_37_23.png, id=225, 465.74pt x 249.93375pt>
+<../Screenshots/2023_02_27_09_37_23.png, id=328, 465.74pt x 249.93375pt>
 File: ../Screenshots/2023_02_27_09_37_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_37_23.png>
 Package pdftex.def Info: ../Screenshots/2023_02_27_09_37_23.png  used on input line 337.
@@ -863,7 +887,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 340--340
 |[][][][][][][]|
  []
 
-[5 <../Screenshots/2023_02_27_09_36_15.png (PNG copy)> <../Screenshots/2023_02_27_09_37_23.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 366--366
 |[][][][][][][]|
  []
@@ -893,12 +917,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 409--409
 |[][][][][][][]|
  []
 
-
+[6 <../Screenshots/2023_02_27_09_36_15.png (PNG copy)> <../Screenshots/2023_02_27_09_37_23.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 434--434
 |[][][][][][][]|
  []
 
-[6]
+
 Underfull \hbox (badness 10000) in paragraph at lines 457--457
 |[][][][][][][]|
  []
@@ -918,7 +942,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 523--523
 |[][][][][][][]|
  []
 
-
+[7]
 Underfull \hbox (badness 10000) in paragraph at lines 532--532
 |[][][][][][][]|
  []
@@ -928,7 +952,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 535--535
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_06_09_43_52.png, id=334, 256.96pt x 80.3pt>
+<../Screenshots/2023_03_06_09_43_52.png, id=436, 256.96pt x 80.3pt>
 File: ../Screenshots/2023_03_06_09_43_52.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_43_52.png>
 Package pdftex.def Info: ../Screenshots/2023_03_06_09_43_52.png  used on input line 538.
@@ -938,7 +962,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 540--540
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_06_09_44_14.png, id=335, 601.24625pt x 90.3375pt>
+<../Screenshots/2023_03_06_09_44_14.png, id=437, 601.24625pt x 90.3375pt>
 File: ../Screenshots/2023_03_06_09_44_14.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_44_14.png>
 Package pdftex.def Info: ../Screenshots/2023_03_06_09_44_14.png  used on input line 542.
@@ -948,8 +972,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 544--544
 |[][][][][][][]|
  []
 
-[7 <../Screenshots/2023_03_06_09_43_52.png (PNG copy)> <../Screenshots/2023_03_06_09_44_14.png (PNG copy)>]
-<../Screenshots/2023_03_06_09_47_31.png, id=394, 646.415pt x 217.81375pt>
+<../Screenshots/2023_03_06_09_47_31.png, id=438, 646.415pt x 217.81375pt>
 File: ../Screenshots/2023_03_06_09_47_31.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_47_31.png>
 Package pdftex.def Info: ../Screenshots/2023_03_06_09_47_31.png  used on input line 546.
@@ -969,7 +992,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 580--580
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_08_42_17.png, id=395, 430.60875pt x 250.9375pt>
+<../Screenshots/2023_03_13_08_42_17.png, id=439, 430.60875pt x 250.9375pt>
 File: ../Screenshots/2023_03_13_08_42_17.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_08_42_17.png>
 Package pdftex.def Info: ../Screenshots/2023_03_13_08_42_17.png  used on input line 586.
@@ -989,22 +1012,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 595--595
 |[][][][][][][]|
  []
 
-
+[8 <../Screenshots/2023_03_06_09_43_52.png (PNG copy)> <../Screenshots/2023_03_06_09_44_14.png (PNG copy)> <../Screenshots/2023_03_06_09_47_31.png (PNG copy)> <../Screenshots/2023_03_13_08_42_17.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 612--612
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_09_23.png, id=396, 403.5075pt x 226.8475pt>
+<../Screenshots/2023_03_13_09_09_23.png, id=465, 403.5075pt x 226.8475pt>
 File: ../Screenshots/2023_03_13_09_09_23.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_09_23.png>
 Package pdftex.def Info: ../Screenshots/2023_03_13_09_09_23.png  used on input line 613.
 (pdftex.def)             Requested size: 161.40013pt x 90.73738pt.
-[8 <../Screenshots/2023_03_06_09_47_31.png (PNG copy)> <../Screenshots/2023_03_13_08_42_17.png (PNG copy)> <../Screenshots/2023_03_13_09_09_23.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 617--617
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_17_53.png, id=435, 443.6575pt x 290.08376pt>
+<../Screenshots/2023_03_13_09_17_53.png, id=466, 443.6575pt x 290.08376pt>
 File: ../Screenshots/2023_03_13_09_17_53.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_17_53.png>
 Package pdftex.def Info: ../Screenshots/2023_03_13_09_17_53.png  used on input line 618.
@@ -1019,12 +1042,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 641--641
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_34_03.png, id=436, 440.64626pt x 160.6pt>
+<../Screenshots/2023_03_13_09_34_03.png, id=467, 440.64626pt x 160.6pt>
 File: ../Screenshots/2023_03_13_09_34_03.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_34_03.png>
 Package pdftex.def Info: ../Screenshots/2023_03_13_09_34_03.png  used on input line 645.
 (pdftex.def)             Requested size: 176.25537pt x 64.23885pt.
-<../Screenshots/2023_03_13_09_35_29.png, id=437, 427.5975pt x 171.64125pt>
+<../Screenshots/2023_03_13_09_35_29.png, id=468, 427.5975pt x 171.64125pt>
 File: ../Screenshots/2023_03_13_09_35_29.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_35_29.png>
 Package pdftex.def Info: ../Screenshots/2023_03_13_09_35_29.png  used on input line 646.
@@ -1054,28 +1077,452 @@ Underfull \hbox (badness 10000) in paragraph at lines 660--660
 |[][][][][][][]|
  []
 
-
+[9 <../Screenshots/2023_03_13_09_09_23.png (PNG copy)> <../Screenshots/2023_03_13_09_17_53.png (PNG copy)> <../Screenshots/2023_03_13_09_34_03.png (PNG copy)> <../Screenshots/2023_03_13_09_35_29.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 671--671
 |[][][][][][][]|
  []
 
-[9 <../Screenshots/2023_03_13_09_17_53.png (PNG copy)> <../Screenshots/2023_03_13_09_34_03.png (PNG copy)> <../Screenshots/2023_03_13_09_35_29.png (PNG copy)>] (./parallel-programming.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 692--692
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 694--694
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 703--703
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 708--708
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_08_25_48.png, id=501, 789.95125pt x 259.97125pt>
+File: ../Screenshots/2023_03_20_08_25_48.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_08_25_48.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_25_48.png  used on input line 711.
+(pdftex.def)             Requested size: 315.9749pt x 103.98665pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 718--718
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_08_29_42.png, id=502, 839.135pt x 268.00125pt>
+File: ../Screenshots/2023_03_20_08_29_42.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_08_29_42.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_29_42.png  used on input line 721.
+(pdftex.def)             Requested size: 335.64804pt x 107.1986pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 723--723
+|[][][][][][][]|
+ []
+
+[10 <../Screenshots/2023_03_20_08_25_48.png (PNG copy)> <../Screenshots/2023_03_20_08_29_42.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 741--741
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 752--752
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 772--772
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_08_40_04.png, id=544, 811.03pt x 464.73625pt>
+File: ../Screenshots/2023_03_20_08_40_04.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_08_40_04.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_40_04.png  used on input line 773.
+(pdftex.def)             Requested size: 324.40625pt x 185.8912pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 789--789
+|[][][][][][][]|
+ []
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \@tempa.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   $
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@require.
+<to be read again> 
+                   $
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
+) (/usr/share/texmf-dist/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2020/03/24 1.8d listings language file
+) (/usr/share/texmf-dist/tex/latex/listings/lstlang3.sty
+File: lstlang3.sty 2020/03/24 1.8d listings language file
+)
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \@err@                                                                 .
+<to be read again> 
+                   $
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Package Listings Error: Couldn't load requested language.
+
+See the Listings package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.818 }
+       
+The following languages weren't loadable:
+    ,c##$
+This may cause errors in the sequel.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   $
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:818: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.818 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./parallel-programming.tex:818: Package Listings Error: language c## undefined.
+
+See the Listings package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.818 }
+       
+The language is not loadable. Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 820--820
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 827--827
+|[][][][][][][]|
+ []
+
+[11 <../Screenshots/2023_03_20_08_40_04.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 836--836
+|[][][][][][][]|
+ []
+
+
+./parallel-programming.tex:839: LaTeX Error: Invalid UTF-8 byte sequence (â\lst@FillFixed@\lst@EC€).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.839   int total = â€¦ 
+                        // some calculation
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+./parallel-programming.tex:839: LaTeX Error: Invalid UTF-8 byte "A6.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.839   int total = â€¦ 
+                        // some calculation
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 846--846
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 860--860
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 877--877
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 886--886
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 894--894
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 905--905
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_09_23_13.png, id=593, 437.635pt x 278.03876pt>
+File: ../Screenshots/2023_03_20_09_23_13.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_09_23_13.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_23_13.png  used on input line 909.
+(pdftex.def)             Requested size: 175.05089pt x 111.21352pt.
+<../Screenshots/2023_03_20_09_24_26.png, id=594, 762.85pt x 272.01625pt>
+File: ../Screenshots/2023_03_20_09_24_26.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_09_24_26.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_24_26.png  used on input line 910.
+(pdftex.def)             Requested size: 305.1346pt x 108.80457pt.
+[12 <../Screenshots/2023_03_20_09_23_13.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 912--912
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 926--926
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 973--973
+|[][][][][][][]|
+ []
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \@tempa.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   $
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@require.
+<to be read again> 
+                   $
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
+) (/usr/share/texmf-dist/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2020/03/24 1.8d listings language file
+) (/usr/share/texmf-dist/tex/latex/listings/lstlang3.sty
+File: lstlang3.sty 2020/03/24 1.8d listings language file
+)
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \@err@                                                                 .
+<to be read again> 
+                   $
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Package Listings Error: Couldn't load requested language.
+
+See the Listings package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.989 }
+       
+The following languages weren't loadable:
+    ,c##$
+This may cause errors in the sequel.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@temp.
+<to be read again> 
+                   $
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:989: Illegal parameter number in definition of \lst@malias.
+<to be read again> 
+                   }
+l.989 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./parallel-programming.tex:989: Package Listings Error: language c## undefined.
+
+See the Listings package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.989 }
+       
+The language is not loadable. Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 991--991
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_09_32_19.png, id=652, 818.05624pt x 509.905pt>
+File: ../Screenshots/2023_03_20_09_32_19.png Graphic file (type png)
+<use ../Screenshots/2023_03_20_09_32_19.png>
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_32_19.png  used on input line 992.
+(pdftex.def)             Requested size: 327.21669pt x 203.95837pt.
+[13 <../Screenshots/2023_03_20_09_24_26.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 996--996
+|[][][][][][][]|
+ []
+
+[14 <../Screenshots/2023_03_20_09_32_19.png (PNG copy)>] (./parallel-programming.aux)
 Package rerunfilecheck Info: File `parallel-programming.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20212 strings out of 478238
- 363530 string characters out of 5850457
- 1293440 words of memory out of 10000000
- 37819 multiletter control sequences out of 15000+600000
+ 20548 strings out of 478238
+ 369933 string characters out of 5850456
+ 1360464 words of memory out of 10000000
+ 37949 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,20n,106p,10650b,1949s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,20n,106p,10650b,2003s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on parallel-programming.pdf (9 pages, 667389 bytes).
+Output written on parallel-programming.pdf (14 pages, 906658 bytes).
 PDF statistics:
- 610 PDF objects out of 1000 (max. 8388607)
- 563 compressed objects within 6 object streams
- 360 named destinations out of 1000 (max. 500000)
- 160 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 884 PDF objects out of 1000 (max. 8388607)
+ 823 compressed objects within 9 object streams
+ 546 named destinations out of 1000 (max. 500000)
+ 198 words of extra memory for PDF output out of 10000 (max. 10000000)
 

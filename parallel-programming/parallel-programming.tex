@@ -653,7 +653,7 @@ Eg the submissive thread that always releases its lock as soon as someone else w
 \subsection{Parallelism}
 In the end what we want is a program that has \emph{no race conditions, no deadlocks and no starvation, with still decent performance.}
 
-\section{C\#}
+\section{C\#}../ost-summary-template.tex
 
 \subsection{Basics}
 
@@ -688,5 +688,314 @@ class BankAccount {
   }
 }
 \end{lstlisting}
+
+\section{Thread Pools}
+
+\subsection{Problem with Threads}
+\begin{itemize}
+\item \textcolor{teal}{scheduling needs time }
+\item \textcolor{teal}{thread might awake only for it to wait again since condition is not met}
+\item \textcolor{teal}{limited in numbers}
+\item \textcolor{teal}{every thread needs a stack for itself}
+\item \textcolor{teal}{preemptive full register-backup for each thread}
+\end{itemize} 
+
+\subsection{Solution}
+Instead of using \emph{all threads all the time}, we only use some of them. (at least as many as physical cores)\newline
+\textcolor{teal}{Then we define the functionality in question as \emph{task} instead.\newline
+These tasks can then be parallelized, or not, depending on the functionality in question.}
+
+\subsection{Task Queue}
+Tasks are handled as a queue, from which threads can take individual tasks from.\newline
+The thread will then execute said task and proceeds to take a new one.\newline
+\includegraphics[scale=0.4]{2023_03_20_08_25_48.png}\newline
+Benefits:
+\begin{itemize}
+\item \textcolor{green}{scalable -> more threads or cores automatically means more performance}
+\item \textcolor{green}{easily made to run in parallel -> multi CPU structures}
+\end{itemize} 
+
+\subsubsection{Run To Completion}
+As already stated above, each task needs to be run to completion, however \emph{this does not apply to nested subtasks}, \newline
+this is because you might encounter deadlocks with other tasks if you would want to guarantee this as well.\newline
+\includegraphics[scale=0.4]{2023_03_20_08_29_42.png}
+
+\subsection{Thread Pools in Java}
+\begin{lstlisting}
+var threadPool = new ForkJoinPool();
+Future<Integer> future = threadPool.submit(() -> {
+  // this is the task to execute
+  int value = 50;
+  // do something with value
+  return value;
+});
+\end{lstlisting}
+\textcolor{teal}{Essentially a promise in js, you don't know if it is done or not.\newline
+To check use the following:}
+\begin{lstlisting}
+Future<T> future = threadPool.submit(yourtask); // launch task
+T result = future.get(); // blocks until result is here
+\end{lstlisting}
+\textcolor{red}{Note, unlike js, the get() function will \emph{block the thread} until the result is here!!}
+
+\subsubsection{Thread Pool Instantiation}
+\begin{lstlisting}
+// explicit pool
+var threadPool = new ForkJoinPool();
+int result = threadPool.invoke(new CountTask(2, N));
+
+// using default pool
+int result = new CountTask(2, N).invoke();
+\end{lstlisting}
+\textcolor{teal}{Important, when using the default pool, it will not always use all processors, as it does internal optimization.}
+
+\subsubsection{Functions}
+\begin{itemize}
+\item \textcolor{purple}{RecursiveAction}\newline
+  like RecursiveTask<Void> -> simply no return value
+\item \textcolor{purple}{invokeAll()}\newline
+  start and wait for sub-tasks -> invokeAll(task1, task2)
+\item \textcolor{purple}{submit()}\newline
+  create a new task
+\item \textcolor{purple}{get()}\newline
+  block until result is here
+\item \textcolor{purple}{invoke()}\newline
+  run task
+\item \textcolor{purple}{cancel()}\newline
+  cancel task
+\item \textcolor{purple}{fork()}\newline
+  split task into subtasks 
+\item \textcolor{purple}{join()}
+  wait for the other task to finish after own execution has stopped
+\end{itemize} 
+
+\subsubsection{Parallel Counting Example}
+\includegraphics[scale=0.4]{2023_03_20_08_40_04.png}
+\begin{lstlisting}
+class CountTask extends RecursiveTask<Integer> {
+  // Constructor
+  @Override
+  protected Integer compute() {
+    // if no or single element => return result
+    // split into two parts
+    var left = new CountTask(lower, middle);
+    var right = new CountTask(middle, upper);
+    left.fork(); right.fork();
+    return right.join() + left.join();
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Full Task Implementation}
+\begin{lstlisting}
+class CountTask extends RecursiveTask<Integer> {
+  private final int lower, upper;
+  public CountTask(int lower, int upper) {
+    this.lower = lower; this.upper = upper;
+  }
+  protected Integer compute() {
+    if (upper - lower > THRESHOLD) {
+      // parallel count
+      int middle = (lower + upper) / 2;
+      var left = new CountTask(lower, middle);
+      var right = new CountTask(middle, upper);
+      left.fork(); right.fork();
+      return right.join() + left.join();
+    } else {
+      // sequential count
+      int count = 0;
+      for (int number = lower; number < upper; number++) {
+      if (isPrime(number)) { count++; }
+    }
+    return count;
+  }
+}
+\end{lstlisting}
+
+\lstset{
+    language=C#,
+    style=code,
+}
+
+\subsection{Thread Pools in C\#}
+\begin{itemize}
+\item \textcolor{purple}{efficient thread pool by default}
+\item \textcolor{purple}{Task Parallization: use tasks explicitly}
+\item \textcolor{purple}{Data Parallization: use parallel statements and queries using tasks explicitly}
+\item \textcolor{purple}{Asynchronous Programming}
+\end{itemize} 
+\subsubsection{Tasks in C\#}
+\begin{lstlisting}
+Task task = Task.Run(() => {
+  // task implementation
+});
+// perform other activity
+task.Wait(); // blocking just like in jafuck
+\end{lstlisting}
+
+\subsubsection{Task with return Value}
+\begin{lstlisting}
+Task<int> task = Task.Run(() => {
+  int total = … // some calculation
+return total;
+});
+// no wait/get etc necessary!
+Console.Write(task.Result); // result of task
+\end{lstlisting}
+
+\subsubsection{Nested Tasks}
+\begin{lstlisting}
+var task = Task.Run(() => {
+  // unlike java you don't have to specifically say that you want to wait for the task
+  // instead you can just use it in the return.
+  var left = Task.Run(() => Count(leftPart));
+  var right = Task.Run(() => Count(rightPart));
+  return left.Result + right.Result;
+});
+static Task<int> Count(part) { 
+  // do something
+}
+\end{lstlisting}
+
+\subsubsection{Parallelism without explicit tasks}
+Some things can be done in parallel without specifying it. 
+\begin{lstlisting}
+void MergeSort(l, r) {
+  long m = (l + r)/2;
+  MergeSort(l, m);
+  MergeSort(m, r);
+  Merge(l, m, r);
+}
+
+void Convert(IList list) {
+  foreach (File file in list) {
+    Convert(file);
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Parallelism with explicit tasks}
+\begin{lstlisting}
+Parallel.Invoke(
+  () => MergeSort(l, m),
+  () => MergeSort(m, r)
+);
+\end{lstlisting}
+\textcolor{red}{Here the continuation is blocked until \emph{both threads have stopped executing!}}
+
+\subsubsection{Data Parallel ForEach}
+\begin{lstlisting}
+Parallel.ForEach(list,
+  file => Convert(file)
+);
+\end{lstlisting}
+\textcolor{red}{Queue a task for each item in the foreach sequence. This blocks by default until all taks are done!}
+
+\subsubsection{Data Parallel For}
+\begin{lstlisting}
+for (i = 0; i < array.Length; i++) {
+  DoComputation(array[i]);
+} // sequential
+Parallel.For(0, array.Length,
+  i => DoComputation(array[i])
+); // parallel, only works in case iterations are independent!
+\end{lstlisting}
+\textcolor{red}{Please note, for the second variant the iterations need to be independent.}
+
+\subsubsection{Parallel Loop Partitioning}
+When you iterate through an array, you might want to split the iterations to multiple threads.\newline
+However, making each iteration run on a new thread is really inefficient, so what can we do?\newline
+\textcolor{teal}{We split based on algorithms:}\newline
+\includegraphics[scale=0.4]{2023_03_20_09_23_13.png}\newline
+\includegraphics[scale=0.4]{2023_03_20_09_24_26.png}\newline
+
+\subsubsection{Parallel For with Thread-Local Variables}
+\begin{lstlisting}
+long total = 0;
+Parallel.For<long>(
+  0, array.Length,
+  () => 0,
+  (i, _, subtotal) => {
+    subtotal += array[i];
+    return subtotal;
+  },
+  subtotal => Interlocked.Add(ref total, subtotal)
+);
+\end{lstlisting}
+
+\subsubsection{Parallel LinQ}
+\begin{itemize}
+\item \textcolor{purple}{Parallelization of language-integrated query (sql like)}
+\item \textcolor{purple}{Data Parallelism}
+\item \textcolor{purple}{Similar to Java Stream API}
+\end{itemize} 
+Examples: 
+\begin{lstlisting}
+// Get ISBN of all books with the title "Concurrency"
+bookCollection
+.Where(book => book.Title.Contains("Concurrency"))
+.Select(book => book.ISBN)
+
+// Map each number in a list to a bool value (true = prime number)
+inputList
+.Select(number => IsPrime(number))
+\end{lstlisting}
+You can also make this work with a sql like query 
+\begin{lstlisting}
+// Get ISBN of all books with title "Concurrency"
+from book in bookCollection
+where book.Title.Contains("Concurrency")
+select book.ISBN
+
+// Map each number in a list to a bool value (true = prime number)
+from number in inputList
+select IsPrime(number)
+\end{lstlisting}
+If you want to use this with \emph{parallelization}: 
+\begin{lstlisting}
+// Get ISBN of all books with title "Concurrency"
+from book in bookCollection.AsParallel()
+where book.Title.Contains("Concurrency")
+select book.ISBN
+Results in random order
+
+// Map each number in a list to a bool value (true = prime number)
+from number in inputList.AsParallel().AsOrdered()
+select IsPrime(number)
+// as ordered makes sure it is still serialized! Otherwise the return order is weird
+\end{lstlisting}
+
+\lstset{
+    language=Java,
+    style=code,
+}
+
+\subsubsection{Comparison to Java Stream API}
+\begin{lstlisting}
+// Get ISBN of all books with title "Concurrency"
+// Allow unordered explicitly (by default ordered in java)
+bookCollection.parallelStream().unordered()
+.filter(book -> book.getTitle().contains("Concurrency"))
+.map(book -> book.getISBN());
+
+// Map each number in a list to a bool value (true = prime number)
+inputList.parallelStream()
+.map(number -> isPrime(number));
+\end{lstlisting}
+
+\lstset{
+    language=C#,
+    style=code,
+}
+
+\subsubsection{Work Stealing Thread Pool}
+\includegraphics[scale=0.4]{2023_03_20_09_32_19.png}\newline
+A thread will take multiple tasks from the global pool and then start working on them.\newline
+Should one thread be done with all tasks and there is still work to be done on other threads, the now afk thread will steal a task from the other threads.
+
+\subsubsection{Thread Injection}
+\textcolor{teal}{This is the idea that a controller will automatically add threads to certain tasks (\emph{at runtime!}) if it sees a benefit in terms of runtime.\newline
+It does this with a \emph{Hill Climbing Algorithm}, by measuring throughput}. \newline
+In general this does solve deadlocks, but it is slower than regular thread pools. (deadlocks still possible with ThreadPool.SetMaxThreads())
 
 \end{document}
