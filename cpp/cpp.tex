@@ -199,7 +199,7 @@ void fancyNameForFunction() {
 \textcolor{teal}{The ! means that it is a standard library bug, don't use those defaulted ones!!!}\newline
 \textcolor{red}{Note that deleting a constructor will be the same as "user declared"!!}
 
-\subsectin{The problem with func(T const\&)}
+\subsection{The problem with func(T const\&)}
 \textcolor{purple}{When working with const T references, this implies that we can either \emph{copy or move it}, this means we will not necessarily know what we get.}\newline
 \textcolor{teal}{The only possible way without type deduction is an overload for both.}
 \begin{lstlisting}
@@ -429,5 +429,200 @@ struct CompilerKnows {
   int i0;
 };
 \end{lstlisting}
+
+\section{Memory Management and Heap}
+
+\subsection{Pointers}
+Funny pointer consty fun.\newline
+\includegraphics[scale=0.4]{2023_03_21_01_51_22.png}
+
+\subsubsection{Reading a pointer declaration}
+\includegraphics[scale=0.4]{2023_03_21_02_11_12.png}
+\includegraphics[scale=0.4]{2023_03_21_02_11_17.png}
+\includegraphics[scale=0.4]{2023_03_21_02_11_21.png}\newline
+\includegraphics[scale=0.4]{2023_03_21_02_13_40.png}\newline
+\includegraphics[scale=0.4]{2023_03_21_02_15_03.png}
+\includegraphics[scale=0.4]{2023_03_21_02_16_23.png}
+
+\subsubsection{nullptr}
+\textcolor{teal}{The nullptr has a more specific meaning than either 0 or NULL, \newline
+other than 0, it has no implicit conversion to integral type, unlike 0, and also ensures no mistakes with overloads -> again integral.}\newline
+\textcolor{red}{There is also the implicit conversion from nullptr to T*}
+\begin{lstlisting}
+int* test = nullptr;
+float* test2 = nullptr;
+
+// lol
+void* something = nullptr;
+int* no = (int*) something;
+\end{lstlisting}
+
+\subsection{Const}
+By default the const keyword needs to be on the right, the only exception is the first type on the left!\newline
+\includegraphics[scale=0.4]{2023_03_21_02_16_58.png}\newline
+\textcolor{red}{Be careful with left const assignments when using aliases!}
+\begin{lstlisting}
+// Extract the int const * part
+using alias = int const *;
+alias const icpc; // works well
+
+// Extract the int * const part
+using alias = int * const;
+const alias cipc; // this is bs! Compiles however!
+\end{lstlisting}
+
+\subsection{mutable}
+\textcolor{teal}{The mutable keyword is always used on the variable itself!}
+\begin{lstlisting}
+// the value at mutable_const_int_pointer is constant
+// however the pointer itself is not!
+// the mutable keyword here is only used for const functions -> can be used inside of them
+class Something {
+  mutable const int * mutable_const_int_pointer;
+}
+\end{lstlisting}
+
+\subsection{New}
+\begin{lstlisting}
+struct Point {
+  Point(int x, int y):x {x}, y {y}{}
+  int x, y;
+};
+auto createPoint(int x, int y) -> Point* {
+  return new Point{x, y}; //constructor
+}
+auto createCorners(int x, int y) -> Point* {
+  return new Point[2]{{0, 0}, {x, y}};
+}
+\end{lstlisting}
+
+\subsection{Delete}
+\textcolor{teal}{Every new needs to be accomodated with a delete, \emph{deleting twice will lead to undefined behavior!}.}\newline
+\textcolor{purple}{However, deleting the nullptr is well defined, it does nothing.}
+\begin{lstlisting}
+struct Point {
+  Point(int x, int y):x {x}, y {y} {}
+  int x, y;
+}
+auto funWithPoint(int x, int y) -> void {
+  Point * pp = new Point{x, y};
+  //pp member access with pp->
+  //pp is the pointer value
+  delete pp; //destructor
+}
+\end{lstlisting}
+Using delete with [] will delete arrays. 
+\begin{lstlisting}
+struct Point {
+  Point(int x, int y) :x {x}, y {y}{}
+  int x, y;
+}
+auto funWithPoint(int x, int y) -> void {
+  Point * arr = new Point[2]{{0, 0},{x, y}};
+  //element access with [], e.g. arr[1]
+  //arr points to the first element
+  delete[] arr; //destructors
+} // this also deletes multidimensional arrays!!
+\end{lstlisting}
+
+\subsubsection{Placement new}
+\textcolor{purple}{This takes a ptr where \emph{currently no element is placed} and creates a new class instance of choice in this pointer.\newline
+This means that you can potentially create a pointer to a smaller instance. It just needs to be suitable, aka big enough, so bigger objects won't work!!}
+\begin{lstlisting}
+struct Point {
+  Point(int x, int y):x {x}, y {y}{}
+  int x, y;
+};
+auto funWithPoint() -> void {
+  auto ptr = new Point{9, 8};
+  // must release Point{9, 8}
+  // release can be done with ptr->~NewTest();
+  // or with std::destroy_at(ptr);
+  new (ptr) Point{7, 6};
+  delete ptr;
+}
+\end{lstlisting}
+
+\subsubsection{Placement Destroy}
+\textcolor{purple}{There is no proper placement destroy, instead there is the \emph{regular destructor, but that one doesn't work with primitive built-in types,\newline
+so instead use std::destroy\_at.}}
+\begin{lstlisting}
+struct Resource {
+  Resource() {
+    /*allocate resource*/
+  }
+  ~Resource() {
+    /*deallocate resource*/
+  }
+};
+auto funWithPoint() -> void {
+  auto ptr = new Resource{};
+  ptr->~Resource();
+  new (ptr) Resource{};
+  delete ptr;
+}
+\end{lstlisting}
+
+\subsubection{Non Default Constructible Types}
+\textcolor{purple}{This refers to types that do not have a constructor with no parameters. -> defualt constructor\newline
+With these types we can't use new TypeName, instead we need to allocate memory explicitly like this:}
+\begin{lstlisting}
+struct Point {
+  Point(int x, int y); // default deleted!
+  ~Point();
+  int x, y;
+};
+
+// allocate memory
+auto memory = std::make_unique<std::byte[]>(sizeof(Point) * 2);
+
+// initialize
+new (memory.get()) Point{1, 2};
+\end{lstlisting}
+\textcolor{purple}{Accessing these individually is tedious, how about e helper?}
+\begin{lstlisting}
+auto elementAt(std::byte * memory, size_t index) -> Point& {
+  return reinterpret_cast<Point *>(memory)[index];
+}
+
+auto memory = std::make_unique<std::byte[]>(sizeof(Point * 2));
+Point * first = &elementAt(memory.get(), 0);
+new (first) Point{1, 2};
+Point * second = &elementAt(memory.get(), 1);
+new (second) Point{4, 5};
+
+// make sure to also destroy it manually!
+// it ain't rust so get shit on
+// order is irrelevant for the memory management itself.
+std::destroy_at(second);
+std::destroy_at(first);
+\end{lstlisting}
+\textcolor{red}{You have to destroy the memory manually however!\newline
+\emph{The reason for this is that each object might have heap allocated memory itself, this is NOT guaranteed to be cleaned up.}}
+
+\subsubsection{New and Delete are fucking operators...}
+\begin{lstlisting}
+struct not_on_heap {
+  static auto operator new(std::size_t sz) -> void * {
+    throw std::bad_alloc{};
+  }
+  static auto operator new[](std::size_t sz) -> void * {
+    throw std::bad_alloc{};
+  }
+  static auto operator delete(void *ptr) -> void noexcept {
+    // do nothing, never called, but should come in pairs
+  }
+  static auto operator delete[](void *ptr) -> void noexcept {
+    // do nothing, never called, but should come in pairs
+  }
+  // just no
+  // but you can create your own allocators
+  // or simply make sure that noone ever calls new or delete with your types, kekw
+};
+\end{lstlisting}
+
+\subsubsection{Typical Problems with memory}
+\includegraphics[scale=0.4]{2023_03_21_03_06_31.png}\newline
+\includegraphics[scale=0.4]{2023_03_21_03_06_47.png}
 
 \end{document}

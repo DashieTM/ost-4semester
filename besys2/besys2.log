@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  7 MAR 2023 19:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  21 MAR 2023 18:30
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -261,10 +261,34 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
 )
 \Hy@SectionHShift=\skip63
-) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2020/01/02 v5.9 Page Geometry
+) (/usr/share/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
 
-(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+)
+
+Class scrartcl Warning: Incompatible package `sectsty' loaded!
+(scrartcl)              Package `sectsty' up to version 2.0.2 is incompatible
+(scrartcl)              with KOMA-Script from version 2.8e released in 2001.
+(scrartcl)              You should avoid that package and configure the
+(scrartcl)              section titles of your document using the KOMA-Script
+(scrartcl)              user interface, e.g., \chapterlinesformat,
+(scrartcl)              \RedeclareSectionCommand etc. or you should ask
+(scrartcl)              the `sectsty' maintainer for a more compatible release.
+(scrartcl)              Ignoring this warning could result in several error
+(scrartcl)              messages and formatting issues after loading package
+(scrartcl)              `sectsty' on input line 8.
+
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 \Gm@cnth=\count272
@@ -422,30 +446,9 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \titlewidth=\dimen170
 \titlewidthlast=\dimen171
 \titlewidthfirst=\dimen172
-
-
-Package titlesec Warning: Non standard sectioning command \section
-(titlesec)                detected. Using default spacing and no format.
-
-
-Package titlesec Warning: Non standard sectioning command \subsection
-(titlesec)                detected. Using default spacing and no format.
-
-
-Package titlesec Warning: Non standard sectioning command \subsubsection
-(titlesec)                detected. Using default spacing and no format.
-
-
-Package titlesec Warning: Non standard sectioning command \paragraph
-(titlesec)                detected. Using default spacing and no format.
-
-
-Package titlesec Warning: Non standard sectioning command \subparagraph
-(titlesec)                detected. Using default spacing and no format.
-
 )
 Class scrartcl Info: Unknown `titesec' release.
-(scrartcl)           Cross your fingers, that is compatible on input line 85.
+(scrartcl)           Cross your fingers, that is compatible on input line 86.
  (/usr/share/texmf-dist/tex/latex/ragged2e/ragged2e.sty
 Package: ragged2e 2021/12/15 v3.1 ragged2e Package
 
@@ -623,7 +626,32 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 5.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (./besys2.toc)
+) (./besys2.toc
+./besys2.toc:81: Undefined control sequence.
+\sls@ps@scrheadings@odd@middle@head ...ies \TITLE 
+                                                  , \AUTHOR , \pagename ~\th...
+l.81 ...line {8}Graphical Overlays}{11}{section.8}
+                                                  %
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./besys2.toc:81: Undefined control sequence.
+\sls@ps@scrheadings@odd@middle@head ... , \AUTHOR 
+                                                  , \pagename ~\thepage }
+l.81 ...line {8}Graphical Overlays}{11}{section.8}
+                                                  %
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+])
 \tf@toc=\write5
 \openout5 = `besys2.toc'.
 
@@ -635,9 +663,7 @@ File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 20.
  (/usr/share/texmf-dist/tex/latex/base/ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-]
+)
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 32.
  (/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
@@ -645,55 +671,199 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <7> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 55.
  [2] [3] [4]
-<../Screenshots/2023_03_07_05_32_03.png, id=244, 621.32124pt x 99.37125pt>
+<../Screenshots/2023_03_07_05_32_03.png, id=269, 621.32124pt x 99.37125pt>
 File: ../Screenshots/2023_03_07_05_32_03.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_05_32_03.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_05_32_03.png  used on input line 375.
 (pdftex.def)             Requested size: 248.5241pt x 39.74779pt.
-<../Screenshots/2023_03_07_05_43_05.png, id=245, 471.7625pt x 403.5075pt>
+<../Screenshots/2023_03_07_05_43_05.png, id=270, 471.7625pt x 403.5075pt>
 File: ../Screenshots/2023_03_07_05_43_05.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_05_43_05.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_05_43_05.png  used on input line 380.
 (pdftex.def)             Requested size: 188.70164pt x 161.40013pt.
-<../Screenshots/2023_03_07_06_03_34.png, id=246, 486.81876pt x 191.71625pt>
+<../Screenshots/2023_03_07_06_03_34.png, id=271, 486.81876pt x 191.71625pt>
 File: ../Screenshots/2023_03_07_06_03_34.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_06_03_34.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_06_03_34.png  used on input line 415.
 (pdftex.def)             Requested size: 194.72404pt x 76.68513pt.
- [5 <../Screenshots/2023_03_07_05_32_03.png (PNG copy)> <../Screenshots/2023_03_07_05_43_05.png (PNG copy)> <../Screenshots/2023_03_07_06_03_34.png (PNG copy)>]
-<../Screenshots/2023_03_07_06_18_08.png, id=264, 554.07pt x 466.74374pt>
+ [5 <../Screenshots/2023_03_07_05_32_03.png (PNG copy)> <../Screenshots/2023_03_07_05_43_05.png (PNG copy)>]
+<../Screenshots/2023_03_07_06_18_08.png, id=292, 554.07pt x 466.74374pt>
 File: ../Screenshots/2023_03_07_06_18_08.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_06_18_08.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_06_18_08.png  used on input line 475.
 (pdftex.def)             Requested size: 221.62407pt x 186.69418pt.
-<../Screenshots/2023_03_07_06_22_16.png, id=265, 488.82625pt x 287.0725pt>
+<../Screenshots/2023_03_07_06_22_16.png, id=293, 488.82625pt x 287.0725pt>
 File: ../Screenshots/2023_03_07_06_22_16.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_06_22_16.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_06_22_16.png  used on input line 494.
 (pdftex.def)             Requested size: 195.52702pt x 114.82695pt.
- [6 <../Screenshots/2023_03_07_06_18_08.png (PNG copy)> <../Screenshots/2023_03_07_06_22_16.png (PNG copy)>] [7]
-<../Screenshots/2023_03_07_07_10_15.png, id=332, 412.54124pt x 614.295pt>
+ [6 <../Screenshots/2023_03_07_06_03_34.png (PNG copy)> <../Screenshots/2023_03_07_06_18_08.png (PNG copy)>] [7 <../Screenshots/2023_03_07_06_22_16.png (PNG copy)>]
+<../Screenshots/2023_03_07_07_10_15.png, id=363, 412.54124pt x 614.295pt>
 File: ../Screenshots/2023_03_07_07_10_15.png Graphic file (type png)
 <use ../Screenshots/2023_03_07_07_10_15.png>
 Package pdftex.def Info: ../Screenshots/2023_03_07_07_10_15.png  used on input line 643.
 (pdftex.def)             Requested size: 165.01357pt x 245.71364pt.
- [8 <../Screenshots/2023_03_07_07_10_15.png (PNG copy)>] [9] (./besys2.aux)
+ [8 <../Screenshots/2023_03_07_07_10_15.png (PNG copy)>]
+
+./besys2.tex:712: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.712 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<../Screenshots/2023_03_21_05_18_00.png, id=402, 225.84375pt x 272.01625pt>
+File: ../Screenshots/2023_03_21_05_18_00.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_05_18_00.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_05_18_00.png  used on input line 727.
+(pdftex.def)             Requested size: 90.33589pt x 108.80457pt.
+<../Screenshots/2023_03_21_05_24_50.png, id=403, 525.965pt x 201.75375pt>
+File: ../Screenshots/2023_03_21_05_24_50.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_05_24_50.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_05_24_50.png  used on input line 755.
+(pdftex.def)             Requested size: 210.38226pt x 80.70006pt.
+<../Screenshots/2023_03_21_05_31_06.png, id=404, 358.33875pt x 260.975pt>
+File: ../Screenshots/2023_03_21_05_31_06.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_05_31_06.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_05_31_06.png  used on input line 784.
+(pdftex.def)             Requested size: 143.33296pt x 104.38815pt.
+[9 <../Screenshots/2023_03_21_05_18_00.png (PNG copy)> <../Screenshots/2023_03_21_05_24_50.png (PNG copy)>]
+./besys2.tex:835: Undefined control sequence.
+l.835 ...r{black}{will return -1 if error}\nelwine
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./besys2.tex:846: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.846 ...}{pid > 0: waits for child with this pid}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./besys2.tex:847: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.847 ... == -1: waits for any child -> like wait}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./besys2.tex:848: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.848 ...or processes of a specific process group}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<../Screenshots/2023_03_21_05_59_40.png, id=423, 878.28125pt x 191.71625pt>
+File: ../Screenshots/2023_03_21_05_59_40.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_05_59_40.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_05_59_40.png  used on input line 852.
+(pdftex.def)             Requested size: 351.30627pt x 76.68513pt.
+[10 <../Screenshots/2023_03_21_05_31_06.png (PNG copy)> <../Screenshots/2023_03_21_05_59_40.png (PNG copy)>]
+
+./besys2.tex:895: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.895 ...as list -> execl(path0, arg0, arg1, ...)}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./besys2.tex:896: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.896 ... and args as vector -> execv(path, argv)}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./besys2.tex:897: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.897 ...ther variants the env-vars stay the same}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./besys2.tex:898: Package xcolor Error: Undefined color `color'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.898 ...he others use absolute or relative paths}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<../Screenshots/2023_03_21_06_15_17.png, id=467, 877.2775pt x 273.02pt>
+File: ../Screenshots/2023_03_21_06_15_17.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_06_15_17.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_06_15_17.png  used on input line 901.
+(pdftex.def)             Requested size: 350.90479pt x 109.20605pt.
+<../Screenshots/2023_03_21_06_18_24.png, id=468, 895.345pt x 271.0125pt>
+File: ../Screenshots/2023_03_21_06_18_24.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_06_18_24.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_06_18_24.png  used on input line 907.
+(pdftex.def)             Requested size: 358.13165pt x 108.40306pt.
+<../Screenshots/2023_03_21_06_20_43.png, id=469, 894.34125pt x 331.2375pt>
+File: ../Screenshots/2023_03_21_06_20_43.png Graphic file (type png)
+<use ../Screenshots/2023_03_21_06_20_43.png>
+Package pdftex.def Info: ../Screenshots/2023_03_21_06_20_43.png  used on input line 912.
+(pdftex.def)             Requested size: 357.73016pt x 132.49265pt.
+[11 <../Screenshots/2023_03_21_06_15_17.png (PNG copy)> <../Screenshots/2023_03_21_06_18_24.png (PNG copy)> <../Screenshots/2023_03_21_06_20_43.png (PNG copy)>] [12] (./besys2.aux)
 Package rerunfilecheck Info: File `besys2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20052 strings out of 478238
- 357303 string characters out of 5850457
- 1186898 words of memory out of 10000000
- 37759 multiletter control sequences out of 15000+600000
+ 20370 strings out of 478238
+ 363433 string characters out of 5850456
+ 1178522 words of memory out of 10000000
+ 37971 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,20n,106p,10636b,1951s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,20n,106p,10636b,1950s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on besys2.pdf (9 pages, 387977 bytes).
+Output written on besys2.pdf (12 pages, 529945 bytes).
 PDF statistics:
- 497 PDF objects out of 1000 (max. 8388607)
- 464 compressed objects within 5 object streams
- 275 named destinations out of 1000 (max. 500000)
- 95 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 644 PDF objects out of 1000 (max. 8388607)
+ 600 compressed objects within 6 object streams
+ 370 named destinations out of 1000 (max. 500000)
+ 130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

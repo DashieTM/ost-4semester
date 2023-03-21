@@ -700,6 +700,252 @@ int rewind (FILE *stream)
 \subsection{Ext4}
 
 \section{Processmodels}
+\subsection{Base}
+Whenever we run a program, there are at least 2 actors: the program itself and the OS.\newline
+The communication between OS and program runs on the C-API (or soon rust as well :) )\newline
+Each program only knows itself and the OS.\newline
+\textcolor{teal}{Systems like this are called \emph{monoprogramming}}
+
+\subsubsection{Improvement with "async"}
+This is what javascript does, it is only pseudo parallel in the sense that there is \emph{efficient process switching}, however we are still at 1 process at a time!\newline
+There are multiple names for a process in this case -> task, job, or simply process. \newline
+\newline
+\textcolor{teal}{Here we still want to ensure that each program may think that is "the only running program",\newline
+this means that the operating system \emph{must provide each service individually} -> memory, IO, etc. }
+
+\subsection{Process}
+\minipg{
+  Each process has:
+\begin{itemize}
+\item \textcolor{purple}{Text section: image of the program in the memory (binary)}
+\item \textcolor{purple}{data section: global variables of the program}
+\item \textcolor{purple}{memory for heap}
+\item \textcolor{purple}{memory for stack}
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2023_03_21_05_18_00.png}
+}[0.25,0.25]
+
+\subsubsection{Program vs Process}
+\minipg{
+Process
+\begin{itemize}
+\item \textcolor{purple}{active: actually executes instructions}
+\item \textcolor{purple}{executes instructions in serial manner}
+\item \textcolor{purple}{may perform actions for multiple programs -> according to POSIX}
+\end{itemize} 
+}{
+Program
+\begin{itemize}
+\item \textcolor{purple}{passive: only says what to do}
+\item \textcolor{purple}{can be run in parallel -> multiple processes execute different tasks for the program}
+\end{itemize} 
+}[0.25,0.25]
+
+\subsubsection{Process Control Block (PCB)}
+\textcolor{purple}{The operating system stores information about a process in this block.}
+\begin{itemize}
+\item \textcolor{purple}{ID for process -> PID}
+\item \textcolor{purple}{Memory for the state of the processor}
+\item \textcolor{purple}{scheduling information}
+\item \textcolor{purple}{data for synchronization and communication between processes}
+\item \textcolor{purple}{filesystem relevant information -> current open files}
+\item \textcolor{purple}{Security-information}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_21_05_24_50.png}
+
+\subsubsection{Interrupts, Processes and Context Switch}
+\textcolor{teal}{For every interrupt the Operating system saves the current state of the process in the PCB.}\newline
+The following will be saved:
+\begin{itemize}
+\item \textcolor{black}{Registers}
+\item \textcolor{black}{Flags}
+\item \textcolor{black}{Instruction Pointer}
+\item \textcolor{black}{MMU-Configuration -> Page-Table-Pointer}
+\end{itemize} 
+\textcolor{teal}{After that, the interrupt handler will be called (which is run by the OS), which can switch context if needed -> e.g. switch to another process.\newline
+As soon as the handler is done, the new context PCB is recovered.}
+
+\subsubsection{Creation of a process}
+\minipg{
+POSIX:
+\begin{enumerate}
+\item \textcolor{purple}{create process}
+\item \textcolor{purple}{load a program into this process and put it into ready mode}
+\end{enumerate} 
+}{
+  Windoof:\newline
+  both at once... (proprietary)
+}[0.25,0.25]
+
+\subsection{Process Hierarchy}
+In POSIX, each process has exactly 1 parent, other than the root process.\newline
+Each process can have unlimited amount of child processes!\newline
+\includegraphics[scale=0.4]{2023_03_21_05_31_06.png}
+
+\subsubsection{fork function}
+The fork funcion crates an exact copy of the parent process.
+\begin{lstlisting}
+pid_t fork(void)
+// not to mistake with :(){ :|:& };:
+// kekw
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{the forked process has its own ID -> PID}
+\item \textcolor{black}{the forked process has the parent ID saved as well}
+\item the return of this function will be handled in \emph{both processes}\newline
+  in parent: return will be either the ID or -1 for error\newline
+  in child: returns 0
+\end{itemize} 
+Example of usage:
+\begin{lstlisting}
+int main() {
+  pid_t new_pid = fork()
+  // from here on both processes run this.
+
+  if (new_pid > 0) {
+    // this is the parent process
+    // only the parent will run here
+  } else if (new_pid == 0) {
+    // this is the child process
+    // only the child will run here
+  } else {
+    // error handling for parent process if forking failed
+  }
+}
+\end{lstlisting}
+
+\subsubsection{exit function}
+\begin{lstlisting}
+void exit(int code)
+\end{lstlisting}
+This is a return method to get out of a process.\newline
+The code is simply the error handling code that you would like to pass to the parent process.
+
+\subsubsection{wait function}
+\begin{lstlisting}
+pid_t wait(int* status)
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{black}{blocks process until \emph{one of his child processes ends}}
+\item \textcolor{black}{the status will cover the return code of the child process}
+\item \textcolor{black}{status usually handled with macros:}\newline
+  WIFEXITED(*status) != 0 -> if child exited properly \newline
+  WEXITSTATUS(*status): exit code of child
+\item \textcolor{black}{will return -1 if error}\nelwine
+  ECHILD: no child anymore to wait for (if false you still have children)\newline
+  EINTR: was interrupted by signal
+\end{itemize} 
+
+\subsubsection{waitpid function}
+\begin{lstlisting}
+pid_t waitpid (pid_t pid, int *status, int options)
+\end{lstlisting}
+Like wait, but you can choose the child to wait for with pid.
+\begin{itemize}
+\item \textcolor{color}{pid > 0: waits for child with this pid}
+\item \textcolor{color}{pid == -1: waits for any child -> like wait}
+\item \textcolor{color}{pid == 0 and pid < -1 enables waiting for processes of a specific process group}
+\end{itemize} 
+
+\subsubsection{Examples}
+\includegraphics[scale=0.4]{2023_03_21_05_59_40.png}\newline
+Worker example:
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/wait.h>
+
+void spawn_worker(int a) {
+  if (fork() == 0) {
+    // we are in child
+    printf("%d",a);
+    // print number of process
+    exit(0); // return code ok
+  }
+}
+
+int main() {
+  int pid = 0;
+  for (int i = 0; i < 10; i++) {
+    spawn_worker(i);
+    // create 10 child processes
+  }
+
+  // do something in parent
+
+  do {
+    pid = wait(0);
+    // status code is not saved!
+  }
+
+  while (pid > 0 || errno != ECHILD);
+  // run until no more children!
+}
+\end{lstlisting}
+
+\subsubsection{exec functions}
+\textcolor{teal}{There are 6 versions of exec -> execl, execle, execlp, execv, execve, execvp}\newline
+Each exec function \emph{replaces the program in the current process with another}.\newline
+Parameters:
+\begin{itemize}
+\item \textcolor{color}{execl*: binary and args as list -> execl(path0, arg0, arg1, ...)}
+\item \textcolor{color}{execv*: binary and args as vector -> execv(path, argv)}
+\item \textcolor{color}{exec*e: allow array for environment variables as parameter, in the other variants the env-vars stay the same}
+\item \textcolor{color}{exec*p: search for filename via environment variable PATH, the others use absolute or relative paths}
+\end{itemize} 
+\textcolor{teal}{the * means any character -> functions are a family}\newline
+\includegraphics[scale=0.4]{2023_03_21_06_15_17.png}
+
+\subsubsection{Zombie Processe}
+\textcolor{purple}{This refers to child processes that have ended, but aren't removed yet.\newline
+This means the PCB etc are all still there, but it doesn't do anything.\newline
+This stays like this until the parent calls wait() for this child!}\newline
+\includegraphics[scale=0.4]{2023_03_21_06_18_24.png}
+
+\subsubsection{Orphan Process}
+\textcolor{purple}{This is even worse than regular zombie processes. This means that the parent process is now dead, therefore no process can wait for this.\newline
+The only solution here is an operating system process with the pid1, this process will inherit these child processes and will then continuously end all of them.}\newline
+\includegraphics[scale=0.4]{2023_03_21_06_20_43.png}\newline
+Note, it might be that the parent process is stuck/has an error, in this case the child processes will be passed to 1 for ending them, while the parent is killed.
+
+\subsubsection{function sleep}
+\begin{lstlisting}
+unsigned int sleep(unsigned int seconds)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{waits "closesly" for the amount of seconds provided}
+\item \textcolor{black}{can be interrupted by the OS (example: signals)}
+\item \textcolor{black}{returns the amount of seconds that would remain to sleep}\newline
+  example if interrupted after 5 seconds, returns entered time - 5 seconds
+\end{itemize} 
+
+\subsubsection{function atexit}
+\textcolor{teal}{Here you can pass functions that will be executed before the process exits.\newline
+This is usefull for resources that the OS doesn't know/care about.}
+\begin{lstlisting}
+int atexit(void (*function)(void))
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{atexit can be called multiple times to register multiple functions}
+\item \textcolor{black}{same function can be registered multiple times}
+\item \textcolor{black}{functions will be called in reverse order to registered order!}
+\end{itemize} 
+
+\subsubsection{function to read pid}
+These functions simply return the pid of the current process or the parent.
+\begin{lstlisting}
+#include <stdio.h>
+#include <unistd.h>
+int main() {
+  pid_t my_pid = getpid();
+  pid_t my_parent_pid = getppid();
+  // do something with pid
+}
+\end{lstlisting}
 
 \section{Communication and Synchronization}
 
