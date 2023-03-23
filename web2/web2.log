@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.6)  16 MAR 2023 16:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  23 MAR 2023 16:46
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -653,35 +653,34 @@ File: ../Screenshots/2023_03_09_03_19_43.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_03_19_43.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_03_19_43.png  used on input line 262.
 (pdftex.def)             Requested size: 220.0181pt x 87.12395pt.
- [2 <../Screenshots/2023_03_09_03_18_14.png (PNG copy)> <../Screenshots/2023_03_09_03_19_43.png (PNG copy)>]
-<../Screenshots/2023_03_09_03_24_51.png, id=141, 725.71124pt x 225.84375pt>
+ [2]
+<../Screenshots/2023_03_09_03_24_51.png, id=142, 725.71124pt x 225.84375pt>
 File: ../Screenshots/2023_03_09_03_24_51.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_03_24_51.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_03_24_51.png  used on input line 290.
 (pdftex.def)             Requested size: 290.27936pt x 90.33589pt.
-<../Screenshots/2023_03_09_03_29_44.png, id=142, 707.64375pt x 430.60875pt>
+<../Screenshots/2023_03_09_03_29_44.png, id=143, 707.64375pt x 430.60875pt>
 File: ../Screenshots/2023_03_09_03_29_44.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_03_29_44.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_03_29_44.png  used on input line 349.
 (pdftex.def)             Requested size: 283.05249pt x 172.24043pt.
- [3 <../Screenshots/2023_03_09_03_24_51.png (PNG copy)> <../Screenshots/2023_03_09_03_29_44.png (PNG copy)>]
-<../Screenshots/2023_03_09_04_28_05.png, id=177, 808.01875pt x 367.3725pt>
+ [3 <../Screenshots/2023_03_09_03_18_14.png (PNG copy)> <../Screenshots/2023_03_09_03_19_43.png (PNG copy)> <../Screenshots/2023_03_09_03_24_51.png (PNG copy)>] [4 <../Screenshots/2023_03_09_03_29_44.png (PNG copy)>]
+<../Screenshots/2023_03_09_04_28_05.png, id=233, 808.01875pt x 367.3725pt>
 File: ../Screenshots/2023_03_09_04_28_05.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_04_28_05.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_04_28_05.png  used on input line 451.
 (pdftex.def)             Requested size: 323.20177pt x 146.94638pt.
- [4]
-<../Screenshots/2023_03_09_04_37_20.png, id=244, 854.19125pt x 375.4025pt>
+<../Screenshots/2023_03_09_04_37_20.png, id=234, 854.19125pt x 375.4025pt>
 File: ../Screenshots/2023_03_09_04_37_20.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_04_37_20.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_04_37_20.png  used on input line 462.
 (pdftex.def)             Requested size: 341.67046pt x 150.15834pt.
-<../Screenshots/2023_03_09_04_32_07.png, id=245, 585.18625pt x 233.87375pt>
+ [5 <../Screenshots/2023_03_09_04_28_05.png (PNG copy)> <../Screenshots/2023_03_09_04_37_20.png (PNG copy)>]
+<../Screenshots/2023_03_09_04_32_07.png, id=291, 585.18625pt x 233.87375pt>
 File: ../Screenshots/2023_03_09_04_32_07.png Graphic file (type png)
 <use ../Screenshots/2023_03_09_04_32_07.png>
 Package pdftex.def Info: ../Screenshots/2023_03_09_04_32_07.png  used on input line 508.
 (pdftex.def)             Requested size: 234.07034pt x 93.54782pt.
- [5 <../Screenshots/2023_03_09_04_28_05.png (PNG copy)> <../Screenshots/2023_03_09_04_37_20.png (PNG copy)>]
 <../Screenshots/2023_03_16_03_17_28.png, id=292, 566.115pt x 105.39375pt>
 File: ../Screenshots/2023_03_16_03_17_28.png Graphic file (type png)
 <use ../Screenshots/2023_03_16_03_17_28.png>
@@ -693,12 +692,12 @@ File: ../Screenshots/2023_03_16_03_20_23.png Graphic file (type png)
 Package pdftex.def Info: ../Screenshots/2023_03_16_03_20_23.png  used on input line 547.
 (pdftex.def)             Requested size: 287.87039pt x 111.21352pt.
  [6 <../Screenshots/2023_03_09_04_32_07.png (PNG copy)> <../Screenshots/2023_03_16_03_17_28.png (PNG copy)> <../Screenshots/2023_03_16_03_20_23.png (PNG copy)>]
-<../Screenshots/2023_03_16_03_56_53.png, id=340, 705.63625pt x 409.53pt>
+<../Screenshots/2023_03_16_03_56_53.png, id=342, 705.63625pt x 409.53pt>
 File: ../Screenshots/2023_03_16_03_56_53.png Graphic file (type png)
 <use ../Screenshots/2023_03_16_03_56_53.png>
 Package pdftex.def Info: ../Screenshots/2023_03_16_03_56_53.png  used on input line 602.
 (pdftex.def)             Requested size: 282.2495pt x 163.80908pt.
-<../Screenshots/2023_03_16_03_56_22.png, id=341, 740.7675pt x 352.31625pt>
+<../Screenshots/2023_03_16_03_56_22.png, id=343, 740.7675pt x 352.31625pt>
 File: ../Screenshots/2023_03_16_03_56_22.png Graphic file (type png)
 <use ../Screenshots/2023_03_16_03_56_22.png>
 Package pdftex.def Info: ../Screenshots/2023_03_16_03_56_22.png  used on input line 603.
@@ -738,37 +737,28 @@ or specify an encoding such as \usepackage [latin1]{inputenc}
 in the document preamble.
 Alternatively, save the file in UTF-8 using your editor or another tool
 
-./web2.tex:653: Undefined control sequence.
-l.653 \subsectin
-                {CORS}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-<../Screenshots/2023_03_16_04_32_40.png, id=342, 600.2425pt x 325.215pt>
+<../Screenshots/2023_03_16_04_32_40.png, id=344, 600.2425pt x 325.215pt>
 File: ../Screenshots/2023_03_16_04_32_40.png Graphic file (type png)
 <use ../Screenshots/2023_03_16_04_32_40.png>
 Package pdftex.def Info: ../Screenshots/2023_03_16_04_32_40.png  used on input line 655.
 (pdftex.def)             Requested size: 240.09274pt x 130.0837pt.
-[7 <../Screenshots/2023_03_16_03_56_53.png (PNG copy)> <../Screenshots/2023_03_16_03_56_22.png (PNG copy)> <../Screenshots/2023_03_16_04_32_40.png (PNG copy)>] [8] (./web2.aux)
+[7 <../Screenshots/2023_03_16_03_56_53.png (PNG copy)> <../Screenshots/2023_03_16_03_56_22.png (PNG copy)>] [8 <../Screenshots/2023_03_16_04_32_40.png (PNG copy)>] [9] [10] (./web2.aux)
 Package rerunfilecheck Info: File `web2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20142 strings out of 478238
- 360572 string characters out of 5850457
- 1143377 words of memory out of 10000000
- 37782 multiletter control sequences out of 15000+600000
+ 20351 strings out of 478238
+ 363640 string characters out of 5850456
+ 1326377 words of memory out of 10000000
+ 37833 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,20n,106p,10634b,1975s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on web2.pdf (8 pages, 636013 bytes).
+Output written on web2.pdf (10 pages, 650566 bytes).
 PDF statistics:
- 500 PDF objects out of 1000 (max. 8388607)
- 462 compressed objects within 5 object streams
- 338 named destinations out of 1000 (max. 500000)
- 85 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 701 PDF objects out of 1000 (max. 8388607)
+ 659 compressed objects within 7 object streams
+ 496 named destinations out of 1000 (max. 500000)
+ 93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

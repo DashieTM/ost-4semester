@@ -650,7 +650,7 @@ const myRequest = new Request('/example', myInit);
 fetch(myRequest) /*…*/
 \end{lstlisting}
 
-\subsectin{CORS}
+\subsection{CORS}
 \textcolor{purple}{AJAX security feature. It basically says that a client may only request ajax promises from the one main server.}\newline
 \includegraphics[scale=0.4]{2023_03_16_04_32_40.png}\newline
 \textcolor{purple}{You can define yourself, who exactly is allowed use what type of functions.}
@@ -662,6 +662,224 @@ const allowCrossDomain = function(req, res, next) {
   next();
 };
 app.use(allowCrossDomain);
+\end{lstlisting}
+
+\section{Typescript}
+
+\subsection{Motivation}
+\begin{itemize}
+\item \textcolor{black}{types...}
+\item \textcolor{black}{actual help in IDEs -> does the function or variable actually exist?}
+\item \textcolor{black}{Warns when types do not match, as said actual types!}
+\item \textcolor{black}{object Object}
+\end{itemize} 
+
+\subsection{Configuration}
+\textcolor{teal}{Each typescript project needs a config file that defines how tsc will compile the files back to js.}
+\begin{lstlisting}
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES6",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
+\end{lstlisting}
+
+\subsubsection{Import of JS module types}
+\textcolor{teal}{One problem that we have is that the js modules have their own classes etc, these are obviously not included in ts and therefore need a special module import.\newline
+For example if you use express, then you need to install express types as well: \emph{npm i --save-dev @types/express}}
+
+\subsubsection{Prettier}
+Theoretically it is necessary to use these plugins, but nvim fucking rocks so no need. 
+\begin{lstlisting}
+{
+  "parser": "@TypeScript-eslint/parser",
+  "plugins": [
+    "@TypeScript-eslint"
+  ],
+  "extends": [
+    "plugin:@TypeScript-eslint/recommended"
+  ]
+}
+\end{lstlisting}
+
+\subsection{Types}
+
+\subsubsection{Primitives}
+\begin{itemize}
+\item \textcolor{purple}{boolean}
+\item \textcolor{purple}{number: yes number... -> i32,i64,u32,u64..}
+\item \textcolor{purple}{string}
+\item \textcolor{purple}{null: WHY}
+\item \textcolor{purple}{undefined}
+\item \textcolor{purple}{void: special type}
+\item \textcolor{purple}{never: special type}
+\item \textcolor{purple}{any: like js but only in non strict mode!}
+\end{itemize} 
+
+\subsubsection{Strict Mode}
+\textcolor{purple}{"strict"=true in the config file makes sure that the any keyword can't be used for variables!}\newline
+Strict also has the following results:
+\begin{itemize}
+  \item NoImplicitThis: this needs to be used explicitly
+  \item strictBindCallApply
+  \item strictFunctionTypes
+  \item strictPropertyInitialization: properties of classes need to be initialized -> like rust.
+\item \textcolor{black}{NoImplicitAny: you need to explicitly write any}
+\item \textcolor{black}{alwaysStrict: set in the first line of a file}
+\item \textcolor{black}{strictNullChecks: null and undefined are no longer base types -> can't be assigned!}
+\item \textcolor{black}{item 4}
+\end{itemize} 
+
+\subsubsection{Collection Types}
+\begin{lstlisting}
+let myInferredNumArray = [1, 2, 3];
+let myNumArray: number[] = [1, 2, 3];
+// let myNumArray: Array<number> = [1, 2, 3]; // same as above but explicitly
+let myTupel = [1, "abcd"]
+// problem with this -> myTupel[1] = 2; would work since it can't see type, use the one below to avoid this
+let myTupel: [number, string] = [1, "abcd"]   // same as above but explicitly
+\end{lstlisting}
+
+\subsubsection{Union Types}
+\textcolor{teal}{Similat to C, unions are a space that can be interpreted as multiple types.}
+\begin{lstlisting}
+let something = string | number; // can be either a number or a string.
+something = "pinpang"; // ok
+something = 50; // ok
+\end{lstlisting}
+
+\subsubsection{Type Narrowing}
+Due to the fact that a variable might have multiple types, you need to make sure that the type has the correct type for a certain operation at the time:
+\begin{lstlisting}
+// Type Narrowing - due to assignment
+let myVar3: string | number;
+
+// not allowed
+console.log(myVar3 / 3)
+// allowed
+myVar3 = 9;
+console.log(myVar3 / 3)
+
+// Type Narrowing - due to condition interpretation
+function typeNarrowingFn (myParam: string | number) {
+
+  // not allowed
+  console.log(myParam / 3)
+  // allowed
+  if (typeof myParam === "number") {
+    console.log(myParam / 3)
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Function declarations and definitions}
+\begin{lstlisting}
+function add(s1: string, s2: string): string; // function with 2 parameters and return type of string
+function add(n1: number, n2: number): number; // function with 2 parameters and return type of nubmer
+function add(n1, n2) {
+  return n1 + n2;
+} // inferred return type
+
+// this function has an optional parameter -> this is annotated with the ? symbol
+function combineFunction(sn: number | string = "", ns?: number): string {
+  return String(sn) + String(ns || ""); // the double pipe represents the OR as it needs a fallback
+  // aka if ns is undefined use the other one
+}
+// allowed
+let myNum: number = add(1, 2);
+combineFunction(1);
+\end{lstlisting}
+\textcolor{teal}{Note, when using the optional parameter, you always need a fallback for this parameter should it not be passed. \newline
+Alternatively, and probably \emph{preferably}, use optional parameters with \emph{a default fallback value!}}
+\begin{lstlisting}
+  // here the function takes 2 parameters with the second one being 10 if it is not provided!
+  function something(a: number, b = 10 ): number {
+    return a + b; 
+  }
+\end{lstlisting}
+Obviously, you can also use functions as parameters:
+\begin{lstlisting}
+function numberApplicator(numArray: number[],
+                          numFun: (prevRes: number, current: number) => number): number {
+  return numArray.reduce(numFun);
+}
+\end{lstlisting}
+
+\subsubsection{Classes}
+\textcolor{purple}{private variables can be defined either with the private keyword, or with a \#.}\newline
+You can of course declare and instantly assign variables in typescript, apparently that was not a thing in js for a while...
+\begin{lstlisting}
+class Counter {
+  #doors: number; // ES2022 private field
+  private wood: string = "oak"; // TS private fields
+  something?: number; // optional field
+  public static readonly WOOD_FACTORS = {'oak': 80, 'pine': 20};
+
+  // readonly -> const
+  // # -> private
+  // ? -> optional
+  // private -> private
+  
+  constructor({doors = 2}: {doors?: number} = {}) {
+    this.#doors = doors;
+  }
+  set doors(newDoorCount: number) { // ES6 setter
+    if (newDoorCount >= Counter.MIN_DOOR_COUNT && newDoorCount <= Counter.MAX_DOOR_COUNT) {
+    this.#doors = newDoorCount;
+    } else {
+      throw 'Counter can only have';
+    }
+  }
+  get doors() {
+    return this._doors;
+  }
+}
+
+// You can also define new properties right in the constructor. 
+// !!initialization is made automatically!!
+class SportsCar {
+  constructor(
+    public make: string,
+    public color: SportsCarColor,
+    public gears: number,
+  ) {}
+}
+\end{lstlisting}
+
+\subsubsection{Interfaces}
+\begin{lstlisting}
+interface IPoint {
+  readonly y: number;
+} 
+
+interface IPoint {
+  readonly x: number;
+} // adds value to previous interface
+
+interface ILikableItem {
+  likes?: number;
+} // optional entry
+
+class DescribableItem {
+  constructor(
+    public description: string
+  ){}
+} 
+class PointOfInterest extends DescribableItem implements IPoint, ILikableItem {
+  constructor(public x: number, public y: number, description: string, public likes?:number) {
+    super(description);
+  }
+}
 \end{lstlisting}
 
 % \lstset{

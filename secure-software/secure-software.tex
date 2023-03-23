@@ -253,6 +253,123 @@ Keep in mind that our address is just offset from the stackpointer. }\newline
 We can simply repeat this until we are at the evil code.\newline
 Should we land below the evil code, then we can use ret statements with an address that is prob above the evil code to run it.}
 
+\section{Concurrency Issues}
+
+\subsection{Race Condition}
+This is an access of 2 concurrent processes on a shared state.
+
+\subsection{Critical Section}
+This is a part of code, that can lead to race conditions. 
+
+\subsection{ToCToU Time of Check and Time of Use}
+For example, before you withdraw money, you need to check if you have enough.\newline
+However, in during the time between checking and witdrawing, you have no guarantee that noone else does something with it, without a lock.\newline
+This timeframe is the ToCToU.\newline
+
+Example for the issue: \newline
+\includegraphics[scale=0.4]{2023_03_23_10_28_49.png}\newline
+As you can see, there is a slight timeframe where we can manipulate the file or even link another file so we open another one.\newline
+The real userID is the ID of the launching userID -> make sure that no root files can be read.\newline
+Another Example:\newline
+\includegraphics[scale=0.4]{2023_03_23_10_39_39.png}\newline
+\includegraphics[scale=0.4]{2023_03_23_10_39_50.png}\newline
+\includegraphics[scale=0.4]{2023_03_23_10_40_02.png}\newline
+\includegraphics[scale=0.4]{2023_03_23_10_47_01.png}\newline
+\includegraphics[scale=0.4]{2023_03_23_10_47_12.png}
+
+\subsection{setUID}
+This is used for programs that need to run as root, but are launched by the user.\newline
+This can be a potential security risk, as can be seen in the subsection above, or in the root shell program in the buffer overflow section!\newline
+How to make it work\newline
+\includegraphics[scale=0.4]{2023_03_23_10_41_37.png}
+
+\subsection{Different Mitigations}
+\begin{itemize}
+\item \textcolor{purple}{Atomic operations}
+\item \textcolor{purple}{Repeating check and use}
+\item \textcolor{purple}{Sticky Symlink Protection -> prevent creating symbolic links}
+\item \textcolor{purple}{Principles of Least privilege}
+\end{itemize} 
+
+\subsection{Atomic Operations}
+\begin{lstlisting}
+// creates file if not exists
+f = open(file, O_CREAT | O_EXCL)
+\end{lstlisting}
+
+\subsubsection{Repeating Check ad use}
+Here we simply check and open multiple times in order to prevent an attack.\newline
+Example, check 2 times, and prevent opening if changed. 
+
+\subsubsection{Sticky Symlink Protection}
+\begin{lstlisting}
+sudo sysctl -w fs.protected_symlinks=1
+\end{lstlisting}
+The symlink checks whether or not the user owns either the directory or the symlink.\newline
+\includegraphics[scale=0.4]{2023_03_23_10_53_20.png}
+
+\subsubsection{Principle of Least Privilege}
+The program is using the root UID only, how about we make sure we only use the root UID when we actually need it!\newline
+\textcolor{teal}{This can be done with setuid() and seteuid().}
+\begin{lstlisting}
+uid_t real_uid = getuid(); // get real user id
+uid_t eff_uid = getuid(); // get effective user id
+
+seteuid(real_uid); // disable root privilege
+
+f = open("/tmp/XYZ", O_WRITE);
+if (f != -1) {
+  write_to_file(f);
+  } else {
+  fprintf(stderr, "Permission denied\n");
+}
+seteuid(eff_uid); // restore root privilege (if needed)
+\end{lstlisting}
+
+\section{Problems with Integers}
+
+\subsection{Integer Promotion}
+\begin{lstlisting}
+char result,c1,c2,c3;
+c1 = 100;
+c2 = 90;
+c3 = -120;
+result = c1 + c2 + c3;
+// we would expect a char overflow, however instead they are promoted to integers, as these can store these values.
+// at the end we have a char again, as the result is small enough for a char.
+// would the endresult be too big, then we would have an overflow!!
+\end{lstlisting}
+
+\subsection{Implicit Conversions}
+\textcolor{purple}{Unsigned implicit conversion}\newline
+\includegraphics[scale=0.4]{2023_03_23_11_17_02.png}\newline
+\textcolor{purple}{Signed implicit conversion}\newline
+\includegraphics[scale=0.4]{2023_03_23_11_18_07.png}
+
+\subsection{Examples for problems}
+
+\subsubsection{Integer Overflow}
+\includegraphics[scale=0.4]{2023_03_23_11_31_13.png}
+
+\subsubsection{Sign Error}
+\includegraphics[scale=0.4]{2023_03_23_11_32_29.png}\newline
+Problem: len is a signed integer, so it can be negative, but it is interpreted as size\_t when passed to memcpy!!
+
+\subsubsection{Truncation}
+\includegraphics[scale=0.4]{2023_03_23_11_34_54.png}\newline
+The value of bufSize might be trash since long is bigger than short, and it is unsigned, double fail!
+
+\subsubsection{Negative Indices}
+\includegraphics[scale=0.4]{2023_03_23_11_36_14.png}\newline
+Negative indices will access previous values of the program, or cause a segfault when moving out of the program.
+
+\subsection{Mitigations}
+\begin{itemize}
+\item \textcolor{purple}{Range checks for arrays etc}
+\item \textcolor{purple}{Strong typechecks}
+\item \textcolor{purple}{Abstract Data Types}
+\item \textcolor{red}{USE FUCKING RUST}
+\end{itemize} 
 
 \section{Web Security}
 
