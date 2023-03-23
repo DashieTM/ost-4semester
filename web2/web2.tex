@@ -882,6 +882,70 @@ class PointOfInterest extends DescribableItem implements IPoint, ILikableItem {
 }
 \end{lstlisting}
 
+\subsubsection{Types}
+\textcolor{teal}{You can create types that can later be used in variables:}
+\begin{lstlisting}
+type Shape =
+{ kind: "circle"; radius: number }
+| { kind: "rectangle"; w: number; h: number }
+| { kind: "square"; size: number };
+
+let something: Shape = {kind: "circle", radius: 10}
+\end{lstlisting}
+\textcolor{red}{Keyof}: This takes the underlying types of a type and copies them into another
+\begin{lstlisting}
+type Point = { x: number; y: number };
+type P = keyof Point;
+// P has the same types -> Point
+
+type Mapish = { [k: string]: boolean };
+type M = keyof Mapish;   
+// type M = string | number
+
+// You can also create something similar to a grammar:
+type Shipper = 'UPS' | 'FEDEX' | 'DHL';
+type TrackingType = 'Overnight' | 'Priority' | 'Economy';
+\end{lstlisting}
+
+\subsubsection{Casting}
+Just like in rust -> 42 as i64
+\begin{lstlisting}
+const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement;
+\end{lstlisting}
+
+\subsubsection{Explicit Null}
+Don't use this..
+\begin{lstlisting}
+function countLines(text?: Array<string | null>): number {
+  let count = 0;
+  for (const line of text || []) {
+    if (line && line.length !== 0) {
+      count += 1;
+    }
+  }
+  return count;
+}
+const a = countLines(["one", "two", "three", ""]);
+const b = countLines(["one", null, "three"]);
+\end{lstlisting}
+
+\subsubsection{Generics}
+\begin{lstlisting}
+function identity<Type>(arg: Type): Type {
+  return arg;
+}
+// or in case of arrays
+function loggingIdentity<Type>(arg: Type[]): Type[] {
+  console.log(arg.length);
+  return arg;
+}
+// or a class
+class GenericNumber<NumType> {
+  zeroValue: NumType;
+  add: (x: NumType, y: NumType) => NumType;
+}
+\end{lstlisting}
+
 % \lstset{
 %     language=TypeScript,
 %     style=code,

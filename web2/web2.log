@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  23 MAR 2023 16:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  23 MAR 2023 17:25
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -747,18 +747,18 @@ Package rerunfilecheck Info: File `web2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20351 strings out of 478238
- 363640 string characters out of 5850456
+ 20434 strings out of 478238
+ 364785 string characters out of 5850456
  1326377 words of memory out of 10000000
- 37833 multiletter control sequences out of 15000+600000
+ 37865 multiletter control sequences out of 15000+600000
  478999 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,20n,106p,10634b,1975s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on web2.pdf (10 pages, 650566 bytes).
+Output written on web2.pdf (10 pages, 654394 bytes).
 PDF statistics:
- 701 PDF objects out of 1000 (max. 8388607)
- 659 compressed objects within 7 object streams
- 496 named destinations out of 1000 (max. 500000)
+ 764 PDF objects out of 1000 (max. 8388607)
+ 721 compressed objects within 8 object streams
+ 547 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 
