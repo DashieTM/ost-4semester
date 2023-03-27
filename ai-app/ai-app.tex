@@ -308,4 +308,59 @@ This means you can't remember the exact input, you only know, input class x was 
 \includegraphics[scale=0.4]{2023_03_20_02_40_58.png}
 
 
+\subsection{Deep RNN}
+\textcolor{teal}{This is the chaining of multiple RNN}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_11_52.png}
+\subsubsection{Unroll}
+\includegraphics[scale=0.4]{2023_03_27_02_12_48.png}
+\subsubsection{Bi-Directional RNN}
+\textcolor{teal}{This is an RNN that can propagate from both sides, meaning you can figure out what is necessary in the middle.}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_13_11.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_13_44.png}
+\subsubsection{Backpropagation through time BPTT}
+\includegraphics[scale=0.4]{2023_03_27_02_14_31.png}
+\subsubsection{Vanishing gradient of simple/vanilla RNNs}
+\includegraphics[scale=0.4]{2023_03_27_02_15_07.png}
+\subsubsection{Solutions to the problem of backpropagation}
+\textcolor{teal}{It gets harder and harder to pass the loss back to time... so wee need a soltion:}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_17_50.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_18_59.png}
+\subsubsection{Efficient Solution: Gated RNNs}
+\begin{itemize}
+\item \textcolor{black}{Include long and short-term memory LSTM, and gated recurrent unit GRU models}
+\item \textcolor{black}{Generalized versions of leaky units}\newline
+  Connection weights e.g. \(\alpha\) may change at each time step
+\item \textcolor{black}{Addition to leaky units}\newline
+  Once the information is used, neural network can forget the old state 
+\item \textcolor{black}{Hot research field..}
+\end{itemize} 
+\subsubsection{LSTM}
+\includegraphics[scale=0.4]{2023_03_27_02_21_21.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_21_38.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_21_56.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_22_10.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_22_27.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_22_46.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_23_01.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_37_06.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_37_42.png}
+
+\subsubsection{Gated Recurrent Units GRU}
+\includegraphics[scale=0.4]{2023_03_27_02_38_16.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_38_29.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_38_47.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_39_00.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_39_11.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_02_39_23.png}\newline
+
+\subsubsection{LSTM vs GRU}
+\begin{itemize}
+\item \textcolor{black}{LSTM is a bigger and more expensive model}
+\item \textcolor{black}{GRU is faster and compacter}
+\item \textcolor{black}{LSTM should only be used if you have a reason for it}
+\item \textcolor{black}{LSTM should remember longer sequences than GRU}
+\item A GRU has one less gate than LSTM. Precisely, just a reset and update gates instead of the forget, input and output gate of LSTM.
+\end{itemize} 
+
+
 \end{document}
