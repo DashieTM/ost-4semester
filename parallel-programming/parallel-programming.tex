@@ -813,7 +813,7 @@ class CountTask extends RecursiveTask<Integer> {
 \end{lstlisting}
 
 \lstset{
-    language=C#,
+  language=[sharp]C,
     style=code,
 }
 
@@ -824,6 +824,7 @@ class CountTask extends RecursiveTask<Integer> {
 \item \textcolor{purple}{Data Parallization: use parallel statements and queries using tasks explicitly}
 \item \textcolor{purple}{Asynchronous Programming}
 \end{itemize} 
+
 \subsubsection{Tasks in C\#}
 \begin{lstlisting}
 Task task = Task.Run(() => {
@@ -836,7 +837,7 @@ task.Wait(); // blocking just like in jafuck
 \subsubsection{Task with return Value}
 \begin{lstlisting}
 Task<int> task = Task.Run(() => {
-  int total = … // some calculation
+  int total = // some calculation
 return total;
 });
 // no wait/get etc necessary!
@@ -984,7 +985,7 @@ inputList.parallelStream()
 \end{lstlisting}
 
 \lstset{
-    language=C#,
+  language=[sharp]C,
     style=code,
 }
 
@@ -997,5 +998,166 @@ Should one thread be done with all tasks and there is still work to be done on o
 \textcolor{teal}{This is the idea that a controller will automatically add threads to certain tasks (\emph{at runtime!}) if it sees a benefit in terms of runtime.\newline
 It does this with a \emph{Hill Climbing Algorithm}, by measuring throughput}. \newline
 In general this does solve deadlocks, but it is slower than regular thread pools. (deadlocks still possible with ThreadPool.SetMaxThreads())
+
+\section{Async}
+
+\subsection{Motivation}
+Until now each time we call a function that needs to be concurrent, we need a way to synchronize, this might block the caller.\newline
+This is not something we want all the time, therefore we need a way to continue operation despite calling the function.\newline
+Async will solve this problem.
+\begin{lstlisting}
+var task = Task.Run(
+  LongOperation
+);
+// perform other work
+int result = task.Result;
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_03_27_08_26_16.png}\newline
+\textcolor{teal}{Here the caller is only blocked when getting the result, which makes sense.\newline
+This is exactly what js does with promises.}
+
+\subsection{Caller and Callee centric}
+\begin{itemize}
+  \item \textcolor{purple}{Caller centric: Caller waits for the task to finish and then gets the result (pull)}
+\item \textcolor{purple}{Callee centric: Tasks hands voer the result directly to successor task (push)}
+\end{itemize} 
+
+\subsection{Task Continuation}
+\textcolor{teal}{Define task whose start is linked to the end fo the predecessor task}\newline
+\includegraphics[scale=0.4]{2023_03_27_08_28_38.png}\newline
+\textcolor{red}{Note, exceptions are ignored in these tasks!}\newline
+\begin{lstlisting}
+Task.Run(() => {
+  throw e; // ignored
+}
+// should you want to check for errors, then you have to do it like this:
+task1
+.ContinueWith(task2)
+.ContinueWith(task3)
+.Wait();
+\end{lstlisting}
+
+\subsubsection{Multi-Continuation}
+\includegraphics[scale=0.4]{2023_03_27_08_29_27.png}
+
+\subsubsection{Asynchronous Execution in Jafuck}
+\includegraphics[scale=0.4]{2023_03_27_08_31_54.png}\newline
+\includegraphics[scale=0.4]{2023_03_27_08_33_03.png}
+
+\subsection{GUI Thread Model}
+\textcolor{teal}{For the GUI, you would like to have only one thread handle changes, this is to make sure that you don't have race conditions on screen updates.}\newline
+\includegraphics[scale=0.4]{2023_03_27_08_34_12.png}\newline
+\textcolor{teal}{When handling async functions, we will use \emph{promises}}\newline
+\lstset{
+    language=Java,
+    style=code,
+}
+Jafuck:
+\begin{lstlisting}
+button.addActionListener(event ->
+  var url = textField.getText();
+  CompletableFuture.runAsync(() -> {
+    var text = download(url);
+      SwingUtilities.invokeLater(() -> {
+        textArea.setText(text);
+      });
+  });
+);
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_03_27_08_38_16.png}\newline
+\lstset{
+  language=[sharp]C,
+    style=code,
+}
+Dotnot:
+\begin{lstlisting}
+void buttonClick() {
+  var url = textBox.Text;
+  Task.Run(() => {
+    var text = Download(url);
+    Dispatcher.InvokeAsync(() -> {
+      label.Content = text;
+    });
+  });
+}
+// OR you can use await, which is way easier
+var url = textBox.Text;
+var text = await DownloadAsync(url);
+label.Context = text;
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_03_27_08_39_35.png}
+
+\subsubsection{Creating async functions}
+\begin{lstlisting}
+async Task<string> DownloadAsync(string url) {
+  var web = new HttpClient();
+  string result = await web.GetStringAsync(url);
+  return result;
+}
+\end{lstlisting}
+Meaning of keywords:
+\begin{itemize}
+\item \textcolor{purple}{async: Caller may not be blocked during the entire execution of the async method}
+\item \textcolor{purple}{await: "Non blocking await": returns state or value, might not be done yet.}
+\end{itemize} 
+
+\subsubsection{Execution Model}
+\textcolor{purple}{When using async, not the entire code is executed on another thread, instead, only the "task" part is run on the other thread:}\newline
+The compiler has the say about which part is to be run on the main thread, and on the other thread.
+\begin{lstlisting}
+async Task<string> DownloadAsync(string url) {  // main thread
+  var web = new HttpClient();                   // main thread
+  Task<string> task = web.GetStringAsync(url);  // main thread
+  string text = await task;                     // main thread calls task, task on other thread
+  return text;                                  // other thread
+}
+\end{lstlisting}
+
+\subsubsection{Async without UI and with UI}
+No UI:\newline
+\includegraphics[scale=0.4]{2023_03_27_09_00_43.png}\newline
+With UI:\newline
+\includegraphics[scale=0.4]{2023_03_27_09_01_23.png}
+
+\subsubsection{Void and async}
+Async functions with void return types are only recommended in UI tasks.\newline
+\textcolor{teal}{Void async functions are so called \emph{"fire and forget" functions}}
+\begin{lstlisting}
+async void buttonClickAsync() {
+  // return void only in event handlers!
+  var web = new HttpClient();
+  foreach (var url in collection) {
+    var text = await web.GetStringAsync(url);
+    textArea.Content += text;
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Types with async}
+\begin{itemize}
+\item \textcolor{purple}{Task: no values only wait for task to end}
+\item \textcolor{purple}{Task<T>: values}
+\item \textcolor{purple}{void: fire and forget}
+\item \textcolor{purple}{no support for ref and out!}
+\end{itemize} 
+
+\subsubsection{Await rules}
+\textcolor{teal}{Just like in JS, the moment you use \emph{await} in your program, you have to mark this function as async.}\newline
+
+\subsubsection{Async without await}
+\textcolor{red}{If you mark a function as async but do not use await, it will be 100\% \emph{Synchronous}, this means it won't do anything!}\newline
+However, you can still force it with this: 
+\begin{lstlisting}
+public async Task<bool> IsPrimeAsync(long number) {
+  return await Task.Run(() => {
+  for (long i = 2; i * i <= number; i++) {
+    if (number % i == 0) { return false; }
+  }
+  return true;
+  });
+}
+\end{lstlisting}
+
+
 
 \end{document}
