@@ -947,6 +947,316 @@ int main() {
 }
 \end{lstlisting}
 
+\section{C Toolchain}
+The toolchain handles the \emph{precompilation, compilation, assembling and linking} of executables.
+
+\subsection{Precprocessor}
+The preprocessor translates Macros and header files into actual code.\newline
+The output will then be passed to the translation unit and the compiler.
+
+\subsection{Linker}
+After the individual assembly files have been assembled, the linker takes all object files and creates one executable from them.
+
+\subsection{Loader}
+\textcolor{teal}{The loader takes executables and dynamic libraries and loads them into ram.\newline
+Note that static libraries are basically inside the executable.}\newline
+\includegraphics[scale=0.4]{2023_03_28_05_13_22.png}
+
+\subsubsection{Penguin Loader}
+The loader under linux has the following steps: 
+\begin{enumerate}
+\item \textcolor{black}{exec* have syscalls on sys\_execve}
+\item \textcolor{black}{searches for file, checks for permission and opens specified file}
+\item \textcolor{black}{counts and copies arguments and environment variables}
+\item \textcolor{black}{provides request for each registered "binary handler"}
+\item Binary handler try to load data and interpret data one by one
+\item program is now executed
+\end{enumerate} 
+\includegraphics[scale=0.4]{2023_03_28_05_16_35.png}
+
+\subsection{Executable Linking Format ELF}
+\begin{itemize}
+\item \textcolor{black}{Binary format, which specifies a program as binary}\newline
+  windoof and penguin have some more than just this
+\item \textcolor{black}{two possible formats}\newline
+  Linking view\newline
+  Execution view
+\item \textcolor{black}{Used for linker and loader}\newline
+  Object-File: Linking-view -> something.o
+  Programs: Execution-view -> no ending?
+  Shared-Objects: dynamic libraries (Linking and Execution View!) -> wlroots.so
+\item \textcolor{black}{item 4}
+\end{itemize} 
+
+\subsubsection{ELF Structure}
+\minipg{
+\begin{itemize}
+\item \textcolor{black}{Header}
+\item \textcolor{black}{Program Header Table: (only necessary in execution view)}
+\item \textcolor{black}{Segments: (only necessary in execution view)}
+\item \textcolor{black}{Section: Header Table (only necessary in linking view)}
+\item Sections: (only necessary in linking view)
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2023_03_28_05_20_07.png}
+}[0.25,0.25]
+
+\subsubsection{Segments and Sections}
+\minipg{
+\begin{itemize}
+\item \textcolor{purple}{Segments and sections occupy the same memory space}\newline
+  Compiler specifies space for sections\newline
+  Linker specifies space for segements
+\item \textcolor{purple}{Linker combines segments with the same names and defines segments}
+\item \textcolor{purple}{Compiler defines sections}
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2023_03_28_05_20_40.png}
+}[0.25,0.25]
+
+\subsubsection{Header of an ELF file}
+\begin{itemize}
+\item \textcolor{black}{52 byte: describes the structure of the file}
+\item \textcolor{black}{Type: Reallocatable, executable, shared object?}
+\item \textcolor{black}{32 or 64 bit}
+\item \textcolor{black}{Encoding: little or big endian}
+\item Machine: i386, arm, intel 64 etc
+\item Entrypoint: Address at which the program should start -> main()
+\item relative address, count and size of the entries for the program header table
+\item relative address, count and size of the entries for the section header table
+\end{itemize} 
+
+\subsubsection{Program Header Table and Segments}
+\begin{itemize}
+\item \textcolor{black}{Program Header Table (or Segment Header Table): Table with n entries}
+\item \textcolor{black}{Each entry is 32 bit and describes a segment}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Segment-Type and Flags}
+  \item \textcolor{black}{Offset and size of file}
+  \item \textcolor{black}{Virtual address and size in memory -> possible addition: physical address}
+  \end{itemize} 
+\item \textcolor{black}{Segments are used at runtime by the loader}\newline
+  Loader loads specified segments to memory\newline
+  Loader may use more segments for other purposes: dynamic linking
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_28_05_31_42.png}
+
+\subsubsection{Sections}
+\begin{itemize}
+\item \textcolor{black}{Section Header Table: Table with m entries (usually :m != n | not equal sections to segments)}
+\item \textcolor{black}{Each entry (40bytes) describes a section}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Reference to string table }
+  \item \textcolor{black}{Type and Flags}
+  \item \textcolor{black}{Offset and Size of file}
+  \item \textcolor{black}{Specific information based on section type}
+  \end{itemize} 
+\item \textcolor{black}{Sections will be used by linker}\newline
+  \begin{itemize}
+  \item \textcolor{black}{collects and concatenates(same name) sections of all object files}
+  \item \textcolor{black}{generates executable}
+  \end{itemize} 
+\end{itemize} 
+\textcolor{teal}{Section Types}
+\begin{itemize}
+\item \textcolor{purple}{SHT\_PROGBITS}Data defined by program, linker does not interpret this
+\item \textcolor{purple}{SHT\_SYMTAB}Symbol Table
+\item \textcolor{purple}{SHT\_STRTAB}String Table
+\item \textcolor{purple}{SHT\_REL/RELA}Relocation Information
+\item \textcolor{purple}{SHT\_HASH}Hashtable for symbols
+\item \textcolor{purple}{SHT\_DYNAMIC}Information for dynamic Linking
+\item \textcolor{purple}{SHT\_NOBITS}Setion without data in file
+\end{itemize} 
+\textcolor{teal}{Section Attributes}
+\begin{itemize}
+\item \textcolor{purple}{SHF\_WRITE} data of this section should be writable during execution
+\item \textcolor{purple}{SHF\_ALLOC} data of this section should be in memory during execution
+\item \textcolor{purple}{SHF\_EXECINSTR} data of this section display machine code
+\end{itemize} 
+\textcolor{teal}{Special Sections}
+\begin{itemize}
+  \item \textcolor{purple}{.bss:} uninitialized data
+  \item \textcolor{purple}{.data:} initialized data
+  \item \textcolor{purple}{.data1:} initialized data
+  \item \textcolor{purple}{.debug:} debug information
+\item \textcolor{purple}{rodata:} read only data
+\item \textcolor{purple}{.rodata1: } read only data
+\item \textcolor{purple}{.text: } executable instructions 
+\item \textcolor{purple}{.symtab: } Symbol-Table 
+\item \textcolor{purple}{.strtab: } String-Table 
+\end{itemize} 
+
+\subsubsetion{String Table}
+\begin{itemize}
+\item \textcolor{black}{Section of a file that has null terminated strings in a row}
+\item Strign reference -> offset of string (starts at 0 and increases per char) 
+\item \textcolor{black}{typically has names of symbols}
+\item \textcolor{black}{typically does NOT include string literals like "henlo birb!", this is usually in .rodata}
+\item \textcolor{black}{item 4}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_28_05_47_52.png}
+
+\subsubsection{Symbols}
+\begin{itemize}
+\item \textcolor{black}{Symbol Table: each entry has 1 symbol}
+\item \textcolor{black}{Symbol: 16 bytes}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Name: 4 bytes, reference in string table}
+  \item \textcolor{black}{Value: 4 bytes, depends on symbol type, could be an address for example}
+  \item \textcolor{black}{Size: 4 bytes, size of symbol (for example length of function)}
+  \item \textcolor{black}{Info: 4 bytes types, binding attributes (local, global, weak), reference to section header}
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{Static Libraries}
+\begin{itemize}
+\item \textcolor{black}{Static libraries are archives of object files}
+\item \textcolor{black}{will be produced with the "ar" tool}
+\item \textcolor{black}{named lib<something>.a -> note the ending}
+\item \textcolor{black}{will only be referenced if included in compilation -> clang -lmylib}
+\item static libraries are included in the binary and will receive a static address
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_28_06_00_43.png}
+\includegraphics[scale=0.4]{2023_03_28_06_00_55.png}\newline
+More information:
+\begin{itemize}
+\item \textcolor{black}{In the early days, there were only static libraries}
+\item \textcolor{green}{Will never cause a program to suddenly stop working due to updates -> it is included in binary!}
+\item \textcolor{green}{easy to implement and use}
+\item \textcolor{red}{Must be recompiled with program if changes are made}
+\item \textcolor{red}{increases binary size}
+\item \textcolor{red}{functionality can't be increased with updates to library for binaries -> again must be recompiled}
+  \item \textcolor{red}{plugins impossible or only very hard}
+\end{itemize} 
+
+\subsection{Dynamic Libraries}
+\begin{itemize}
+\item \textcolor{black}{loaded at runtime}
+\item \textcolor{red}{harder to implement}
+\item \textcolor{black}{executable receives only a reference to library}
+\item \textcolor{green}{library can be updated independent of binary}
+\item \textcolor{red}{if binary might stop working on library updates} 
+\item \textcolor{green}{Plugins are relatively easy to create}\newline
+  Create API
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_03_28_06_07_41.png}
+\includegraphics[scale=0.4]{2023_03_28_06_07_57.png}
+
+\subsubsection{Delayed Loading}
+\textcolor{teal}{This is essentially lazy loading for libraries, only the libraries that will be used right then and there are loaded in order to save memory.}
+\includegraphics[scale=0.4]{2023_03_28_06_10_44.png}
+
+\subsection{POSIX API: dynamic libraries}
+\subsubsection{dlopen}
+\textcolor{teal}{opens a dynamic library and returns a handle to it}
+\begin{lstlisting}
+void* dlopen(char* filename, int mode)
+\end{lstlisting}
+Mode specifies how to handle the file:
+\begin{itemize}
+\item \textcolor{black}{RTLD\_NOW: all symbols will be bound to the library on load}
+\item \textcolor{black}{RTLD\_LAZY: symbols will be bound if needed}
+\item \textcolor{black}{RTLD\_GLOBAL: } symbols can be bound used during binding of other object-files
+\item \textcolor{black}{RTLD\_LOCAL: symbols can't be used for other object-files}
+\end{itemize} 
+
+\subsubsection{dlsym}
+\textcolor{teal}{Returns the address of a symbol from the specified library (handle for library)}
+\begin{lstlisting}
+void* dlsym(void* handle, char* name)
+\end{lstlisting}
+\textcolor{teal}{There is no type information, you only receive an address.\newline
+This means you can't know if it is a function, variable or whatever.}\newline
+Example:
+\begin{lstlisting}
+typedef int (*func_t)(int);                // our function returns int and takes int
+handle = dlopen ("libmylib.so", RTLD_NOW); // open dynamic library
+func_t f = dlsym (handle, "my_function");  // take function from library and store in f
+int *i = dlsym (handle, "my_int");         // take variable from library and store in i
+(*f)(*i);                                  // call function
+// Note we have no information about either f or i, we just assume they are function and variable respectively!
+// You have to read API and documentation yourself to make sure that is the case!
+\end{lstlisting}
+
+\subsubsection{dlclose}
+\textcolor{teal}{Closes the dynamic library via the specified library (handle to library)}
+\begin{lstlisting}
+  int dlclose(void* handle)
+\end{lstlisting}
+Returns 0 on success
+
+\subsubsection{dlerror}
+\textcolor{teal}{Returns a null terminated string as error if an error occurred.}
+\begin{lstlisting}
+  char* dlerror()
+\end{lstlisting}
+
+\subsubsection{Automatic Loading of ELF files}
+As long as there is a reference to the library in the executable ELF file, libraries will automatically be loaded by need.
+
+\subsection{Naming of Shared Objects}
+\begin{itemize}
+\item \textcolor{purple}{Linker-Name:} libmylib.so 
+\item \textcolor{purple}{SO-Name:} libmylib.so.2
+\item \textcolor{purple}{Real-Name (filename): } libmylib.so.2.1
+\end{itemize} 
+\textcolor{teal}{The tool "ldconfig" properly creates these files for you.}\newline
+Usually only the realname exists, with the rest being \emph{soft-links}\newline
+\includegraphics[scale=0.4]{2023_03_28_06_30_29.png}\newline
+\textcolor{red}{As one can see, you should always use the SO name (or linker (not recommended)) at the least, if you link against the real name, then your application will break on each update...}
+
+\subsubsection{Updates}
+\begin{itemize}
+\item \textcolor{black}{Real name never changes}
+\item \textcolor{black}{SO-name: update on feature increases -> new API}
+\item \textcolor{black}{Real-Name: update on bugfixes}
+\end{itemize} 
+
+\subsection{Shared Objects with Linker and Loader}
+Linker uses the base name, the executable the SO name and the process will finally use the real name.\newline
+\includegraphics[scale=0.4]{2023_03_28_06_33_28.png}
+
+\subsection{Creating Static Libraries:}
+\begin{lstlisting}
+// compile 
+clang -c f1.c -o f1.o
+clang -c f2.c -o f2.o
+
+// create archive
+ar r libmylib.a f1.o f2.o
+\end{lstlisting}
+
+\subsection{Creating Dynamic Libraries:}
+\begin{lstlisting}
+// compile
+clang -fPIC -c f1.c -o f1.o
+clang -fPIC -c f2.c -o f2.o
+
+// create image -> .so file
+clang -shared -Wl,-soname,libmylib.so.2 -o libmylib.so.2.1 f1.o f2.o -lc
+\end{lstlisting}
+\textcolor{red}{Important, the linker will prefer dynamic libraries, you need to override the default to use static versions if both exist}
+
+\subsection{Using libraries}
+\begin{lstlisting}
+// static libraries
+clang main.c -o main -L. -lmylib
+
+// dynamic libraries
+clang main.c -o main -lmylib
+
+// dynamic library that will be called with dlopen
+clang main.c -o main -ldl
+\end{lstlisting}
+
+\subsubsection{ld-linux.so effective loader}
+Can be used as an executable with --list flag\newline
+\includegraphics[scale=0.4]{2023_03_28_06_39_48.png}
+
+\subsection{Dynamic Library Implementation}
+Dynamic libraries must be able to be moved, this ofc since they are loaded into memory.\newline
+\includegraphics[scale=0.4]{2023_03_28_06_41_17.png}
+
 \section{Communication and Synchronization}
 
 \section{Programs and libraries}
