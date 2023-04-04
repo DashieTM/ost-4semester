@@ -1592,7 +1592,8 @@ int main (int argc, char **argv) {
 }
 \end{lstlisting}
 
-
+\subsection{Important note for Threads}
+\textcolor{red}{If one thread crashes or otherwise does something that it shouldn't, it could potentially break the entire program, this is the sacrifice that you are going to accept if you use threads over processes!}
 
 
 \section{Communication and Synchronization}
