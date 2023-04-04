@@ -709,7 +709,6 @@ Each program only knows itself and the OS.\newline
 \subsubsection{Improvement with "async"}
 This is what javascript does, it is only pseudo parallel in the sense that there is \emph{efficient process switching}, however we are still at 1 process at a time!\newline
 There are multiple names for a process in this case -> task, job, or simply process. \newline
-\newline
 \textcolor{teal}{Here we still want to ensure that each program may think that is "the only running program",\newline
 this means that the operating system \emph{must provide each service individually} -> memory, IO, etc. }
 
@@ -832,7 +831,7 @@ pid_t wait(int* status)
 \item \textcolor{black}{status usually handled with macros:}\newline
   WIFEXITED(*status) != 0 -> if child exited properly \newline
   WEXITSTATUS(*status): exit code of child
-\item \textcolor{black}{will return -1 if error}\nelwine
+\item \textcolor{black}{will return -1 if error}\newline
   ECHILD: no child anymore to wait for (if false you still have children)\newline
   EINTR: was interrupted by signal
 \end{itemize} 
@@ -843,9 +842,9 @@ pid_t waitpid (pid_t pid, int *status, int options)
 \end{lstlisting}
 Like wait, but you can choose the child to wait for with pid.
 \begin{itemize}
-\item \textcolor{color}{pid > 0: waits for child with this pid}
-\item \textcolor{color}{pid == -1: waits for any child -> like wait}
-\item \textcolor{color}{pid == 0 and pid < -1 enables waiting for processes of a specific process group}
+\item \textcolor{black}{pid > 0: waits for child with this pid}
+\item \textcolor{black}{pid == -1: waits for any child -> like wait}
+\item \textcolor{black}{pid == 0 and pid < -1 enables waiting for processes of a specific process group}
 \end{itemize} 
 
 \subsubsection{Examples}
@@ -892,10 +891,10 @@ int main() {
 Each exec function \emph{replaces the program in the current process with another}.\newline
 Parameters:
 \begin{itemize}
-\item \textcolor{color}{execl*: binary and args as list -> execl(path0, arg0, arg1, ...)}
-\item \textcolor{color}{execv*: binary and args as vector -> execv(path, argv)}
-\item \textcolor{color}{exec*e: allow array for environment variables as parameter, in the other variants the env-vars stay the same}
-\item \textcolor{color}{exec*p: search for filename via environment variable PATH, the others use absolute or relative paths}
+\item \textcolor{black}{execl*: binary and args as list -> execl(path0, arg0, arg1, ...)}
+\item \textcolor{black}{execv*: binary and args as vector -> execv(path, argv)}
+\item \textcolor{black}{exec*e: allow array for environment variables as parameter, in the other variants the env-vars stay the same}
+\item \textcolor{black}{exec*p: search for filename via environment variable PATH, the others use absolute or relative paths}
 \end{itemize} 
 \textcolor{teal}{the * means any character -> functions are a family}\newline
 \includegraphics[scale=0.4]{2023_03_21_06_15_17.png}
@@ -998,7 +997,7 @@ The loader under linux has the following steps:
 \item Sections: (only necessary in linking view)
 \end{itemize} 
 }{
-\includegraphics[scale=0.4]{2023_03_28_05_20_07.png}
+\includegraphics[scale=0.4]{2023_03_28_05_20_06.png}
 }[0.25,0.25]
 
 \subsubsection{Segments and Sections}
@@ -1086,7 +1085,7 @@ The loader under linux has the following steps:
 \item \textcolor{purple}{.strtab: } String-Table 
 \end{itemize} 
 
-\subsubsetion{String Table}
+\subsubsection{String Table}
 \begin{itemize}
 \item \textcolor{black}{Section of a file that has null terminated strings in a row}
 \item Strign reference -> offset of string (starts at 0 and increases per char) 
@@ -1117,7 +1116,7 @@ The loader under linux has the following steps:
 \item static libraries are included in the binary and will receive a static address
 \end{itemize} 
 \includegraphics[scale=0.4]{2023_03_28_06_00_43.png}
-\includegraphics[scale=0.4]{2023_03_28_06_00_55.png}\newline
+\includegraphics[scale=0.4]{2023_03_28_06_00_54.png}\newline
 More information:
 \begin{itemize}
 \item \textcolor{black}{In the early days, there were only static libraries}
@@ -1250,12 +1249,351 @@ clang main.c -o main -ldl
 \end{lstlisting}
 
 \subsubsection{ld-linux.so effective loader}
-Can be used as an executable with --list flag\newline
+\begin{itemize}
+\item Can be used as an executable with --list flag
+\item will be called by the OS indirectly
+\item finds and loads all other shared objects one by one 
+\item continues recursively to load all dependencies of loaded shared objects
+\end{itemize} 
 \includegraphics[scale=0.4]{2023_03_28_06_39_48.png}
+
+\subsection{Shared Object Facts}
+\begin{itemize}
+\item \textcolor{black}{Referenced Shared Objects are stored inside the executables}\newline
+  \begin{itemize}
+  \item \textcolor{black}{readelf -d shows the content of dynamic section}
+  \item \textcolor{black}{type of the entries is NEEDED}
+  \end{itemize} 
+\item \textcolor{black}{ldd shows all shared objects, even indrectly used ones}\newline
+  \begin{itemize}
+  \item \textcolor{black}{executes executables and instructs loader to show trace}
+  \item \textcolor{black}{should only be used on trusted executables!!}
+  \end{itemize} 
+\item \textcolor{black}{Pretty much all Executables (C) need at least two shared objects}\newline
+  \begin{itemize}
+  \item \textcolor{black}{libc.so -> standard C library}
+  \item \textcolor{black}{ld-linux.so -> ELF Shared Object Loader}
+  \end{itemize} 
+\end{itemize} 
 
 \subsection{Dynamic Library Implementation}
 Dynamic libraries must be able to be moved, this ofc since they are loaded into memory.\newline
-\includegraphics[scale=0.4]{2023_03_28_06_41_17.png}
+\includegraphics[scale=0.4]{2023_03_28_06_41_17.png}\newline
+This however means that only one process at the time can load the library unless you load it twice, which is not something you want.\newline
+\includegraphics[scale=0.4]{2023_04_04_05_15_09.png}\newline
+The solution to this is saving the address of the library which can be seen with 2 implementations below:
+
+\subsubsection{Position-Dependent Code}
+This means we jump to absolute addresses, in this case to absolute addresses of our dynamic library.\newline
+\includegraphics[scale=0.4]{2023_04_04_05_06_51.png}
+
+\subsubsection{Position-Independent Code}
+This means we jump relatively to our current instruction pointer inside of our program.\newline
+\textcolor{teal}{Note that the CPU has to support this, 32bit for example does not.}\newline
+\includegraphics[scale=0.4]{2023_04_04_05_07_03.png}\newline
+
+\subsubsection{Global Offset Table}
+\minipg{
+\textcolor{teal}{In each program/library we have a global offset table, which shows the relative distances to libraries etc that you need/want.\newline
+This way you can use the same dynamic library that is loaded into memory, even though another process is also using it.}
+}{
+\includegraphics[scale=0.4]{2023_04_04_05_09_20.png}
+}[0.5,0.25]
+
+\subsection{PLT Process Linkage Table}
+\textcolor{teal}{Implements lazy binding!}\newline
+\begin{itemize}
+\item \textcolor{black}{one function per entry}
+\item \textcolor{black}{PLT entry has call instruction in GOT entry}
+\item \textcolor{black}{GOT points to proxy function}
+\item \textcolor{black}{Proxy function finds link to proper function and overwrites own entry}
+\item \textcolor{green}{Benefit: eliminates check for "is it loaded" after initial load (is expensive!!)}
+\end{itemize} 
+
+\section{MultiThreading}
+
+\subsection{Threads}
+\begin{itemize}
+\item \textcolor{purple}{Threads are parallel activities inside of a process}
+\item \textcolor{purple}{Threads have equal access to all resources in the process}\newline
+  \begin{itemize}
+  \item code(text secion) 
+  \item global variables (data section)
+  \item heap
+  \item open files
+  \item MMU-data
+  \end{itemize} 
+\end{itemize} 
+
+\subsection{Process-Model vs Thread-Model}
+\includegraphics[scale=0.4]{2023_04_04_05_33_13.png}
+
+\subsection{Thread as stack and context}
+\minipg{
+\begin{itemize}
+\item \textcolor{black}{Each thread needs its own context and its own stack, since it will have its own function call stack}
+\item \textcolor{black}{Information about call stack will usually be placed in a Thread-Control-Block}
+\item \textcolor{black}{In Linux, each process has a copy of the Process-Control-Block of its own process instead!!}
+\end{itemize} 
+}{
+\includegraphics[scale=0.4]{2023_04_04_05_35_26.png}
+}[0.25,0.25]
+Example of two threads that call the same function:\newline
+\includegraphics[scale=0.4]{2023_04_04_05_35_51.png}
+
+\subsection{Parallization of algorithms}
+\textcolor{teal}{Algorithms are by default serial, however, there are some parts that you could run in parallel.}\newline 
+Example:
+\begin{lstlisting}
+// this can be split
+for (int i = 0; i < n; ++i) {
+  sum += a [i];
+}
+
+// into this
+for (int i = 0; i < n / 2; ++i) {
+  sum0 += a [i];
+}
+for (int i = n / 2; i < n; ++i) {
+  sum1 += a [i];
+}
+sum = sum0 + sum1;
+\end{lstlisting}
+
+\subsubsection{Time difference}
+\includegraphics[scale=0.4]{2023_04_04_05_38_49.png}
+\includegraphics[scale=0.4]{2023_04_04_05_39_12.png}\newline
+This shows the non parallizable parts on the bottom and the others on top.\newline
+As it can be seen the top parts are shrinking by large margins since they can be done in parallel!\newline
+\subsubsection{Speedup Factor}
+\includegraphics[scale=0.4]{2023_04_04_05_40_22.png}
+\includegraphics[scale=0.4]{2023_04_04_05_43_49.png}
+\includegraphics[scale=0.4]{2023_04_04_05_43_39.png}
+\includegraphics[scale=0.4]{2023_04_04_05_44_00.png}\newline
+Legend:
+\begin{itemize}
+  \item \(f\): speedup factor 
+\item \(T\): Total time
+\item \(T'\): Time saved
+\item \(T_s\): total time that must be done in serial fashion!
+\item \(n\): Count of processors
+\item \(s\): relation of serial time to total time\newline
+  \textcolor{red}{Note this is often just a guess, not a calculation.\newline
+  This is because we often can't say how long something would really take!}
+\end{itemize} 
+
+\subsection{Amdahls Rule}
+\includegraphics[scale=0.4]{2023_04_04_05_45_22.png}\newline
+\textcolor{red}{f(s,n)!!}
+\begin{itemize}
+\item \textcolor{black}{best case: s==0 -> everything is parallelizeable}
+\item \textcolor{black}{worst case: s==1 -> nothing is parallelizeable -> user input}
+\end{itemize} 
+If you keep increasing the processor count, then you will eventually go towards the limit of 1:\newline
+\includegraphics[scale=0.4]{2023_04_04_05_56_40.png}
+
+
+\section{POSIX Threading API}
+\subsection{Creating a thread}
+\begin{lstlisting}
+int pthread_create (
+  pthread_t *thread_id,
+  pthread_attr_t const *attributes,
+  void * (*start_function) (void *),
+  void *argument
+)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{Creates a thread and returns 0 on success, otherwise errorcode}
+\item \textcolor{black}{The ID of the new thread will be stored in thread\_id}
+\item \textcolor{black}{attributes is an opaque object, with which you can specify things like the stack-size}
+\item start\_function is the first instruction the new thread will execute
+\item the thread will place the parameter argument inside of that function
+\item the programmer must ensure the start\_function and the argument are compatible
+\item You must specify who is responsible for garbage collection of the data structure
+\item \textcolor{red}{Don't delete the stack of the thread during its execution!}
+\end{itemize} 
+
+\subsubsection{Example for pthread}
+\begin{lstlisting}
+struct T {
+  int value;
+};
+
+void *my_start(void * arg) {
+  struct T* p = arg;
+  printf ("%d\n", p->value);
+  free (arg);
+  return 0;
+}
+
+void start_my_thread (void) {
+  struct T* t = malloc (sizeof(struct T));
+  t->value = 109;
+  pthread_t tid;
+  pthread_create (
+    &tid,
+    0, // default attributes
+    &my_start,
+    t
+  );
+}
+\end{lstlisting}
+\textcolor{teal}{The default attributes are handled by the operating system!\newline
+They are used when you pass 0 -> nullptr to this function}
+
+\subsubsection{Attributes for pthread}
+Attributes are handled the following way:
+\begin{lstlisting}
+pthread_attr_t attr;                       // variable for attribute
+pthread_attr_init(&attr);                  // initialize attribute
+pthread_attr_setstacksize(&attr, 1 << 16); // set the stacksize of attribute
+pthread_create(..., &attr, ...);           // create attribute
+pthread_attr_destroy(&attr);  );           // delete attribute
+\end{lstlisting}
+\textcolor{teal}{The number 0 means that we pass default attributes}
+
+\subsection{pthread\_exit}
+\begin{lstlisting}
+void pthread_exit(void *return_value)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{ends the thread and returns the return\_value}
+\item \textcolor{black}{this is the equivalent to the return of the start\_function with a return value}
+\end{itemize} 
+
+\subsubsection{Lifetime of a thread}
+A thread lives until:
+\begin{itemize}
+  \item \textcolor{black}{the thread executes a return statement}
+\item \textcolor{black}{the thread calls pthread\_exit}
+\item \textcolor{black}{another thread calls thread\_cancel}
+\item \textcolor{black}{the thread is killed otherwise}
+\end{itemize} 
+
+\subsection{pthread\_cancel}
+\begin{lstlisting}
+int pthread_cancel(pthread_t thread_id)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{Sends a demand to the OS to kill a thread with the thread\_id}
+\item \textcolor{black}{The function doesn't wait for the thread to be killed}
+\item \textcolor{black}{The return code is 0 when the thread exists, otherwise ESRCH errorcode}
+\end{itemize} 
+
+\subsection{pthread\_detach}
+\begin{lstlisting}
+int pthread_detach(pthread_t thread_id)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{Removes the memory which a thread has allocated, as soon as the thread is terminated}
+\item \textcolor{black}{Doesn't end the thread, in case the thread has not ended}
+\item the return value is 0 if the thread exists, otherwise ESRCH
+\end{itemize} 
+
+\subsection{pthread\_join}
+\begin{lstlisting}
+int pthread_join(pthread_t thread_id, void **return_value)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{waits until the thread\_id is dead}
+\item \textcolor{black}{Takes the return value of the thread and stores it in the return\_value parameter}
+\item \textcolor{black}{return\_value can be NULL -> 0, in this case it will not store the return value}
+\item \textcolor{black}{calls pthread\_detach}
+\item the return value is 0 if the thread exists, otherwise ESRCH
+\end{itemize} 
+
+\subsection{pthread\_self}
+\begin{lstlisting}
+pthread_t pthread_self(void)
+\end{lstlisting}
+Returns the ID of the current running thread
+
+\section{Thread-Local Storage (TLS)}
+The problem here is that there are certain things that are stored globally, take errno for example.\newline
+If this would be thread overreaching, then another thread might overwrite errno, therefore interfering with another thread that is running somewhere else.\newline
+This leads to race conditions where multiple threads want to access -> read/write this variable.\newline
+\textcolor{teal}{TLS simply stores these variables per thread, resolving this issue.}\newline
+This is complicated to implement for the OS, but for many programming languages this is simply handled with an attribute.\newline
+\textcolor{teal}{The idea is that you create a TLS-Variable which will be saved in a global variable as the key.\newline
+This key can then be used in the other threads with special variables. see below:}
+
+\subsection{pthread\_key\_create}
+\begin{lstlisting}
+int pthread_key_create(pthread_key_t *key, void (*destructor)(void*))
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{creates a new key in the parameter key}
+\item \textcolor{black}{pthread\_key\_t is an opaque datastructure}
+\item \textcolor{black}{The OS stores each key for each thread with a value of type void*}
+\item \textcolor{black}{the value of this void* is initialized with NULL -> 0}
+\item The OS calls the destructor for this value if it is not NULL
+\item returns 0 if ok, error code otherwise
+\end{itemize} 
+
+\subsection{pthread\_key\_delete}
+\begin{lstlisting}
+int pthread_key_delete(pthread_key_t key)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{removes a key and the associated values on all threads}
+\item \textcolor{black}{the key can't be used after calling this function}
+\item \textcolor{black}{the program must remove all memory that was allocated}
+\item \textcolor{black}{returns 0 if ok, error code otherwise}
+\end{itemize} 
+
+\subsection{pthread\_setspecific and pthread\_getspecific}
+\begin{lstlisting}
+int pthread_setspecific(pthread_key_t key, const void * value)
+void* pthread_getspecific(pthread_key_t key)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{writes or reads the value that is associated with the key for this thread}
+\item \textcolor{black}{typically used as a pointer for memory space -> []}
+\end{itemize} 
+
+\subsection{Example with TLS}
+\begin{lstlisting}
+// setup 
+typedef struct {
+  int code;
+  char *message;
+} error_t;
+
+pthread_key_t error;
+void set_up_error (void) {
+  pthread_setspecific(error, malloc (sizeof(error_t)));
+}
+
+// read and write in the thread
+void print_error (void) {
+  error_t * e = pthread_getspecific(error);
+  printf("Error %d: %s\n", e->code, e->message);
+}
+
+int force_error (void) {
+  error_t * e = pthread_getspecific(error);
+  e->code = 98;
+  e->message = "file not found";
+  return -1;
+}
+
+// main and thread
+void *thread_function (void *) {
+  set_up_error();
+  if (force_error() == -1) { print_error(); }
+}
+
+int main (int argc, char **argv) {
+  pthread_key_create(&error, NULL);
+  pthread_t tid;
+  pthread_create(&tid, NULL, &thread_function, NULL);
+  pthread_join(tid, NULL);
+}
+\end{lstlisting}
+
+
+
 
 \section{Communication and Synchronization}
 

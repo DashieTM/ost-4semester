@@ -440,9 +440,9 @@ Funny pointer consty fun.\newline
 \includegraphics[scale=0.4]{2023_03_21_02_11_12.png}
 \includegraphics[scale=0.4]{2023_03_21_02_11_17.png}
 \includegraphics[scale=0.4]{2023_03_21_02_11_21.png}\newline
-\includegraphics[scale=0.4]{2023_03_21_02_13_40.png}\newline
+\includegraphics[scale=0.4]{2023_03_21_02_13_39.png}\newline
 \includegraphics[scale=0.4]{2023_03_21_02_15_03.png}
-\includegraphics[scale=0.4]{2023_03_21_02_16_23.png}
+\includegraphics[scale=0.4]{2023_03_21_02_16_22.png}
 
 \subsubsection{nullptr}
 \textcolor{teal}{The nullptr has a more specific meaning than either 0 or NULL, \newline
@@ -563,7 +563,7 @@ auto funWithPoint() -> void {
 }
 \end{lstlisting}
 
-\subsubection{Non Default Constructible Types}
+\subsubsection{Non Default Constructible Types}
 \textcolor{purple}{This refers to types that do not have a constructor with no parameters. -> defualt constructor\newline
 With these types we can't use new TypeName, instead we need to allocate memory explicitly like this:}
 \begin{lstlisting}
@@ -624,5 +624,314 @@ struct not_on_heap {
 \subsubsection{Typical Problems with memory}
 \includegraphics[scale=0.4]{2023_03_21_03_06_31.png}\newline
 \includegraphics[scale=0.4]{2023_03_21_03_06_47.png}
+
+\section{Static vs Dynamic Polymorphism}
+\subsection{Static}
+\begin{itemize}
+\item \textcolor{black}{faster at runtime}\newline
+  no need to ckeck or cast function, just use it
+\item \textcolor{black}{slower at compile time }\newline
+  each implementation used will be made with macros
+\item \textcolor{black}{syntax checking is off -> lsp limitation in c++}
+\item larger binaries -> more code
+\end{itemize} 
+
+\subsection{Dynamic}
+The problem is displayed as follows: 
+\begin{lstlisting}
+struct Shape {
+  virtual unsigned area() const = 0;
+  virtual ~Shape();
+};
+struct Square : Shape {
+  Square(unsigned side_length)
+  : side_length{side_length} {}
+  unsigned area() const {
+    return side_length * side_length;
+  }
+  unsigned side_length;
+};
+
+decltype(auto) amountOfSeeds(Shape const & shape) {
+  auto area = shape.area();
+  return area * seedsPerSquareMeter;
+};
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_04_04_01_26_12.png}\newline
+\textcolor{teal}{The problem is that we need to cast when using these functions. 
+Once again you can see the shit that is inheritance as it forces this conveluted casting style of writing code.}
+
+\subsubsection{Comparison to static}
+\begin{lstlisting}
+struct Square {
+  Square(unsigned side_length)
+  : side_length{side_length} {}
+  unsigned area() const {
+    return side_length * side_length;
+  }
+  unsigned side_length;
+};
+
+template<typename ShapeType>
+decltype(auto) amountOfSeeds(ShapeType const & shape) {
+  auto area = shape.area();
+  return area * seedsPerSquareMeter;
+}
+
+// instance -> not written by programmer -> made by compiler
+// decltype(auto) amountOfSeeds(Square const & shape) {
+//   auto area = shape.area();
+//   return area * seedsPerSquareMeter;
+// };
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_04_04_01_28_58.png}\newline
+\textcolor{teal}{The only downside it that you can't use this with dynamic types, but once again this is why you don't use this crap.
+Remember the pain that was in your rust game, the same thing would happen here.}
+
+\subsubsection{Dynamic Dispatch Virtual Table}
+\includegraphics[scale=0.4]{2023_04_04_01_33_59.png}
+\includegraphics[scale=0.4]{2023_04_04_01_34_08.png}\newline
+Note that the size(1) in the first figure is simply there, because in C++ each object needs to be differentiable.\newline
+This means that you need some sort of address to do that. If this object doesn't actually exist, then there will be no size, as can be seen in the square.
+
+\section{Substitution Failure}
+The template itself does not throw a compilation error, meaning that if the template itself can't be done with a specific type, then we simply ignore the type for this template.
+However, if we then go ahead and use this function somewhere and this specific type didn't work with this function, then we will receive a compiler error.
+This is also the reason why the lsp is so bad at showing errors when it comes to templates.
+
+\begin{lstlisting}
+template <typename T>
+auto increment(T value) -> T {
+  return value.increment();
+} // here string is just not considered as string has no .increment
+
+increment("pingpang"); // error bro
+\end{lstlisting}
+\textcolor{teal}{You can use the dropping of instances of templates by using functions that only work on certain types in order to protect against using with strange types.}
+
+\subsection{Type Traits}
+\textcolor{teal}{Compares two types according to traits}\newline
+\textcolor{red}{Note: These only work in \emph{Templates, Parameters and Return Types}, NOWHERE else!}
+\begin{lstlisting}
+template <typename T, typename U>
+struct is_same : false_type {
+  // inherits
+  // static constexpr bool value = false;
+};
+template <typename T>
+struct is_same<T, T> : true_type {
+  // inherits
+  // static constexpr bool value = true;
+};
+template <typename T, typename U>
+constexpr bool is_same_v = is_same<T, U>::value;
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{std::is\_same<T,U>} compares the 2 types
+\item \textcolor{black}{std::is\_same\_v<T,U>} same but results in bool -> ::value
+\item \textcolor{black}{std::is\_same\_t<T,U>} same but results in type -> ::type
+\item \textcolor{black}{std::is\_class<T>} Checks to see if type is a class type 
+\item \textcolor{black}{std::is\_same\_v<T>} same but results in bool -> ::value 
+\item \textcolor{black}{std::negation\_v<T>} negates the value 
+\item \textcolor{black}{std::is\_reference<T>} checks if type is a reference type 
+\item \textcolor{black}{std::is\_constructible\_v<T>} checks if compiler is constructible 
+\end{itemize} 
+\begin{lstlisting}
+#include <type_traits>
+
+struct S{};
+
+auto main() -> int {
+  std::is_class<S>::value; // true
+  std::is_class<int>::value; // false
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{std::enable\_if<bool, T>} checks if type is of given type
+\item \textcolor{black}{std::enable\_if\_t<bool, T>} -> ::type
+\end{itemize} 
+\begin{lstlisting}
+template <bool expr, typename T = void>
+struct enable_if{
+  template <bool expr,typename T = void>
+  struct enable_if{};
+
+  template <typename T>
+  struct enable_if<true, T> {
+    using type = T;
+  };
+
+  template <bool expr,typename T = void>
+  using enable_if_t = typename enable_if<expr, T>::type;
+};
+
+auto main() -> int {
+  std::enable_if_t<true, int> i;      // int
+  std::enable_if_t<false, int> error; // no type
+}
+\end{lstlisting}
+\textcolor{teal}{Possibilities of application:}\newline
+\begin{lstlisting}
+template <typename T>
+auto increment(T value) -> std::enable_if_t<std::is_class_v<T>, T> {
+  return value.increment();
+}
+
+template <typename T>
+auto increment(std::enable_if_t<std::is_class_v<T>, T> value) -> T {
+  return value.increment();
+} // enable_if as parameter, impairs type deduction
+
+template <typename T, typename = std::enable_if_t<std::is_class_v<T>, void>>
+auto increment(T value) {
+  return value.increment();
+} // would be void per default
+\end{lstlisting}
+
+\subsubsection{Constructors and type checks}
+\begin{lstlisting}
+template <typename T>
+struct Box {
+  Box() = default;
+  template <typename BoxType, typename = std::enable_if_t<std::is_same_v<Box, BoxType>>>
+  explicit Box(BoxType && other)
+  : items(std::forward<BoxType>(other).items) {}
+  // only matches when entered type can be made into .items
+  explicit Box(size_t size)
+  : items(size) {}
+  //...
+  private:
+    std::vector<T> items{};
+};
+\end{lstlisting}
+\textcolor{teal}{The problem is that with forward, the matching gets \emph{eager}, this means that int would match to the BoxType \&\& other, resulting in an error since int doesn't have .items}\newline
+\textcolor{red}{This is just an example, do not use this over proper copy and move constructors}
+
+\section{Requires C++20}
+\textcolor{teal}{This is the solution to the previously complicated way of handling template type requirements}\newline
+It can be done in these two ways:
+\begin{lstlisting}
+// after template, works for structs, classes and functions
+template<typename T>
+requires true // or anything that can resolve to bool
+auto function(T argument) -> void {}
+
+// after return type, only works for functions
+template<typename T>
+auto function(T argument) -> void requires true {} 
+
+
+// explicit example
+template <typename T>
+requires std::is_class_v<T>
+auto function(T argument) -> void {}
+\end{lstlisting}
+
+\subsection{Requires as function}
+Sequence of actions: 
+\begin{lstlisting}
+requires {
+  // Sequence of requirements
+}
+\end{lstlisting}
+Requires with parameters:
+\begin{lstlisting}
+requires ($parameter-list$) {
+  // Sequence of requirements
+}
+\end{lstlisting}
+Example: 
+\begin{lstlisting}
+template <typename T>
+requires requires (T const v) { v.increment(); }
+auto increment(T value) -> T {
+  return value.increment();
+}
+// yes, you need two requires.....
+\end{lstlisting}
+
+\subsection{Subtype Requirements}
+\begin{lstlisting}
+template<typename T>
+requires {
+  typename BoundedBuffer<T>::value_type;
+  typename BoundedBuffer<T>::size_type;
+  typename BoundedBuffer<T>::reference;
+  typename BoundedBuffer<T>::const_reference;
+}
+\end{lstlisting}
+
+\subsection{Compund Requirements}
+\begin{lstlisting}
+template <typename T>
+requires requires (T const v) {
+  { v.increment() } -> std::same_as<T>;
+} // check if the return of the check to v.increment type == T
+auto increment(T value) -> T {
+  return value.increment();
+}
+\end{lstlisting}
+
+\subsection{Concept Keyword}
+\textcolor{teal}{These are essentially just traits...}
+\begin{lstlisting}
+template <typename T>
+concept Incrementable = requires (T const v) { 
+  {
+    v.increment()
+  } -> std::same_as<T>;
+}; // potential to use || or && to chain requires!!
+\end{lstlisting}
+
+\subsubsection{Usage}
+These are the same:
+\begin{lstlisting}
+template <Incrementable T>
+auto increment(T value) -> T {
+  return value.increment();
+}
+
+template <typename T>
+requires Incrementable<T>
+auto increment(T value) -> T {
+  return value.increment();
+}
+\end{lstlisting}
+
+\subsection{AutoTemplates}
+You can use the auto keyword to automatically use templates:
+\begin{lstlisting}
+// both are the same
+auto function(auto argument) -> void {}
+
+template <typename T>
+auto function(T argument) -> void {}
+\end{lstlisting}
+
+\subsubsection{Problems with auto templates}
+\begin{lstlisting}
+auto function(auto arg1, auto arg1) -> void {}
+
+// ignored!!!!
+template <typename T>
+auto function(T arg1, T arg2) -> void {}
+
+// chosen, the auto automatically converts to this
+template <typename T1, typename T2>
+auto function(T1 arg1, T2 arg2) -> void {}
+\end{lstlisting}
+
+\subsubsection{Concept with auto}
+\begin{lstlisting}
+// both are the same
+auto increment(Incrementable auto value) -> T {
+  return value.increment();
+}
+
+template <Incrementable T>
+auto increment(T value) -> T {
+  return value.increment();
+}
+\end{lstlisting}
 
 \end{document}

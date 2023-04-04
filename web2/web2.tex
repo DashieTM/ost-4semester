@@ -946,6 +946,145 @@ class GenericNumber<NumType> {
 }
 \end{lstlisting}
 
+\section{Responsive Design}
+\subsection{Flexible Layout vs Responsive Layout}
+\textcolor{teal}{Responsive layout is something like the new nautilus feature where it adapts to the current size via shuffling elements and possible removing elements from the viewport.\newline
+Flexible layout however simply resizes the elements, this is something pretty much every UI framework does.}\newline
+Note that responsive design is much harder to do and needs multiple events like \emph{media queries} in order to make it work!
+\subsection{Graceful Degratdation, Progressive Enhancement and "Platform"First}
+\begin{itemize}
+\item \textcolor{purple}{Graceful Degradation}\newline
+  You will often have to deal with platforms that do not have the necessary functionality.\newline
+  In this case, the idea is to \emph{progressively remove or adapt} features to this platform.\newline
+  E.g. make your rust game either work with the mobile platform or remove it for mobile, meaning that only the rest of the website is available for mobile users.
+\item \textcolor{purple}{Progressive Enhancement}\newline
+This is the opposite idea, here you start with the worst platform and then gradually add more features for the other platforms that allow you to use more features.\newline
+-> bf4, for ps4 there were only 32players allowed, but for the pc this was increased to 64 since that platform was able to handle it.
+\item \textcolor{purple}{"Platform"First}\newline
+  Here you simply define that platform that is likely to be using this website/application and therefore design it with them in mind.
+\end{itemize} 
+
+\subsection{The problem with CSS}
+\textcolor{teal}{CSS has the problem that many browsers do something special with it, this means that your website might not look the same on every browser.\newline
+This is where \emph{reset and normalize} help out.}
+\begin{itemize}
+\item \textcolor{purple}{Reset removes most browser styles, meaning that developers need to provid their own at all times.}
+\item \textcolor{purple}{Normalize provides defaults that will work on every browser instead.}
+\end{itemize} 
+
+\subsection{Dynamic CSS}
+You can define rules in css that will make the page respond to changes in size.
+\begin{lstlisting}
+// css types for certain media
+@media screen { ... }
+@media print { ... }
+
+// used if element is between those lines.
+@media ( [ width | min-width | max-width ] : 375px) { ... }
+@media ( [ height | min-height | max-height ] : 667px) { ... }
+\end{lstlisting}
+Example:
+\begin{lstlisting}
+<style>
+body:before {  }
+.bar {  }
+.fourEighty {  }
+.sixHundred {  }
+.sevenHundred {  }
+.eightHundred {  }
+@media screen and (min-width: 30em /*480px*/) {
+body:before {
+content: "480px+";
+}
+.fourEighty {  }
+}
+@media screen and (min-width: 600px) {
+body:before {  }
+.sixHundred {  }
+}
+@media screen and (min-width: 700px) {  }
+@media screen and (min-width: 800px) {  }
+</style>
+\end{lstlisting}
+
+\subsubsection{Query on Media}
+\textcolor{teal}{With css you can ask the device what it supports, example: do you have a mouse plugged in? Do you support touch? etc.} 
+\begin{lstlisting}
+// States
+@media (orientation: landscape) { ... }
+// Features
+@supports not (display: grid) { div { float: right; } }
+// Other
+@media (hover: hover | none) { ... }
+@media (pointer: fine | coase | none) { ... }
+@media (min-resolution: 300dpi) { ... }
+@media (min-color: 1) { ... }
+
+// you can also use operators like and, not or only!
+@media not screen { ... }
+@media not screen and (min-width: 20em) { ... }
+@@media only screen { ... }
+\end{lstlisting}
+
+\subsubsection{Units with Media Queries}
+When using the unit "px", keep in mind that these are not screen pixels, but css pixel, which are changed when \emhp{zooming!}\newline
+typical trigger values for a change in size:
+\begin{lstlisting}
+// 480px / 30em : Smartphones
+// 768px / 48em : Tablets
+// 992px / 62em : Desktops
+\end{lstlisting}
+\textcolor{teal}{The "em" unit is supposed to be better for accessibility, which is why people usually prefer it!}\newline
+\textcolor{teal}{It is technically possible to use the regular > < == etc operators with css, but they are not ready yet.}
+
+\subsection{Container Queries}
+\begin{itemize}
+\item \textcolor{black}{Supported by most browsers}
+\item \textcolor{black}{Used especially for UI elements}
+\end{itemize} 
+\begin{lstlisting}
+  .card h2 {
+    font-size: 1em;
+  }
+  
+  // if container is larger than 700px
+  @container (min-width: 700px) {
+    .card h2 {
+      font-size: 2m;
+    }
+  }
+
+  // manually defined container
+  .outer {
+    container-type: size;
+    container-name: outer;
+  }
+\end{lstlisting}
+
+\subsubsection{Shortcuts for Container Queries}
+\begin{itemize}
+  \item cqw = width of the Container Queries
+\item cqh = height of the Container Queries
+\item cqi = inline-size of the Container Queries
+\item cqb = block-size of the Container Queries
+\item cqmin = The smaller value of cqi and cqb
+\item cqmax = the bigger value of cqi and cqb
+\end{itemize} 
+
+\subsection{Meta tag for Mobile}
+\textcolor{teal}{Mobile devices need a meta tag in order for them to scale properly}
+\begin{lstlisting}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+\end{lstlisting}
+
+\subsubsection{BoxSizing Functions}
+\begin{itemize}
+\item \textcolor{black}{calc(first, second)}: provides the combination of the two
+\item \textcolor{black}{min(first,second)}: provides the smaller of the two
+\item \textcolor{black}{max(first,second)}: provides the bigger of the two
+\item \textcolor{black}{clamp(lower, val, upper)}: ensures the "val" is between lower and upper 
+\end{itemize} 
+
 % \lstset{
 %     language=TypeScript,
 %     style=code,

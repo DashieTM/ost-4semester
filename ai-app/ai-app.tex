@@ -363,4 +363,38 @@ This means you can't remember the exact input, you only know, input class x was 
 \end{itemize} 
 
 
+\subsection{Seq2seq}
+This is the split of an RNN cell into an encoder and a decoder part.\newline
+The encoder gives the sequence to the decoder as well as the \emph{context}, which are the "important" parts of the input.\newline
+This results in less "memorizing" of old state, while not giving up on accuracy.\newline
+\includegraphics[scale=0.4]{2023_04_03_01_52_46.png}
+
+\subsubsection{Encoder}
+\includegraphics[scale=0.4]{2023_04_03_02_07_09.png}
+
+\subsubsection{Decoder}
+\includegraphics[scale=0.4]{2023_04_03_02_07_36.png}
+
+\subsubsection{Problems}
+\includegraphics[scale=0.4]{2023_04_03_02_22_32.png}\newline
+\textcolor{teal}{The biggest issue with this is the fact that this is not \emph{parallelizeable}, it must perform each seuence in a serial manner}
+
+\subsection{Transformers}
+\textcolor{red}{This is the solution to the seq2seq problem. Unlike the last model this is parallizeable. \newline
+It is what powers ChatGPT, and it is what makes the new generation of AI so powerful}\newline
+\includegraphics[scale=0.4]{2023_04_03_02_25_34.png}\newline
+\textcolor{red}{Note, \emph{Transformers do NOT use any recurrence}}
+
+\subsubsection{Attention}
+Transformers only really care about the concept of "attention", which is comprised of \emph{Query, key, value}.\newline
+\includegraphics[scale=0.4]{2023_04_03_02_36_51.png}\newline
+\includegraphics[scale=0.4]{2023_04_03_02_37_04.png}\newline
+Essentially you check how similar the key is to the query.\newline
+\includegraphics[scale=0.4]{2023_04_03_02_38_12.png}\newline
+\includegraphics[scale=0.4]{2023_04_03_02_38_33.png}\newline
+Lastly you multiply the result with the value, which results in the output.\newline
+\includegraphics[scale=0.4]{2023_04_03_02_39_02.png}\newline
+Decoder and Encoder example with Attention instead of reccurence\newline
+\includegraphics[scale=0.4]{2023_04_03_02_44_18.png}
+
 \end{document}
