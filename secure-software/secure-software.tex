@@ -375,6 +375,54 @@ Negative indices will access previous values of the program, or cause a segfault
 
 \section{Reverse Engineering}
 
+\subsection{Typical Problems}
+Whenever we want to reverse engineer, we will walk into issues like \emph{obfuscation like mangling, or compressing of files}, all of these things will make it harder to de-compile and analyze the source.
+
+\subsection{Example}
+Here we would like to return true whether or not the key was right, we can do this by changing a line to xor instead of and:\newline
+\includegraphics[scale=0.4]{2023_04_06_10_54_56.png}
+
+\subsection{Mitigations}
+\subsubsection{Anti-dissasebmly}
+\begin{itemize}
+\item \textcolor{black}{encrypted or packed code object}
+\item \textcolor{black}{false dissasembly}
+\item \textcolor{black}{self-modifying code}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_04_06_11_13_27.png}\newline
+Essentially just insert garbage at a certain location.\newline
+Can easily be dodged by noticing the jump.
+
+\subsubsection{Anti-debugging techniques}
+\begin{itemize}
+\item \textcolor{black}{is\_debugger\_present() lmao}
+\item \textcolor{black}{monitor for the use of debug registers and indserted breakpoints}
+\item \textcolor{black}{use threads -> debuggers do not handle threads well}
+\end{itemize} 
+Debuggers often load instructions one by one, instead of all at once.\newline
+Suppose we had a program where 4 instructions are loaded at once and later instruction 4 is overwritten with junk.\newline
+This doesn't matter for the proper program, but it matters for the debugger, since it loads instruction in a serial manner.\newline
+Regular mode:\newline
+\includegraphics[scale=0.4]{2023_04_06_11_19_36.png}\newline
+Debug mode: \newline
+\includegraphics[scale=0.4]{2023_04_06_11_19_58.png}
+
+\subsubsection{Tamper-resistance}
+\begin{itemize}
+\item \textcolor{black}{Make patching difficult}
+\item \textcolor{black}{code is shown as hash -> needs to be processed first -> can have performance impacts}
+\item \textcolor{black}{this approach is sometimes called "guards"}
+\item \textcolor{black}{checks should not look similar, otherwise the protection is void}
+\end{itemize} 
+
+\subsubsection{Code obfuscation}
+\begin{itemize}
+\item \textcolor{black}{mangling}
+\item \textcolor{black}{Code that is \emph{useless, or unused}, but hard to understand}
+\item convert types like characters to ascii and back -> bruh
+\end{itemize} 
+
+
 \section{Secure Software Lifecycle}
 
 \section{Mobile Security}

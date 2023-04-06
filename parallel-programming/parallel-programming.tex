@@ -1158,6 +1158,106 @@ public async Task<bool> IsPrimeAsync(long number) {
 }
 \end{lstlisting}
 
+\section{Lock-free Programming}
 
+\subsection{Memory Model in Java}
+\minipg{
+Guarantees:
+\begin{itemize}
+\item \textcolor{purple}{Atomicity}
+\item \textcolor{purple}{Visiblity}
+\item \textcolor{purple}{Ordering}
+\end{itemize} 
+}{
+Java Atomicity Guarantees -> a single read or write is atomic
+\begin{itemize}
+\item \textcolor{black}{primitve data types up to 32bit}
+\item \textcolor{black}{object-references}
+\item \textcolor{black}{long and double only with volatike keyword atomic}
+\end{itemize} 
+}[0.25,0.25]
+
+\subsection{Java Visibility Guarantees}
+\begin{itemize}
+\item \textcolor{black}{Lock Release and Acquire}\newline
+  Memory writes before release are visible after acquire
+\item \textcolor{black}{Volatile Variable}\newline
+  Memory writes up to and including the write to volatile variable are visible when reading the variable
+\item \textcolor{black}{Thread/Task-Start and Join}\newline
+  Start: Input to thread; Join: thread result
+\item \textcolor{black}{Initialization of final variables}\newline
+  Visible after completion of the constructor
+\end{itemize} 
+
+\subsection{The volatile keyword}
+\textcolor{teal}{The volatile keyword means that changes in other threads to this variable \emph{are reflected immediately}, \newline
+however, unlike synchronized, this does not guarantee atomicity with multiple reads or writes, so reads and writes mixed together will still be janky.} \newline
+\textcolor{red}{E.g. only one write or read is atomic!}
+\begin{lstlisting}
+public class SpinLock {
+  private volatile boolean locked = false;
+  public void acquire() {
+    while (locked) {}
+    Not atomic
+    locked = true;
+  }
+  public void release() {
+    locked = false;
+  }  
+}
+\end{lstlisting}
+
+\subsection{Atomic operations and variables}
+\textcolor{teal}{In order to fix the problem with the volatile variables, you can use atomic functions on volatile variables:}
+\begin{lstlisting}
+public class SpinLock {
+  private final AtomicBoolean locked = new AtomicBoolean(false);
+  public void acquire() {
+    while (locked.getAndSet(true)) { }
+  }
+  public void release() {
+    locked.set(false);
+  }
+}
+\end{lstlisting}
+\begin{itemize}
+\item get() 
+\item set()
+\item addAndGet()
+\item getAndAdd()
+\item updateAndGet( x -> x * x) // lambda
+\item getAndSet()
+\item compareAndSet(old,new) // write if value is the same
+\end{itemize} 
+Example with Lock-free Stack:
+\begin{lstlisting}
+AtomicReference<Node<T>> top = new AtomicReference<>();
+
+void push(T value) {
+  Node<T> newNode = new Node<>(value);
+  Node<T> current;
+  do {
+    current = top.get();
+    newNode.setNext(current);
+  } while (!top.compareAndSet(current, newNode));
+}
+\end{lstlisting}
+
+\subsubsection{Concurrent Containers}
+In java there are also concurrent containers like ConcurrentLinkedQueue<V> or ConcurrentHashMap<K, V>
+
+\subsection{Volatile in DotNot}
+\textcolor{teal}{In C# there are a bunch of rules the compiler will follow when using the volatile keyword.\newline
+For example, when you make a volatile read, then the compiler is not allowed to move instructions above this line -> must follow sequentially like the code written.\newline
+And in the opposite way, when you make a volatile write, the compiler is not allowed to put instructions after this instruction.}\newline
+\includegraphics[scale=0.4]{2023_04_06_02_08_42.png}
+
+\subsubsection{Memory Barrier DotNot}
+\textcolor{teal}{The Thread.MemoryBarrier} disallows the reshuffling of code in each direction.\newline
+\includegraphics[scale=0.4]{2023_04_06_02_09_10.png}
+
+\subsection{Rendez-Vous in Java and C#}
+\includegraphics[scale=0.4]{2023_04_06_02_10_27.png}
+\includegraphics[scale=0.4]{2023_04_06_02_10_42.png}
 
 \end{document}
