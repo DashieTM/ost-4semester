@@ -1829,13 +1829,19 @@ struct sched_param * param);
 int pthread_attr_setschedparam (pthread_attr_t * attr,
 const struct sched_param * param);
 
+// note the sched_param is a struct that is not really defined
+// the only thing the posix standard says is that is needs a sched_priority field.
+
 //example usage
 pthread_attr_t a;
 pthread_attr_init (&a);
 
 struct sched_param p;
 pthread_attr_getschedparam (&a, &p);
+
+// here we set the new priority of the schedule priority
 // set p.sched_priority
+
 pthread_attr_setschedparam (&a, &p);
 
 pthread_create (&id, &a, thread_function, argument);
