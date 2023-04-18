@@ -1595,6 +1595,252 @@ int main (int argc, char **argv) {
 \subsection{Important note for Threads}
 \textcolor{red}{If one thread crashes or otherwise does something that it shouldn't, it could potentially break the entire program, this is the sacrifice that you are going to accept if you use threads over processes!}
 
+\section{Scheduling}
+\textcolor{red}{Note, in the lecture the word processor is equivalent to the word core. Kinda correct, but still...}
+\subsection{States of a Thread}
+\begin{itemize}
+  \item There is at max only one running thread per processor core, this thread is in state \emph{running}
+\item All other threads are in state \emph{ready}
+\item A thread that is waiting with phtread\_join is in state \emph{waiting}
+\item Changes of states in a thread are done by the OS
+\item The OS decides which thread will be placed in running mode on each core
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_04_18_05_03_21.png}
+
+\subsection{Waiting threads and Ready-Queue}
+\textcolor{teal}{Waiting Threads}
+\begin{itemize}
+\item \textcolor{black}{Threads that are waiting are not running at all -> they are NOT waiting in a loop!}
+\item \textcolor{black}{The OS instead sets the state of a thread without it doing anything}
+\end{itemize} 
+\textcolor{teal}{Ready Queue}
+\includegraphics[scale=0.4]{2023_04_18_05_04_12.png}
+\begin{itemize}
+\item \textcolor{black}{All threads that are ready are in ready queue}
+\item \textcolor{black}{Ready queue is not always a queue}\newline
+  Scheduling might be done in a different way.
+\item \textcolor{black}{new threads are usually placed in ready queue directly}\newline
+  depending on the OS they might actually be placed in waiting...
+\item \textcolor{black}{Threads \emph{can't directly jump into running from waiting}}
+\end{itemize} 
+
+\subsubsection{Powerdown-Mode}
+\begin{itemize}
+\item \textcolor{black}{Should no thread be ready to run, then the OS will put the core into standby}
+\item \textcolor{black}{The sleeping core will then be awoken by the OS on interrupt and continues operation}
+\item \textcolor{black}{Busy-wait, aka waiting in a loop hinders standby! This is why we should not do it!}
+\end{itemize} 
+
+\subsubsection{Types of Threads}
+\begin{itemize}
+\item \textcolor{purple}{I/O-heavy thread}\newline
+  communicates often with I/O devices and doesn't compute much -> IO bound
+\item \textcolor{purple}{processor-heavy}\newline
+  doesn't communicate much with IO and computes pretty much exclusively
+\item \textcolor{black}{While the difference might be vague, good systems make a difference for these to optimize performance}
+\end{itemize} 
+
+\subsection{Types of Concurrency}
+\begin{itemize}
+\item \textcolor{purple}{Cooperative}\newline
+  Each thread decides itself when it leaves the core -> stops running
+\item \textcolor{purple}{Preemptive}\newline
+  The Scheduler decides when the thread will be removed from the core
+\end{itemize} 
+
+\subsubsection{Preemptive Multithreading}
+\textcolor{teal}{The current thread runs until:}
+\begin{itemize}
+\item \textcolor{black}{waits for IO operations}
+\item \textcolor{black}{waits for a resource or another thread}
+\item \textcolor{black}{system timer interrupt occurs}
+\item \textcolor{black}{leaves core on its own}
+\item another thread with higher priority by scheduler gets into ready state
+\item a new thread with higher priority by scheduler gets created
+\end{itemize} 
+
+\subsection{Parallel, "quai"parallel and Concurrent Execution}
+\begin{itemize}
+\item \textcolor{purple}{parallel}\newline
+  all threads run parallel in realtime -> n threads require n cores
+\item \textcolor{purple}{"quasi"parallel}\newline
+  N threads are running on less than n cores -> this means threads will have to be scheduled\newline
+  you only think they are runnin in parallel, they are actually not
+\item \textcolor{red}{Concurrent} This is an overall term that can refer to either of the above!
+\end{itemize} 
+
+\subsection{Bursts}
+\begin{itemize}
+\item \textcolor{purple}{Core-burst}\newline
+  Interval in which a thread will occupy a core fully in a parallel system
+\item \textcolor{purple}{I/O Burst}\newline
+  Interval in which a thread will not need the core until next event will wake the thread up again -> input event
+\item \textcolor{black}{Each thread can be seen as a series of core and I/O bursts}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_04_18_05_27_46.png}
+
+\subsection{Parallel Execution as an ideal}
+This means that we will never have to switch threads, this was indeed the case when there were no threads to be had.\newline
+Aka inteli5 with 4 cores and that's it. This however means that there will always be wasted potential as some cores will be 100\% occupied with crap.\newline
+The best case would be that we can have 500 real cores but this is unrealistic.\newline
+\includegraphics[scale=0.4]{2023_04_18_05_30_44.png}
+
+\subsection{Requirements for Scheduler}
+\textcolor{teal}{Note that the requirements for embedded systems and consumer devices are very different.\newline
+In embedded systems you might not want a scheduler, as you know which processes will be running on there, on consumer devices you NEED scheduling as ANY process can be run on there.}\newline
+Requirements from a users perspective:
+\begin{itemize}
+\item \textcolor{purple}{Waiting Time}\newline
+  time spent by a thread in ready queue
+\item \textcolor{purple}{Response Time}\newline
+  time spent until response is ready after request
+\item \textcolor{purple}{Turnaround Time}\newline
+  time spent from start to end of a thread
+\end{itemize} 
+Requirements from a system perspective:
+\begin{itemize}
+\item \textcolor{purple}{Throughput}\newline
+  Amount of threads that can be run per interval
+\item \textcolor{purple}{Processor Utilization}\newline
+  Core usage percentage
+\end{itemize} 
+
+\subsubsection{Conflict of interest}
+The response and turnaround time will be increased by scheduling at all, but not scheduling will decrease throughput and core usage.\newline
+E.g. In order to gain concurrency, you need to sacrificy some responsiveness -> last thread might need to be removed before new thread can work.\newline
+Depending on the OS, or the setting of it, one or the other can be prioritized.
+
+\subsubsection{First Come First Serve(FCFS) Scheduling}
+\textcolor{teal}{This is a non-preemptive scheduling policy that does not care about thread priority or thread-task-size (how long will the task take?)}\newline
+This means that this scheduling strategy will likely leave you with shitty performance.\newline
+\includegraphics[scale=0.4]{2023_04_18_05_42_31.png}
+
+\subsubsection{Shortest Job First(SJF) Scheduling Strategy}
+\begin{itemize}
+\item \textcolor{black}{Chooses smallest task thread first}
+\item \textcolor{black}{If task size is ambiguous(more than one thread with smallest size) chooses via FCFS}
+\item \textcolor{black}{Can be used cooperatively or preemptively}
+\item \textcolor{purple}{The shortest thread blocks other threads minimally}
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_04_18_05_56_35.png}\newline
+\textcolor{teal}{The problem with this is knowing the processor-burst -> task time\newline
+There is no real way of knowing it and can therefore only be guesses.}
+
+\subsubsection{Round-Robin Scheduling}
+\begin{itemize}
+\item \textcolor{purple}{Scheduler defines time slice of 10 to 100ms}
+\item \textcolor{purple}{The default is FCFS, but a thread will only run as long as max time se by scheduler}
+\item \textcolor{purple}{time slice size will affect performance heavily}
+\end{itemize} 
+30ms time slice\newline
+\includegraphics[scale=0.4]{2023_04_18_05_58_23.png}\newline
+10ms time slice\newline
+\includegraphics[scale=0.4]{2023_04_18_06_01_05.png}
+
+\subsubsection{Priority-Basd Scheduling}
+\begin{itemize}
+\item \textcolor{purple}{Each thread will receive a priority}
+\item \textcolor{purple}{Threads with higher priority will be chosen over others}
+\item \textcolor{purple}{Same priority will be deal with via FCFS}
+\item \textcolor{purple}{SJF is a special case of this scheduling -> shorter task == higher prio}
+\item \textcolor{purple}{Priorities range based on OS -> 0 to 7 or 0 to 4096 (nice level)}
+\item \textcolor{red}{not to mistake with nice! -> Linux nice is per \emph{PROCESS}: -20 highest prio, 0 default, +19 lowest}
+\item \textcolor{purple}{On some OS 0 is the highest priority}
+\end{itemize} 
+
+\subsubsection{Starvation}
+This can happen with some scheduling systems like priority based scheduling.
+Threads with lower priorities might not be able to run at all due to higher priority threads.
+\textcolor{teal}{This can be improved with \emph{aging}, aka making sure threads at least get some sort of time no matter the prio.}
+
+\subsubsection{Multi-Level Scheduling}
+The OS might specify different levels for scheduling like layers: background/foreground.\newline
+This means that there will be a mix of scheduling policies based on the layer the process is in, or on the priority the process is in.\newline
+This helps make sure that each part of the system gets a proper amount of time to run.\newline
+Queues can also be split -> high prio queue, low prio queue etc.
+
+\subsubsection{Multi-Level Scheduling with Feedback}
+\begin{itemize}
+\item \textcolor{black}{Per priority one queue}
+\item \textcolor{black}{Threads of higher priority queues will be preferred}
+\item \textcolor{black}{exhausts a thread its time slice, then it will be placed in a lower priority -> priority - 1 }
+\item \textcolor{black}{Time slices increase in lower priorities}
+\item \textcolor{teal}{The effect: threads with lower bursts -> task lengths are preferred}
+\end{itemize} 
+
+\section{Scheduling in POSIX}
+\subsection{Nice Value}
+\begin{itemize}
+\item \textcolor{purple}{Each process has a nice value}
+\item \textcolor{purple}{Value ranges from -20 to +19}
+\item \textcolor{purple}{Lower values == higher priority}
+\item \textcolor{purple}{Default value is 0}
+\item \textcolor{purple}{Only root can go below 0 with processes by default}
+\end{itemize} 
+\subsubsection{Nice Utility}
+On Linux there is the "nice" tool that prints the current nice level or sets a new nice level:\newline
+nice -n -10 command-to-run -> sets the priority 10 lower and runs command\newline
+nice -> prints the nice level of process
+
+\subsubsection{Nice function}
+\begin{lstlisting}
+int nice(int i)
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{adds i to the nice value of the process}
+\item \textcolor{black}{returns the new nice value or -1 on error (check below....)}
+\end{itemize} 
+\textcolor{red}{The -1 can be an error or a nice value! Here the code to show how to get the difference:}
+\begin{lstlisting}
+errno = 0;
+if (nice(i) == -1 && errno != 0) {
+// Error
+}
+else {
+// -1 is nice value
+}
+\end{lstlisting}
+
+\subsubsection{Get Priority}
+\begin{lstlisting}
+int getpriority(int wich, id_t who)
+int setpriority(int wich, id_t who, int prio)
+\end{lstlisting}
+\begin{itemize}
+  \item can change priority of processes, groups or users
+\item \textcolor{black}{which: PRIO\_PROCESS, PRIO\_PGRP, PRIO\_USER}
+\item \textcolor{black}{who: ID of process, group, or user}
+\item \textcolor{black}{getpriority() returns the nice value of the process}
+\item \textcolor{black}{setpriority() sets the value of nice of the process}\newline
+  returns 0 on sucess, -1 on error
+\end{itemize} 
+
+\subsection{Setting Priority of Threads}
+\begin{lstlisting}
+int pthread_getschedparam (pthread_t thread, int * policy,
+struct sched_param * param);
+
+int pthread_setschedparam (pthread_t thread, int policy,
+const struct sched_param * param);
+
+int pthread_attr_getschedparam (const pthread_attr_t * attr,
+struct sched_param * param);
+
+int pthread_attr_setschedparam (pthread_attr_t * attr,
+const struct sched_param * param);
+
+//example usage
+pthread_attr_t a;
+pthread_attr_init (&a);
+
+struct sched_param p;
+pthread_attr_getschedparam (&a, &p);
+// set p.sched_priority
+pthread_attr_setschedparam (&a, &p);
+
+pthread_create (&id, &a, thread_function, argument);
+pthread_attr_destroy (&attributes);
+\end{lstlisting}
 
 \section{Communication and Synchronization}
 

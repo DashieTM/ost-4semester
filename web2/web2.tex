@@ -1095,6 +1095,40 @@ typical trigger values for a change in size:
     style=code,
 }
 
+\subsection{Float}
+Floats were used to create small, independent sections. These are deprecated since they were not supported by all browsers in the same way.
+
+\subsection{Custom Properties and Variables}
+\textcolor{teal}{Define some variables that can be used later}
+\begin{lstlisting}
+:root {
+  /*colors*/
+  --color-light-red: #ffeaea;
+  --color-dark-violet: #47027e;
+  Variable Referenz
+  /*variables*/
+  --color: var(--color-dark-violet);
+  --bg-color: var(--color-light-red);
+}
+\end{lstlisting}
+
+\subsection{Rules when HTML custom properties are set}
+\textcolor{teal}{Here we have to rules, they only apply when the html properties are set, e.g. use dark or light mode.}
+\begin{lstlisting}
+/*variables / switching*/
+body[data-style='light'] {
+  --color: var(--color-dark-violet);
+  --bg-color: var(--color-light-red);
+}
+
+/*variables / switching*/
+body[data-style='dark'] {
+  --color: var(--color-light-red);
+  --bg-color: var(--color-dark-violet);
+}
+\end{lstlisting}
+
+
 \lstset{
     language=HTML,
     style=code,

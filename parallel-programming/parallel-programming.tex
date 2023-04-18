@@ -1260,4 +1260,226 @@ And in the opposite way, when you make a volatile write, the compiler is not all
 \includegraphics[scale=0.4]{2023_04_06_02_10_27.png}
 \includegraphics[scale=0.4]{2023_04_06_02_10_42.png}
 
+\section{MultiProcessor Computing}
+\subsection{CPU vs GPU}
+A GPU has more cores than a CPU, meaning it actually has thousands of cores, which are designed to do one thing well.\newline
+E.g. they are simpler cores that handle simple calculations well, which is why CPUs suck at gaming.\newline
+
+\subsection{Arithmetic Intensity}
+This is the ratio of how much memory I can pass through to how fast I can calculate on this memory.\newline
+\includegraphics[scale=0.4]{2023_04_17_08_56_24.png}\newline
+\includegraphics[scale=0.4]{2023_04_17_08_56_38.png}\newline 
+\includegraphics[scale=0.4]{2023_04_17_09_10_06.png} 
+
+\subsubsection{Roofline model}
+\includegraphics[scale=0.4]{2023_04_17_09_08_35.png}\newline
+Short, when you are memory bound you can increase the performance of the system, but if you are compute bound, then you are done for.
+
+\subsection{SIMD Single Instruction Multiple Data}
+This is where GPUs excell at, doing the same calculation on data all at once, aka each core will do the calculation on one data unit.\newline
+\includegraphics[scale=0.4]{2023_04_17_09_19_29.png}\newline
+This can also be done in a vector method, streamlining the calculation even more.\newline
+\includegraphics[scale=0.4]{2023_04_17_09_19_53.png}
+
+\subsection{NUMA Non Uniform Memory Access}
+These are the transfers of data between CPU and GPU.\newline
+\includegraphics[scale=0.4]{2023_04_17_09_24_17.png}
+
+\lstset{
+    language=C,
+    style=code,
+}
+
+\subsection{Vector Addition with GPU}
+\begin{lstlisting}
+// regular serial way
+void VectorAdd(float *A, float *B, float *C, int N)
+  for (int i = 0; i < N; i++) {
+    C[i] = A[i] + B[i];
+  }
+}
+// now parallalize the entire ordeal
+// Parallelize: N Threads
+PrperThread i (i = 0 .. N-1):
+C[i] = A[i] + B[i];
+\end{lstlisting}
+
+\subsubsection{With CUDA}
+\begin{lstlisting}
+// kernel definition
+__global__
+void VectorAddKernel(float *A, float *B, float *C) {
+  int i = threadIdx.x;
+  C[i] = A[i] + B[i];
+}
+int main() {
+  // kernel invocation
+  // launch operation with all threads -> N is the number of max threads
+  VectorAddKernel<<<1, N>>>(A, B, C);
+}
+\end{lstlisting}
+
+\textcolor{teal}{A real example implementation}
+\includegraphics[scale=0.4]{2023_04_17_09_30_44.png}\newline
+\begin{lstlisting}
+void CudaVectorAdd(float* A, float* B, float* C, int N) {
+  size_t size = N * sizeof(float);
+  float *d_A, *d_B, *d_C;
+  cudaMalloc(&d_A, size);
+  cudaMalloc(&d_B, size);
+  cudaMalloc(&d_C, size);
+  cudaMemcpy(d_A, A, size, cudaMemcpyHostToDevice);
+  cudaMemcpy(d_B, B, size, cudaMemcpyHostToDevice);
+  VectorAddKernel<<<1, N>>>(d_A, d_B, d_C, N);
+  cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
+  cudaFree(d_A); cudaFree(d_B); cudaFree(d_C);
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item \textcolor{black}{cudaMalloc}\newline
+  parameters: pointer address, size (bytes)
+\item \textcolor{black}{cudaFree}\newline
+  parameters: pointer address
+\item \textcolor{black}{cudaMemcpy}\newline
+  parameters: target pointer, source pointer, size, destination (GPU or CPU)
+\end{itemize} 
+
+\subsubsection{With OpenCL}
+\begin{lstlisting}
+__kernel
+void VectorAddKernel(__global float *A,
+                     __global float *B,
+                     __global float *C,
+                     int N) {
+  // split into more workgroups
+  int i = get_global_id(0);
+  if (i < N) {
+    C[i] = A[i] + B[i];
+  }
+}
+\end{lstlisting}
+
+\subsubsection{OpenCL Initialization}
+\begin{lstlisting}
+// choose OpenCL driver
+cl_int error;
+cl_platform_id platform;
+handleClError(
+clGetPlatformIDs(1, &platform, NULL));
+
+// choose first GPU
+cl_device_id device;
+handleClError(
+clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL));
+
+// choose OpenCL environment
+cl_context context =
+clCreateContext(0, 1, &device, NULL, NULL, &error);
+handleClError(error);
+
+// GPU commands
+cl_command_queue commandQueue =
+clCreateCommandQueue(context, device, 0, &error);
+handleClError(error);
+\end{lstlisting}
+
+\subsubsection{OpenCL Compilation}
+\begin{lstlisting}
+char *kernelSource = NULL;
+size_t kernelLength = 0;
+// load kernel file
+readSourceFromFile(KERNEL_FILE, &kernelSource, &kernelLength);
+
+cl_program program =
+clCreateProgramWithSource(context, 1,
+(const char **)&kernelSource, &kernelLength, &error);
+handleClError(error);
+
+handleClError(
+clBuildProgram(program, 0, NULL, NULL, NULL, NULL));
+// compile kernel
+cl_kernel kernel =
+clCreateKernel(program, KERNEL_FUNCTION, &error);
+handleClError(error);
+\end{lstlisting}
+
+\subsubsection{OpenCL Memory Allocation}
+\begin{lstlisting}
+cl_mem d_A =
+clCreateBuffer(context, CL_MEM_READ_ONLY, size, NULL, &error);
+handleClError(error);
+
+cl_mem d_B =
+clCreateBuffer(context, CL_MEM_READ_ONLY, size, NULL, &error);
+handleClError(error);
+
+cl_mem d_C =
+clCreateBuffer(context, CL_MEM_WRITE_ONLY, size, NULL, &error);
+handleClError(error);
+\end{lstlisting}
+
+\subsubsection{OpenCL Kernel Arguments}
+\begin{lstlisting}
+handleClError(
+clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_A));
+
+handleClError(
+clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_B));
+
+handleClError(
+clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_C));
+
+handleClError(
+clSetKernelArg(kernel, 3, sizeof(int), &N));
+\end{lstlisting}
+
+\subsubsection{OpenCL Input Copy}
+\begin{lstlisting}
+handleClError(
+clEnqueueWriteBuffer(commandQueue, d_A, CL_FALSE, 0, size,
+A, 0, NULL, NULL));
+
+handleClError(
+clEnqueueWriteBuffer(commandQueue, d_B, CL_FALSE, 0, size,
+B, 0, NULL, NULL));
+\end{lstlisting}
+
+\subsubsection{OpenCL Kernel Launch}
+\begin{lstlisting}
+// 1024 block size
+size_t localWorkSize[] = { 1024 };
+// N + 1023 = amount of threads
+size_t globalWorkSize[] = { (N + 1023) / 1024 * 1024 };
+
+clEnqueueNDRangeKernel(commandQueue, kernel, 1, NULL,
+globalWorkSize, localWorkSize, 0, NULL, NULL));
+\end{lstlisting}
+
+\subsubsection{OpenCL Input Copy}
+\begin{lstlisting}
+handleClError(
+clEnqueueReadBuffer(commandQueue, d_C, CL_TRUE, 0, size,
+C, 0, NULL, NULL));
+\end{lstlisting}
+
+\subsubsection{OpenCL free}
+\begin{lstlisting}
+// deallocate device memory 
+handleClError(clReleaseMemObject(d_A));
+handleClError(clReleaseMemObject(d_B));
+handleClError(clReleaseMemObject(d_C));Device Memory
+
+// deallocate kernel memory
+handleClError(clReleaseKernel(kernel));
+handleClError(clReleaseProgram(program));Kernel Code
+
+free(kernelSource);
+free(kernelPath);
+
+// end opencl
+handleClError(clReleaseCommandQueue(commandQueue));
+handleClError(clReleaseContext(context));
+\end{lstlisting}
+
 \end{document}

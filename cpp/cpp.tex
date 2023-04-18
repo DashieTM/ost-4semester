@@ -934,4 +934,340 @@ auto increment(T value) -> T {
 }
 \end{lstlisting}
 
+\section{Compile Time Evaluation}
+
+\subsection{Legacy}
+global const variables are essentially the same thing as const in rust -> evaluated at compile time.
+\begin{lstlisting}
+size_t const SZ = 6 * 7; // evaluated during compilation
+double x[SZ]; // -> x == SZ
+\end{lstlisting}
+
+\subsection{Constant Expression Contexts}
+These are the contexts where compile time evaluation is possible:
+\begin{itemize}
+\item \textcolor{black}{non-type template arguments}\newline
+  \begin{lstlisting}
+  std::array<Element, 5> arr{}
+  \end{lstlisting}
+\item \textcolor{black}{array bounds}\newline
+  \begin{lstlisting}
+  double matrix[ROWS][COLS]{}
+  \end{lstlisting}
+\item \textcolor{black}{Case expressions}\newline
+  \begin{lstlisting}
+  switch(value) {
+  case 42: // ...
+  }
+  \end{lstlisting}
+\item \textcolor{black}{Enumerator Initializer}\newline
+  \begin{lstlisting}
+  enum Light {
+  Off = 0, On = 1
+  };
+  \end{lstlisting}
+\item static\_assert \newline
+  \begin{lstlisting}
+  static_assert(order == 66);
+  \end{lstlisting}
+\item constexpr variables\newlien
+  \begin{lstlisting}
+  constexpr unsigned pi = 3;
+  \end{lstlisting}
+\item constexpr if statements\newline
+  \begin{lstlisting}
+  if constexpr (size > 0) {
+  // ..
+  }
+  \end{lstlisting}
+\item noexcept\newline
+  \begin{lstlisting}
+  Blob(Blob &&) noexcept(true);
+  \end{lstlisting}
+\end{itemize} 
+
+\subsection{static\_assert}
+Can be used to check things on compile time -> e.g. tests during compile time.\newline
+\textcolor{teal}{Note, the compilation fails if the assert fails!}
+\begin{lstlisting}
+// usage: static_assert(condition, message(optional))
+static_assert(isGreaterThanZero(Capacity));
+static_assert(sizeof(int) == 4, "unexpected size of int");
+\end{lstlisting}
+
+\subsection{constexpr/constinit}
+variables evaluated at compile time -> literal values 5,6,"asdf",constexpr functions.
+\begin{lstlisting}
+constexpr unsigned pi = 3;
+constinit unsigned pi = 3;
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{scopes}\newline
+  local, namespace, global -> static
+\item \textcolor{black}{constexpr variables are const}
+\item \textcolor{black}{constinit variables are not const!}
+\end{itemize} 
+
+\subsection{constexpr functions}
+\textcolor{red}{Can't use exceptions, which are shit either way!}\newline
+Functions that are evaluated at compile time:
+\begin{lstlisting}
+constexpr auto factorial(unsigned n) {
+//...
+}
+\end{lstlisting}
+\textcolor{teal}{Note, these functions can only have variables of literal type, and these MUST be initialized before used.}\newline
+You can also:
+\begin{itemize}
+\item \textcolor{black}{use loops}
+\item \textcolor{black}{branches -> if can be evaluated at compile time -> no exceptions!}
+\item \textcolor{black}{can only call constexpr functions}
+\item allocate new memory with new,delete or unique pointers etc.
+\item use constexpr functions as virtual functions in classes and structs
+\end{itemize} 
+\textcolor{teal}{Note that you can use constexpr in non constexpr contexts, in this case it will try to evaluate this constexpr at compile time if possible}
+
+\subsubsection{Consteval}
+These are essentially the same thing as constexpr functions, but they will \emph{always} evaluate at compile time, this means it can only be used in constexpr contexts.
+\begin{lstlisting}
+consteval auto factorial(unsigned n) {
+  auto result = 1u;
+  for (auto i = 2u; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}
+constexpr auto factorialOf5 = factorial(5);
+auto main() -> int {
+  static_assert(factorialOf5 == 120);
+}
+\end{lstlisting}
+
+\subsection{Undefined behavior and compiler}
+\textcolor{teal}{Interestingly enough the compiler will prevent undefined behavior in the compilation itself, instead it will just stop the compilation and return an errormessage.}\newline
+Note that for compile time evaluations, should code not actually reach invalid code, then it will just work, since that code was not reached.... another template fun thing with c++...
+\begin{lstlisting}
+constexpr auto throwIfZero(int value) -> void {
+  if (value == 0) {
+    throw std::logic_error{""};
+  }
+}
+constexpr auto divide(int n, int d) -> int {
+  throwIfZero(d);
+  return n / d;
+}
+constexpr auto five = divide(120, 24);
+// this is not reached, if it would be then it would not compile
+constexpr auto failure = divide(120, 0);
+\end{lstlisting}
+
+\subsection{Literal Types}
+\begin{itemize}
+\item \textcolor{black}{Trivial Destructor}
+\item \textcolor{black}{special literal types:}\newline
+  \begin{itemize}
+  \item \textcolor{black}{Lambdas}
+  \item \textcolor{black}{References}
+  \item \textcolor{black}{Arrays of Literal Types}
+  \item \textcolor{black}{void}
+  \item int, double, pointers, enums, literal strings, strings, etc.
+  \end{itemize} 
+\end{itemize} 
+\textcolor{teal}{You can create your own literal type:}
+\begin{lstlisting}
+template <typename T>
+class Vector {
+  constexpr static size_t dimensions = 3;
+  std::array<T, dimensions> values{};
+  public:
+  constexpr Vector(T x, T y, T z)
+  : values{x, y, z}{}
+  constexpr auto length() const -> T {
+    auto squares = x() * x() +
+    y() * y() +
+    z() * z();
+    return std::sqrt(squares);
+  }
+  constexpr auto x() -> T& {
+    return values[0];
+  }
+  constexpr auto x() const -> T const& {
+    return values[0];
+  }
+  //...
+};
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{red}{at least one constexpr or consteval constructor}
+\item \textcolor{red}{trivial destructor}
+\item \textcolor{red}{const and non-const functions possible}
+\item \textcolor{red}{note that only constexpr or consteval functions are done at compile time!}
+\item \textcolor{red}{Can be a template}
+\item \textcolor{red}{Other functions don't \emph{need} to be constexp or consteval!}
+\end{itemize} 
+
+\subsubsection{Compile Time template class computation}
+\begin{lstlisting}
+template <size_t n>
+struct fact {
+  static size_t const value{(n > 1)?
+};
+n * fact<n-1>::value : 1};
+  template <>
+  struct fact<0> { // recursion base case: template specialization
+  static size_t const value = 1;
+};
+TEST(testFactorialCompiletime) {
+  constexpr auto result = fact<5>::value;
+  ASSERT_EQUAL(result, 2 * 3 * 4 * 5);
+}
+\end{lstlisting}
+
+\subsubsection{Captures in Lambdas are also literal types}
+\begin{lstlisting}
+constexpr auto cubeVolume(double x) {
+  // x is literal
+  auto area = [x] {return pi * x * x;};
+  return area() * x;
+}
+constexpr auto cV = cubeVolume(5.0);
+\end{lstlisting}
+
+\subsubsection{Variable declaration as templates}
+\begin{lstlisting}
+template <size_t N>
+constexpr size_t factorial = factorial<N - 1> * N;
+
+template <> //Base case
+constexpr size_t factorial<0> = 1;
+
+// the idea is that you can have recursive variable declarations.... wtf?
+\end{lstlisting}
+
+\subsection{User Defined Literal-Suffixes}
+\subsubsection{Problem}
+\begin{lstlisting}
+template <typename Unit>
+struct Speed {
+  constexpr explicit Speed(double value)
+  : value{value}{};
+  constexpr explicit operator double() const {
+    return value;
+  }
+  private:
+  double value;
+};
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_04_18_02_29_26.png}
+
+
+\subsubsection{Solution}
+\textcolor{teal}{This is basically an overload on a literal ending → This means you can create something like numbers with endings like kph, kilo or whatever you need.}\newline
+In order to achieve this, you need to overload the "" operator ending with your literal.\newline
+Also note, \textcolor{teal}{The literal needs to be in a namespace in order to avoid confusion.}\newline
+This suffix should only have these literals inside of it, nothing else!
+\begin{lstlisting}
+namespace velocity::literals {
+  constexpr inline auto operator"" _kph(unsigned long long value) -> Speed<Kph> {
+    return Speed<Kph>{safeToDouble(value)};
+  }
+  constexpr inline auto operator"" _kph(long double value) - Speed<Kph> {
+    return Speed<Kph>{safeToDouble(value)};
+  }
+  auto speed1 = 5.0_kph;
+  auto speed2 = 5.0_mph;
+  auto speed3 = 5.0_mps;
+}
+\end{lstlisting}
+This version is used to avoid wrappers that add a lot of boilerplate code and makes it hard to use as you need to unwrap the wrappers.
+\textcolor{red}{Note, you can only overload a set of types -> (unsigned long long), (char const* , std::size\_t), (char const *)\newline
+I assume only literal types???}
+
+\subsubsection{String as suffix}
+\begin{lstlisting}
+auto operator"" _suffix(char const *, std::size_t len) -> TYPE
+
+namespace mystring {
+  inline auto operator"" _s(char const *s, std::size_t len) -> std::string {
+    return std::string { s, len };
+  }
+}
+// ...
+using namespace mystring;
+auto s = "hello"_s;
+s += " world\n";
+std::cout << s;
+\end{lstlisting}
+Or you can convert integers and floats to string: 
+\begin{lstlisting}
+auto operator"" _suffix(char const *) -> TYPE
+
+// this takes the non 0 terminated strings
+namespace mystring {
+  inline auto operator"" _s(char const *s) -> std::string
+    return std::string { s };
+  }
+}
+\end{lstlisting}
+\textcolor{red}{Note, these can't be constexpr!}
+
+\subsubsection{Compile Time User Defined Suffixes}
+\begin{lstlisting}
+// variadic version of suffix operator
+template <char ...Digits> requires (is_ternary_digit(Digits) && ...)
+constexpr auto operator"" _ternary() -> unsigned long long {
+  return ternary_value<Digits...>;
+}
+
+constexpr auto three_to(std::size_t power) -> unsigned long long {
+  return power ? 3ull * three_to(power - 1) : 1ull;
+}
+
+template <char ...Digits>
+extern unsigned long long ternary_value;
+
+// handle 0
+template <char ...Digits>
+constexpr unsigned long long ternary_value<'0', Digits...> {
+  ternary_value<Digits...>
+};
+
+// handle 1
+template <char ...Digits>
+constexpr unsigned long long ternary_value<'1', Digits...> {
+  1 * three_to(sizeof ...(Digits)) + ternary_value<Digits...>
+};
+
+// handle 2 
+template <char ...Digits>
+constexpr unsigned long long ternary_value<'2', Digits...> {
+  2 * three_to(sizeof ...(Digits)) + ternary_value<Digits...>
+};
+
+// handle base case
+template<>
+constexpr unsigned long long ternary_value<>{0};
+\end{lstlisting}
+\textcolor{teal}{Newer versions of c++ also allow a more concise version}
+\begin{lstlisting}
+constexpr auto is_ternary_digit(char c) -> bool {
+  return c == '0' || c == '1' || c == '2';
+}
+constexpr auto value_of(char c) -> unsigned {
+  return c - '0';
+}
+template <char D, char ...Digits>
+constexpr ternary_value<D, Digits...> {
+  value_of(D) * three_to(sizeof ...(Digits)) + ternary_value<Digits...>
+};
+\end{lstlisting}
+
+\subsubsection{Default Suffixes}
+\begin{itemize}
+\item \textcolor{black}{string -> s}
+\item \textcolor{black}{std::complex -> i,il,if (imaginary numbers)}
+\item \textcolor{black}{std::chrono::duration -> ns,us,ms,s,min,h (time)}
+\end{itemize} 
+
+
 \end{document}
