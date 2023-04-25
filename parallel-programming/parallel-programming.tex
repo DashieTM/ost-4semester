@@ -1482,4 +1482,101 @@ handleClError(clReleaseCommandQueue(commandQueue));
 handleClError(clReleaseContext(context));
 \end{lstlisting}
 
+\section{Cuda execution}
+Each kernel is executed N times by N threads:\newline
+\includegraphics[scale=0.4]{2023_04_24_09_23_47.png}\newline
+
+\subsection{Cuda Blocks}
+Threads are grouped into blocks -> code can define how many threads will be placed into a block with a limit of 1024.\newline
+\includegraphics[scale=0.4]{2023_04_24_09_25_14.png}
+
+\subsection{Thread Hierarchy}
+\includegraphics[scale=0.4]{2023_04_24_09_25_55.png}
+
+\subsection{Block and Grid to hardware}
+An novideo GPU has multiple so called Streaming Multiprocessors, all of which have multiple thread blocks inside them.\newline
+These SM can guarantee that all threads in a block can run at the same time.\newline
+Also note that all blocks in a kernel need to finish before a new kernel can be started.\newline
+\includegraphics[scale=0.4]{2023_04_24_02_24_02.png}
+
+\subsection{Specifying Kernel}
+\begin{itemize}
+\item \textcolor{black}{dimension can be 1,2 or 3 -> VectorAddKernel<<<grid\_dimension,block\_dimension>>>(A,B,C)}
+\item \textcolor{black}{dimensions can also be specified with a struct -> struct dim3{x;y;z};}\newline
+  usage: dim3 grid(2) // dim3 grid(2,1,1)\newline
+  Note that 1 means unassigned -> only one dimension
+\item Number of blocks in a grid = dimGrid.x * dimGrid.y * dimGrid.z
+\item  Number of threads in a block = dimBlock.x * dimBlock.y * dimBlock.z
+\end{itemize} 
+\begin{lstlisting}
+// 1 grid with (each) 1 block with (each) N threads
+VectorAddKernel<<<N>>>(d_A, d_B, d_C);
+
+// 1 grid with (each) 2 blocks with (each) N threads
+VectorAddKernel<<<2, N>>>(d_A, d_B, d_C);
+
+// 2 grids with (each) 2 blocks with (each) N threads
+VectorAddKernel<<<2, 2, N>>>(d_A, d_B, d_C);
+
+// note this here
+// grid -> 3 * 2 * 1
+// blocks -> 4 * 3 * 1
+dim3 gridSize(3, 2, 1);
+dim3 blockSize(4, 3, 1);
+VectorAddKernel<<<gridSize, blockSize>>>(...);
+\end{lstlisting}
+\includegraphics[scale=0.4]{2023_04_24_02_32_44.png}\newline
+\includegraphics[scale=0.4]{2023_04_24_02_33_05.png}
+
+
+\section{Data Partitioning with threads}
+\subsection{Data Access}
+\includegraphics[scale=0.4]{2023_04_24_09_28_33.png}
+\begin{lstlisting}
+N= 4097;
+int blockSize = 1024;
+int gridSize = (N + blockSize – 1) / blockSize;
+VectorAddKernel<<<gridSize, blockSize>>>(A, B, C, N);
+
+__global__
+void VectorAddKernel(float *A, float *B, float *C) {
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < N) {
+    // only 4097 threads should write
+    // threads with an id higher than that should not write -> be ignored
+    C[i] = A[i] + B[i];
+  }
+}
+\end{lstlisting}
+
+\subsection{Error Handling}
+\begin{lstlisting}
+cudaError error;
+error = cudaMalloc(&d_A, size);
+if (error != cudaSuccess) {
+  fprintf(stderr, "Failed to allocate device vector A: %s\n",
+  cudaGetErrorString(error));
+  exit(EXIT_FAILURE);
+}
+
+// usage 
+handleCudaError(cudaMalloc(&d_A, size));
+handleCudaError(cudaMalloc(&d_B, size));
+handleCudaError(cudaMalloc(&d_C, size));
+// that cl handle error function that doesn't exist kekw
+\end{lstlisting}
+
+\subsection{Unified Memory}
+Specify a section of memory to be used by both the GPU and the CPU -> no explicit passing of memory, instead direct access for both:\newline
+\includegraphics[scale=0.4]{2023_04_24_09_39_56.png}
+
+\subsection{C Limitiation}
+C does not support multi level arrays, lmao. This means you instead have to make arbitrary boundaries yourself with limits on a singular level array.\newline
+Just use fucking rust.
+\begin{lstlisting}
+float *matrix =
+  (float *)malloc(NofRows * NofCols * sizeof(float));
+matrix[row * NofCols + col] =
+\end{lstlisting}
+
 \end{document}

@@ -1848,6 +1848,311 @@ pthread_create (&id, &a, thread_function, argument);
 pthread_attr_destroy (&attributes);
 \end{lstlisting}
 
+\section{Mutexes and Semaphores}
+\subsection{Producer and Consumer Problem}
+This is a simple implementation to the consumr and producer problem.
+\begin{lstlisting}
+#define BUFFER_SIZE 16
+struct item { ... };
+struct item buffer [BUFFER_SIZE];
+
+int writer = 0;
+int reader = 0;
+
+// producer thread
+while (1) {
+  produce_item (&buffer[writer], ...);
+  int next_w = (writer + 1) % BUFFER_SIZE;
+  // wait if reader is still reading next index
+  while (next_w == reader) {}
+  writer = next_w;
+}
+
+// consumer thread
+while (1) {
+  // wait if writer is writing to next index
+  while (reader == writer) {}
+  consume (&buffer[reader]);
+  reader = (reader + 1) % BUFFER_SIZE;
+}
+\end{lstlisting}
+Problems with this: 
+\begin{itemize}
+\item \textcolor{black}{Blocking wait: CPU is still used while in while loop -> useless}
+\item \textcolor{black}{Does not work is multiple producers/consumers are here -> write/reader index is not atomic!}
+\item \textcolor{black}{Count of elements available is unknown}
+\end{itemize} 
+\textcolor{teal}{If we now want to check for the amount of elements, then we can't do this immediately with --counter or ++counter\newline
+this instruction is not atomic!}
+
+\subsubsection{Non-Atomic instructions}
+\begin{lstlisting}
+// an instruction like
+--counter;
+
+// will turn into this assembly code
+// mov rax, [counter]
+// inc rax
+// mov [counter], rax
+\end{lstlisting}
+\textcolor{purple}{After any of these assembly instructions, the CPU can be interrupted to swap to another thread etc.\newline
+This means that the instruction in C is not done, leading to a potential data race!}\newline
+\includegraphics[scale=0.4]{2023_04_25_05_20_56.png}\newline
+This is a typical update lost problem, overwrite of an update.
+
+\subsubsection{Critical Section}
+This refers to the code segment that causes the issues -> here it is the counter increment and decrement, as well as any other non-atomic instruction.
+
+\subsection{Synchronization}
+\begin{itemize}
+\item \textcolor{purple}{Mutual Exclusion:} \newline
+  during a critical section, one wants other threads to not interfere with this thread -> only one thread accesses this segment
+\item \textcolor{purple}{Progress:} If another thread wants to enter a critial section that is already being used, then there must be a decision on which thread enters the section next(in finite time!)
+\item \textcolor{purple}{finite wait:} There must be a number N that defines how many times a thread can be overtaken, before getting a guarantee to enter the critical section
+\end{itemize} 
+
+\subsection{Atomic Instructions}
+An atomic instruction is an instruction that will be done with 1 processor cycle -> can therefore not be interrupted.\newline
+\begin{lstlisting}
+mov [2000], rax ; atomic, naturally aligned, no shifting necessary
+; in other words, this address can be divided by 8 
+mov [2009], rax ; not atomic -> 2 writes necessary as not divideable by 8
+; the reason: processors can write one entire byte.
+; here it would write to 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
+; this means it has to write parts of 2 addresses!! 2016 is a new byte
+; 2008-2015 byte 1, 2016-2023 byte 2
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{purple}{Modern CPUs give no guarantee that \emph{ANY} instruction definitely is atomic}
+\item \textcolor{purple}{Modern CPUs will reshuffle instructions as it pleases -> this is no problem for singular threads, but can fuckup multithreaded programs}
+\item \textcolor{purple}{In other words, multithreading is only possible with cooperation with hardware manufacturers}
+\end{itemize} 
+
+\subsubsection{Naive Solution: Disable interrupts}
+\begin{itemize}
+\item \textcolor{black}{during critical section no context switching is allowed}
+\item \textcolor{black}{Ok with a single core? But not with multi core -> not thread safe}
+\item \textcolor{black}{Dangerous: What happens when this thread breaks? Aka infinite loop? Or some other error? The thread can't be killed!!!}
+\end{itemize} 
+
+\subsubsection{Usage of Special Instructions}
+\begin{itemize}
+\item \textcolor{black}{Hardware guarantee that these instructions can't be done at the same time(even with multicore/multiCPU systems)}
+\item \textcolor{black}{Locks can be done based on this system}
+\item \textcolor{black}{Functions: Test-And-Set / Compare-And-Swap}
+\item \textcolor{red}{In other words, YOU CANT IMPLEMENT IT IN SOFTWARE, YOU MUST USE THESE HARDWARE FUNCTIONS}
+\end{itemize} 
+Test-And-Set:\newline
+This reads the value of from an address and sets the value to 1
+\begin{lstlisting}
+// NOT REAL CODE
+// only example of how it works
+int test_and_set (int *target) {
+  int value = *target;
+  *target = 1;
+  return value;
+}
+
+// could then be used like this:
+while (tas (&lock) == 1) {}
+// do something
+lock = 0;
+\end{lstlisting}
+Compare-And-Swap:\newline
+Reads the value of the address, checks if the value is according to the expected value, and overwrite the value if it did.
+\begin{lstlisting}
+// NOT REAL CODE
+// only example of how it works
+int compare_and_swap (int *a, int expected, int new_a) {
+  int value = *a;
+  if (value == expected) {
+    *a = new_a;
+  }
+  return value;
+}
+
+// usage
+while (cas (&lock, 0, 1) == 1) {}
+// do something
+lock = 0;
+\end{lstlisting}
+
+\subsection{Semaphore}
+\textcolor{purple}{The semaphore is the actual implementation of this lock!\newline
+  A semaphore has a counter with a number that is \emph{always positive!}\newline
+You can interact with them via special functions.}\newline
+Special Functions:
+\begin{itemize}
+\item \textcolor{black}{Post: increments the value of the sempahore by 1}
+\item \textcolor{black}{Wait: if counter is 0, thread will go to waiting until another thread increments the counter again\newline
+  if counter is higher than 0, decrement and continue execution}
+\item \textcolor{black}{These functions are \emph{atomic!}]}
+\end{itemize} 
+
+\subsubsection{Producer and Consumer with Semaphores}
+\begin{lstlisting}
+// producer
+while (1) {
+  // wait if consumer is in next index
+  wait (free);
+  produce_item (&buffer[w], ...);
+  post (used);
+  writer = (writer + 1) % BUFFER_SIZE;
+}
+
+// consumer
+while (1) {
+  // wait if writer is in current reader index
+  wait (used);
+  consume (&buffer[r]);
+  post (free);
+  reader = (reader + 1) % BUFFER_SIZE;
+}
+\end{lstlisting}
+
+\subsection{Usage of Sempahores: sem\_init}
+\begin{lstlisting}
+// definition
+int sem_init (sem_t *sem,
+              int pshared,
+              unsigned int value);
+\end{lstlisting}
+Initializes a sempahore. \newline
+pshared == 0 > semaphore can only be used in this thread\newline
+pshared == 1 > semaphore can be used in other threads
+\, \newline
+Usage:
+\begin{lstlisting}
+// note tis is typically a global variable!!
+sem_t sem;
+int main (int argc, char **argv) {
+  sem_init (&sem, 0, 4);
+  return 0;
+}
+\end{lstlisting}
+Altnernative use: 
+\begin{lstlisting}
+// here  we create a struct that will be passed to the thread as parameter
+struct T { sem_t *sem; ... };
+int main (int argc, char **argv) {
+  // instead of global variable, we now have a parameter
+  sem_t sem;
+  sem_init (&sem, 0, 4);
+  // struct to pass to thread
+  struct T t = { &sem , ... };
+  return 0;
+}
+\end{lstlisting}
+
+\subsubsection{sem\_wait and sem\_post}
+\begin{lstlisting}
+int sem_wait (sem_t *sem);
+int sem_post (sem_t *sem);
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{Implement post and wait}
+\item \textcolor{black}{return 0 on success, else -1 and error code in errno}
+\item \textcolor{black}{in case of error, the semaphore will not be changed/mutated}
+\end{itemize} 
+
+\subsubsection{sem\_trywait and sem\_timedwait}
+\begin{lstlisting}
+int sem_trywait (sem_t *sem);
+int sem_timedwait (sem_t *sem,
+                   const struct timespec *abs_timeout);
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{sem\_trywait: same as sem\_wait but cancels instead of blocking if decrement not possible -> value of semaphore == 0}
+\item \textcolor{black}{sem\_timedwait:} waits until either timeout reached, or wait successful
+\end{itemize} 
+
+\subsubsection{sem\_destroy}
+\begin{lstlisting}
+int sem_destroy(sem_t *sem);
+\end{lstlisting}
+Removes all memory that has been allocated for the semaphore.
+
+\subsection{Mutexes}
+A mutex has 2 states: acquired and released:
+\begin{itemize}
+\item \textcolor{black}{Acquire:} \newline
+  if count == 0, set count to 1 and continue\newline
+  if count == 1, block thread until count == 0
+\item \textcolor{black}{set count to 0}
+\item These are just locks
+\end{itemize} 
+
+\subsubsection{Usage}
+Very easy to use:
+\begin{lstlisting}
+acquire (mutex);
+++counter;
+release (mutex);
+\end{lstlisting}
+\textcolor{red}{Note, mutexes are also fences, this means that noone, neither the CPU or the OS may shuffle the instruction order in a mutex.}
+
+\subsubsection{Mutexes in POSIX}
+\begin{lstlisting}
+int pthread_mutex_init(pthread_mutex_t *mutex,
+                       const pthread_mutexattr_t *attr);
+\end{lstlisting}
+attributes are optional
+  \begin{itemize}
+    \item \textcolor{black}{protocol: for example PTHREAD\_PRIO\_INHERIT: Mutex uses priority inheritance}
+  \item \textcolor{black}{pshared: mutex can be used in other threads if set to anything other than 0}
+  \item \textcolor{black}{type: Allows recursive usage or not -> with error code or without}
+  \item \textcolor{black}{prioceiling: Returns minimum priority for threads that can stop the mutex}
+  \end{itemize} 
+Usage:
+\begin{lstlisting}
+// acquire (blocking)
+int pthread_mutex_lock (pthread_mutex_t *mutex);
+
+// attempt to acquire (non-blocking)
+int pthread_mutex_trylock (pthread_mutex_t *mutex);
+
+// release
+int pthread_mutex_unlock (pthread_mutex_t *mutex);
+
+// clean up
+int pthread_mutex_destroy (pthread_mutex_t *mutex);
+
+// usage in main
+pthread_mutex_t mutex; // globale Variable
+int main () {
+  pthread_mutex_init (&mutex, 0);
+  // run threads and wait for them to finish
+  pthread_mutex_destroy (&mutex);
+}
+
+// usage in thread
+void * thread_function (void * args) {
+  while (running) {
+    // Enter critical section
+    pthread_mutex_lock (&mutex);
+    // Perform crit. section, e.g. ++counter
+    // Leave critical section
+    pthread_mutex_unlock (&mutex);
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Priority Inversion}
+Problem: A thread with high priority needs a resource within a mutex, the current holder of said mutex is a thread of low priority.\newline
+There is also a medium priority thread that is waiting to be scheduled.\newline
+High prio thread now needs to give up it's place in order to wait for resource, but instead of getting the resource from A, B is run instead since it has higher prio than A.\newline
+\includegraphics[scale=0.4]{2023_04_25_06_17_08.png}\newline
+\textcolor{purple}{Solution: Priority Inheritance}\newline
+This means that should thread C have to wait for a resource, then the thread holding this mutex will run with the same priority as the thread asking for the resource. \newline
+In this case A would run in high prio, meaning that B will not be run:\newline
+\includegraphics[scale=0.4]{2023_04_25_06_18_20.png}\newline
+Legend:
+\begin{itemize}
+\item \textcolor{black}{purple: running}
+\item \textcolor{black}{gray-dashed: waiting for resource}
+\item \textcolor{black}{gray: regular waiting}
+\end{itemize} 
+
 \section{Communication and Synchronization}
 
 \section{Programs and libraries}

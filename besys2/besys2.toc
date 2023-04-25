@@ -1,143 +1,187 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}C}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}fixed size types}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Addition of pointers}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {1}C}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}fixed size types}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Addition of pointers}{3}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}Index Operator on Pointers}{3}{subsection.1.3}%
 \contentsline {subsection}{\numberline {1.4}Padding}{3}{subsection.1.4}%
 \contentsline {subsection}{\numberline {1.5}Forwards Declaration}{3}{subsection.1.5}%
-\contentsline {section}{\numberline {2}Operating System APIs}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Basic features of an Operating system}{3}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Limitations of Portability}{3}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Limits of Isolation}{3}{subsubsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.2}Processor Privilege}{3}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Kernel}{3}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}MicroKernel}{3}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Monolithic Kernel}{3}{subsubsection.2.3.2}%
+\contentsline {section}{\numberline {2}Operating System APIs}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Basic features of an Operating system}{4}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Limitations of Portability}{4}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Limits of Isolation}{4}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}Processor Privilege}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Kernel}{4}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}MicroKernel}{4}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Monolithic Kernel}{4}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Unikernel}{4}{subsubsection.2.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.4}Running an instruction in Kernel Mode}{4}{subsubsection.2.3.4}%
 \contentsline {subsubsection}{\numberline {2.3.5}Syscall (SVC on ARM)}{4}{subsubsection.2.3.5}%
 \contentsline {subsection}{\numberline {2.4}ABI vs API}{4}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}ABI in Linux}{4}{subsubsection.2.4.1}%
 \contentsline {subsubsection}{\numberline {2.4.2}API in Linux}{4}{subsubsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.5}POSIX}{4}{subsection.2.5}%
-\contentsline {subsubsection}{\numberline {2.5.1}POSIX Conformity}{4}{subsubsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.6}Man Pages}{4}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Shell}{4}{subsection.2.7}%
-\contentsline {subsubsection}{\numberline {2.7.1}Arguments in shell}{4}{subsubsection.2.7.1}%
-\contentsline {subsubsection}{\numberline {2.7.2}Env Vars}{4}{subsubsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.5}POSIX}{5}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}POSIX Conformity}{5}{subsubsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.6}Man Pages}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Shell}{5}{subsection.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.1}Arguments in shell}{5}{subsubsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.2}Env Vars}{5}{subsubsection.2.7.2}%
 \contentsline {section}{\numberline {3}Filesystems}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Files}{5}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}FileTypes}{5}{subsubsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.2}Directories}{5}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Special directories}{5}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Paths}{5}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Max Path}{5}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.1.1}FileTypes}{6}{subsubsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.2}Directories}{6}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Special directories}{6}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Paths}{6}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Max Path}{6}{subsubsection.3.2.3}%
 \contentsline {subsubsection}{\numberline {3.2.4}Rights}{6}{subsubsection.3.2.4}%
 \contentsline {section}{\numberline {4}File API}{6}{section.4}%
 \contentsline {subsection}{\numberline {4.1}POSIX File API}{6}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Usage of errno}{6}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}File-Descriptor}{6}{subsubsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.3}Opening files with POSIX API}{6}{subsubsection.4.1.3}%
-\contentsline {subsubsection}{\numberline {4.1.4}Close files with POSIX API}{6}{subsubsection.4.1.4}%
-\contentsline {subsubsection}{\numberline {4.1.5}Usage of open and close}{6}{subsubsection.4.1.5}%
-\contentsline {subsubsection}{\numberline {4.1.6}Read data with POSIX API}{6}{subsubsection.4.1.6}%
+\contentsline {subsubsection}{\numberline {4.1.1}Usage of errno}{7}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}File-Descriptor}{7}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}Opening files with POSIX API}{7}{subsubsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.4}Close files with POSIX API}{7}{subsubsection.4.1.4}%
+\contentsline {subsubsection}{\numberline {4.1.5}Usage of open and close}{7}{subsubsection.4.1.5}%
+\contentsline {subsubsection}{\numberline {4.1.6}Read data with POSIX API}{7}{subsubsection.4.1.6}%
 \contentsline {subsubsection}{\numberline {4.1.7}Write data with POSIX API}{7}{subsubsection.4.1.7}%
-\contentsline {subsubsection}{\numberline {4.1.8}Jump in a file with POSIX API}{7}{subsubsection.4.1.8}%
-\contentsline {subsubsection}{\numberline {4.1.9}pread and pwrite in POSIX API}{7}{subsubsection.4.1.9}%
-\contentsline {subsubsection}{\numberline {4.1.10}windoof proprietary paths}{7}{subsubsection.4.1.10}%
-\contentsline {subsubsection}{\numberline {4.1.11}Example for reading and writing data in POSIX API}{7}{subsubsection.4.1.11}%
-\contentsline {subsection}{\numberline {4.2}C Stream API}{7}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}FILE datastructure}{7}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}open file with C-API}{8}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}close file with C-API}{8}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}flush of file with C-API}{8}{subsubsection.4.2.4}%
-\contentsline {subsubsection}{\numberline {4.2.5}Conversion from POSIX-API to C-API}{8}{subsubsection.4.2.5}%
-\contentsline {subsubsection}{\numberline {4.2.6}read from file with C-API}{8}{subsubsection.4.2.6}%
-\contentsline {subsubsection}{\numberline {4.2.7}"un"read from file with C-API}{8}{subsubsection.4.2.7}%
-\contentsline {subsubsection}{\numberline {4.2.8}Write to file with C-API}{8}{subsubsection.4.2.8}%
-\contentsline {subsubsection}{\numberline {4.2.9}End of file and Error in File C-API}{8}{subsubsection.4.2.9}%
-\contentsline {subsubsection}{\numberline {4.2.10}Manipulation of file-position indicator with C-API}{9}{subsubsection.4.2.10}%
-\contentsline {subsection}{\numberline {4.3}Ext2}{9}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Ext4}{9}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Processmodels}{9}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Base}{9}{subsection.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}Improvement with "async"}{9}{subsubsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.2}Process}{9}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}Program vs Process}{9}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}Process Control Block (PCB)}{9}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}Interrupts, Processes and Context Switch}{9}{subsubsection.5.2.3}%
-\contentsline {subsubsection}{\numberline {5.2.4}Creation of a process}{9}{subsubsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.3}Process Hierarchy}{9}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}fork function}{9}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}exit function}{10}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}wait function}{10}{subsubsection.5.3.3}%
-\contentsline {subsubsection}{\numberline {5.3.4}waitpid function}{10}{subsubsection.5.3.4}%
-\contentsline {subsubsection}{\numberline {5.3.5}Examples}{10}{subsubsection.5.3.5}%
-\contentsline {subsubsection}{\numberline {5.3.6}exec functions}{10}{subsubsection.5.3.6}%
-\contentsline {subsubsection}{\numberline {5.3.7}Zombie Processe}{11}{subsubsection.5.3.7}%
-\contentsline {subsubsection}{\numberline {5.3.8}Orphan Process}{11}{subsubsection.5.3.8}%
-\contentsline {subsubsection}{\numberline {5.3.9}function sleep}{11}{subsubsection.5.3.9}%
-\contentsline {subsubsection}{\numberline {5.3.10}function atexit}{11}{subsubsection.5.3.10}%
-\contentsline {subsubsection}{\numberline {5.3.11}function to read pid}{11}{subsubsection.5.3.11}%
-\contentsline {section}{\numberline {6}C Toolchain}{11}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Precprocessor}{11}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Linker}{11}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Loader}{11}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Penguin Loader}{11}{subsubsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.4}Executable Linking Format ELF}{11}{subsection.6.4}%
-\contentsline {subsubsection}{\numberline {6.4.1}ELF Structure}{12}{subsubsection.6.4.1}%
-\contentsline {subsubsection}{\numberline {6.4.2}Segments and Sections}{12}{subsubsection.6.4.2}%
-\contentsline {subsubsection}{\numberline {6.4.3}Header of an ELF file}{12}{subsubsection.6.4.3}%
-\contentsline {subsubsection}{\numberline {6.4.4}Program Header Table and Segments}{12}{subsubsection.6.4.4}%
-\contentsline {subsubsection}{\numberline {6.4.5}Sections}{12}{subsubsection.6.4.5}%
-\contentsline {subsubsection}{\numberline {6.4.6}String Table}{12}{subsubsection.6.4.6}%
-\contentsline {subsubsection}{\numberline {6.4.7}Symbols}{13}{subsubsection.6.4.7}%
-\contentsline {subsection}{\numberline {6.5}Static Libraries}{13}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Dynamic Libraries}{13}{subsection.6.6}%
-\contentsline {subsubsection}{\numberline {6.6.1}Delayed Loading}{13}{subsubsection.6.6.1}%
-\contentsline {subsection}{\numberline {6.7}POSIX API: dynamic libraries}{13}{subsection.6.7}%
-\contentsline {subsubsection}{\numberline {6.7.1}dlopen}{13}{subsubsection.6.7.1}%
-\contentsline {subsubsection}{\numberline {6.7.2}dlsym}{13}{subsubsection.6.7.2}%
-\contentsline {subsubsection}{\numberline {6.7.3}dlclose}{13}{subsubsection.6.7.3}%
-\contentsline {subsubsection}{\numberline {6.7.4}dlerror}{13}{subsubsection.6.7.4}%
-\contentsline {subsubsection}{\numberline {6.7.5}Automatic Loading of ELF files}{13}{subsubsection.6.7.5}%
-\contentsline {subsection}{\numberline {6.8}Naming of Shared Objects}{14}{subsection.6.8}%
-\contentsline {subsubsection}{\numberline {6.8.1}Updates}{14}{subsubsection.6.8.1}%
-\contentsline {subsection}{\numberline {6.9}Shared Objects with Linker and Loader}{14}{subsection.6.9}%
-\contentsline {subsection}{\numberline {6.10}Creating Static Libraries:}{14}{subsection.6.10}%
-\contentsline {subsection}{\numberline {6.11}Creating Dynamic Libraries:}{14}{subsection.6.11}%
-\contentsline {subsection}{\numberline {6.12}Using libraries}{14}{subsection.6.12}%
-\contentsline {subsubsection}{\numberline {6.12.1}ld-linux.so effective loader}{14}{subsubsection.6.12.1}%
-\contentsline {subsection}{\numberline {6.13}Shared Object Facts}{14}{subsection.6.13}%
-\contentsline {subsection}{\numberline {6.14}Dynamic Library Implementation}{14}{subsection.6.14}%
-\contentsline {subsubsection}{\numberline {6.14.1}Position-Dependent Code}{14}{subsubsection.6.14.1}%
-\contentsline {subsubsection}{\numberline {6.14.2}Position-Independent Code}{15}{subsubsection.6.14.2}%
-\contentsline {subsubsection}{\numberline {6.14.3}Global Offset Table}{15}{subsubsection.6.14.3}%
-\contentsline {subsection}{\numberline {6.15}PLT Process Linkage Table}{15}{subsection.6.15}%
-\contentsline {section}{\numberline {7}MultiThreading}{15}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Threads}{15}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Process-Model vs Thread-Model}{15}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Thread as stack and context}{15}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Parallization of algorithms}{15}{subsection.7.4}%
-\contentsline {subsubsection}{\numberline {7.4.1}Time difference}{15}{subsubsection.7.4.1}%
-\contentsline {subsubsection}{\numberline {7.4.2}Speedup Factor}{15}{subsubsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.5}Amdahls Rule}{16}{subsection.7.5}%
-\contentsline {section}{\numberline {8}POSIX Threading API}{16}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Creating a thread}{16}{subsection.8.1}%
-\contentsline {subsubsection}{\numberline {8.1.1}Example for pthread}{16}{subsubsection.8.1.1}%
-\contentsline {subsubsection}{\numberline {8.1.2}Attributes for pthread}{16}{subsubsection.8.1.2}%
-\contentsline {subsection}{\numberline {8.2}pthread\_exit}{16}{subsection.8.2}%
-\contentsline {subsubsection}{\numberline {8.2.1}Lifetime of a thread}{16}{subsubsection.8.2.1}%
-\contentsline {subsection}{\numberline {8.3}pthread\_cancel}{16}{subsection.8.3}%
-\contentsline {subsection}{\numberline {8.4}pthread\_detach}{17}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}pthread\_join}{17}{subsection.8.5}%
-\contentsline {subsection}{\numberline {8.6}pthread\_self}{17}{subsection.8.6}%
-\contentsline {section}{\numberline {9}Thread-Local Storage (TLS)}{17}{section.9}%
-\contentsline {subsection}{\numberline {9.1}pthread\_key\_create}{17}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}pthread\_key\_delete}{17}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}pthread\_setspecific and pthread\_getspecific}{17}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}Example with TLS}{17}{subsection.9.4}%
-\contentsline {section}{\numberline {10}Communication and Synchronization}{18}{section.10}%
-\contentsline {section}{\numberline {11}Programs and libraries}{18}{section.11}%
-\contentsline {section}{\numberline {12}Graphical Overlays}{18}{section.12}%
+\contentsline {subsubsection}{\numberline {4.1.8}Jump in a file with POSIX API}{8}{subsubsection.4.1.8}%
+\contentsline {subsubsection}{\numberline {4.1.9}pread and pwrite in POSIX API}{8}{subsubsection.4.1.9}%
+\contentsline {subsubsection}{\numberline {4.1.10}windoof proprietary paths}{8}{subsubsection.4.1.10}%
+\contentsline {subsubsection}{\numberline {4.1.11}Example for reading and writing data in POSIX API}{8}{subsubsection.4.1.11}%
+\contentsline {subsection}{\numberline {4.2}C Stream API}{8}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}FILE datastructure}{9}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}open file with C-API}{9}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}close file with C-API}{9}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}flush of file with C-API}{9}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}Conversion from POSIX-API to C-API}{9}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.6}read from file with C-API}{9}{subsubsection.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.7}"un"read from file with C-API}{9}{subsubsection.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.8}Write to file with C-API}{10}{subsubsection.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.9}End of file and Error in File C-API}{10}{subsubsection.4.2.9}%
+\contentsline {subsubsection}{\numberline {4.2.10}Manipulation of file-position indicator with C-API}{10}{subsubsection.4.2.10}%
+\contentsline {subsection}{\numberline {4.3}Ext2}{10}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Ext4}{10}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Processmodels}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Base}{10}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Improvement with "async"}{10}{subsubsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.2}Process}{11}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Program vs Process}{11}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Process Control Block (PCB)}{11}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Interrupts, Processes and Context Switch}{11}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Creation of a process}{11}{subsubsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.3}Process Hierarchy}{11}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}fork function}{11}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}exit function}{12}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}wait function}{12}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}waitpid function}{12}{subsubsection.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.3.5}Examples}{12}{subsubsection.5.3.5}%
+\contentsline {subsubsection}{\numberline {5.3.6}exec functions}{12}{subsubsection.5.3.6}%
+\contentsline {subsubsection}{\numberline {5.3.7}Zombie Processe}{13}{subsubsection.5.3.7}%
+\contentsline {subsubsection}{\numberline {5.3.8}Orphan Process}{13}{subsubsection.5.3.8}%
+\contentsline {subsubsection}{\numberline {5.3.9}function sleep}{13}{subsubsection.5.3.9}%
+\contentsline {subsubsection}{\numberline {5.3.10}function atexit}{13}{subsubsection.5.3.10}%
+\contentsline {subsubsection}{\numberline {5.3.11}function to read pid}{13}{subsubsection.5.3.11}%
+\contentsline {section}{\numberline {6}C Toolchain}{13}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Precprocessor}{13}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Linker}{13}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Loader}{13}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Penguin Loader}{14}{subsubsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.4}Executable Linking Format ELF}{14}{subsection.6.4}%
+\contentsline {subsubsection}{\numberline {6.4.1}ELF Structure}{14}{subsubsection.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.4.2}Segments and Sections}{14}{subsubsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.3}Header of an ELF file}{14}{subsubsection.6.4.3}%
+\contentsline {subsubsection}{\numberline {6.4.4}Program Header Table and Segments}{15}{subsubsection.6.4.4}%
+\contentsline {subsubsection}{\numberline {6.4.5}Sections}{15}{subsubsection.6.4.5}%
+\contentsline {subsubsection}{\numberline {6.4.6}String Table}{15}{subsubsection.6.4.6}%
+\contentsline {subsubsection}{\numberline {6.4.7}Symbols}{16}{subsubsection.6.4.7}%
+\contentsline {subsection}{\numberline {6.5}Static Libraries}{16}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Dynamic Libraries}{16}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.6.1}Delayed Loading}{16}{subsubsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.7}POSIX API: dynamic libraries}{17}{subsection.6.7}%
+\contentsline {subsubsection}{\numberline {6.7.1}dlopen}{17}{subsubsection.6.7.1}%
+\contentsline {subsubsection}{\numberline {6.7.2}dlsym}{17}{subsubsection.6.7.2}%
+\contentsline {subsubsection}{\numberline {6.7.3}dlclose}{17}{subsubsection.6.7.3}%
+\contentsline {subsubsection}{\numberline {6.7.4}dlerror}{17}{subsubsection.6.7.4}%
+\contentsline {subsubsection}{\numberline {6.7.5}Automatic Loading of ELF files}{17}{subsubsection.6.7.5}%
+\contentsline {subsection}{\numberline {6.8}Naming of Shared Objects}{17}{subsection.6.8}%
+\contentsline {subsubsection}{\numberline {6.8.1}Updates}{17}{subsubsection.6.8.1}%
+\contentsline {subsection}{\numberline {6.9}Shared Objects with Linker and Loader}{17}{subsection.6.9}%
+\contentsline {subsection}{\numberline {6.10}Creating Static Libraries:}{18}{subsection.6.10}%
+\contentsline {subsection}{\numberline {6.11}Creating Dynamic Libraries:}{18}{subsection.6.11}%
+\contentsline {subsection}{\numberline {6.12}Using libraries}{18}{subsection.6.12}%
+\contentsline {subsubsection}{\numberline {6.12.1}ld-linux.so effective loader}{18}{subsubsection.6.12.1}%
+\contentsline {subsection}{\numberline {6.13}Shared Object Facts}{18}{subsection.6.13}%
+\contentsline {subsection}{\numberline {6.14}Dynamic Library Implementation}{18}{subsection.6.14}%
+\contentsline {subsubsection}{\numberline {6.14.1}Position-Dependent Code}{19}{subsubsection.6.14.1}%
+\contentsline {subsubsection}{\numberline {6.14.2}Position-Independent Code}{19}{subsubsection.6.14.2}%
+\contentsline {subsubsection}{\numberline {6.14.3}Global Offset Table}{19}{subsubsection.6.14.3}%
+\contentsline {subsection}{\numberline {6.15}PLT Process Linkage Table}{19}{subsection.6.15}%
+\contentsline {section}{\numberline {7}MultiThreading}{19}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Threads}{19}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Process-Model vs Thread-Model}{20}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Thread as stack and context}{20}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Parallization of algorithms}{20}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}Time difference}{20}{subsubsection.7.4.1}%
+\contentsline {subsubsection}{\numberline {7.4.2}Speedup Factor}{20}{subsubsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.5}Amdahls Rule}{21}{subsection.7.5}%
+\contentsline {section}{\numberline {8}POSIX Threading API}{21}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Creating a thread}{21}{subsection.8.1}%
+\contentsline {subsubsection}{\numberline {8.1.1}Example for pthread}{21}{subsubsection.8.1.1}%
+\contentsline {subsubsection}{\numberline {8.1.2}Attributes for pthread}{21}{subsubsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.2}pthread\_exit}{21}{subsection.8.2}%
+\contentsline {subsubsection}{\numberline {8.2.1}Lifetime of a thread}{22}{subsubsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.3}pthread\_cancel}{22}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}pthread\_detach}{22}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}pthread\_join}{22}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}pthread\_self}{22}{subsection.8.6}%
+\contentsline {section}{\numberline {9}Thread-Local Storage (TLS)}{22}{section.9}%
+\contentsline {subsection}{\numberline {9.1}pthread\_key\_create}{22}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}pthread\_key\_delete}{22}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}pthread\_setspecific and pthread\_getspecific}{22}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Example with TLS}{22}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Important note for Threads}{23}{subsection.9.5}%
+\contentsline {section}{\numberline {10}Scheduling}{23}{section.10}%
+\contentsline {subsection}{\numberline {10.1}States of a Thread}{23}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Waiting threads and Ready-Queue}{23}{subsection.10.2}%
+\contentsline {subsubsection}{\numberline {10.2.1}Powerdown-Mode}{23}{subsubsection.10.2.1}%
+\contentsline {subsubsection}{\numberline {10.2.2}Types of Threads}{23}{subsubsection.10.2.2}%
+\contentsline {subsection}{\numberline {10.3}Types of Concurrency}{23}{subsection.10.3}%
+\contentsline {subsubsection}{\numberline {10.3.1}Preemptive Multithreading}{24}{subsubsection.10.3.1}%
+\contentsline {subsection}{\numberline {10.4}Parallel, "quai"parallel and Concurrent Execution}{24}{subsection.10.4}%
+\contentsline {subsection}{\numberline {10.5}Bursts}{24}{subsection.10.5}%
+\contentsline {subsection}{\numberline {10.6}Parallel Execution as an ideal}{24}{subsection.10.6}%
+\contentsline {subsection}{\numberline {10.7}Requirements for Scheduler}{24}{subsection.10.7}%
+\contentsline {subsubsection}{\numberline {10.7.1}Conflict of interest}{24}{subsubsection.10.7.1}%
+\contentsline {subsubsection}{\numberline {10.7.2}First Come First Serve(FCFS) Scheduling}{24}{subsubsection.10.7.2}%
+\contentsline {subsubsection}{\numberline {10.7.3}Shortest Job First(SJF) Scheduling Strategy}{25}{subsubsection.10.7.3}%
+\contentsline {subsubsection}{\numberline {10.7.4}Round-Robin Scheduling}{25}{subsubsection.10.7.4}%
+\contentsline {subsubsection}{\numberline {10.7.5}Priority-Basd Scheduling}{25}{subsubsection.10.7.5}%
+\contentsline {subsubsection}{\numberline {10.7.6}Starvation}{25}{subsubsection.10.7.6}%
+\contentsline {subsubsection}{\numberline {10.7.7}Multi-Level Scheduling}{25}{subsubsection.10.7.7}%
+\contentsline {subsubsection}{\numberline {10.7.8}Multi-Level Scheduling with Feedback}{25}{subsubsection.10.7.8}%
+\contentsline {section}{\numberline {11}Scheduling in POSIX}{25}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Nice Value}{25}{subsection.11.1}%
+\contentsline {subsubsection}{\numberline {11.1.1}Nice Utility}{25}{subsubsection.11.1.1}%
+\contentsline {subsubsection}{\numberline {11.1.2}Nice function}{26}{subsubsection.11.1.2}%
+\contentsline {subsubsection}{\numberline {11.1.3}Get Priority}{26}{subsubsection.11.1.3}%
+\contentsline {subsection}{\numberline {11.2}Setting Priority of Threads}{26}{subsection.11.2}%
+\contentsline {section}{\numberline {12}Mutexes and Semaphores}{26}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Producer and Consumer Problem}{26}{subsection.12.1}%
+\contentsline {subsubsection}{\numberline {12.1.1}Non-Atomic instructions}{27}{subsubsection.12.1.1}%
+\contentsline {subsubsection}{\numberline {12.1.2}Critical Section}{27}{subsubsection.12.1.2}%
+\contentsline {subsection}{\numberline {12.2}Synchronization}{27}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Atomic Instructions}{27}{subsection.12.3}%
+\contentsline {subsubsection}{\numberline {12.3.1}Naive Solution: Disable interrupts}{27}{subsubsection.12.3.1}%
+\contentsline {subsubsection}{\numberline {12.3.2}Usage of Special Instructions}{27}{subsubsection.12.3.2}%
+\contentsline {subsection}{\numberline {12.4}Semaphore}{27}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}Producer and Consumer with Semaphores}{28}{subsubsection.12.4.1}%
+\contentsline {subsection}{\numberline {12.5}Usage of Sempahores: sem\_init}{28}{subsection.12.5}%
+\contentsline {subsubsection}{\numberline {12.5.1}sem\_wait and sem\_post}{28}{subsubsection.12.5.1}%
+\contentsline {subsubsection}{\numberline {12.5.2}sem\_trywait and sem\_timedwait}{28}{subsubsection.12.5.2}%
+\contentsline {subsubsection}{\numberline {12.5.3}sem\_destroy}{28}{subsubsection.12.5.3}%
+\contentsline {subsection}{\numberline {12.6}Mutexes}{28}{subsection.12.6}%
+\contentsline {subsubsection}{\numberline {12.6.1}Usage}{28}{subsubsection.12.6.1}%
+\contentsline {subsubsection}{\numberline {12.6.2}Mutexes in POSIX}{29}{subsubsection.12.6.2}%
+\contentsline {subsubsection}{\numberline {12.6.3}Priority Inversion}{29}{subsubsection.12.6.3}%
+\contentsline {section}{\numberline {13}Communication and Synchronization}{29}{section.13}%
+\contentsline {section}{\numberline {14}Programs and libraries}{29}{section.14}%
+\contentsline {section}{\numberline {15}Graphical Overlays}{29}{section.15}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

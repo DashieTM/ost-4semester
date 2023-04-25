@@ -394,10 +394,61 @@ Essentially you check how similar the key is to the query.\newline
 \includegraphics[scale=0.4]{2023_04_03_02_38_33.png}\newline
 Lastly you multiply the result with the value, which results in the output.\newline
 \includegraphics[scale=0.4]{2023_04_03_02_39_02.png}\newline
-Decoder and Encoder example with Attention instead of reccurence\newline
+Decoder and Encoder example with Attention instead of recurrence\newline
 \includegraphics[scale=0.4]{2023_04_03_02_44_18.png}
 
-\section{Expression Trees}
+\section{Reinforcement Learning}
+\subsection{Limitations}
+\begin{itemize}
+  \item \textcolor{purple}{\emph{Sample Efficiency}: Millions of iterations needed}
+\item \textcolor{purple}{Defining the rewards can be extremely hard}
+\item \textcolor{purple}{AI often does not adhere to the ultimate goal -> no understanding of context}\newline
+  AI must avoid killing humans when driving -> might however accidentally kill more humans by executing extreme countermeasures
+\end{itemize} 
 
+\subsection{Markov Decision Process MDP}
+\includegraphics[scale=0.4]{2023_04_24_01_45_30.png}\newline
+\begin{itemize}
+\item \textcolor{purple}{S: Set of States}
+\item \textcolor{purple}{A: Set of actions}
+\item \textcolor{purple}{R: Rewards (positive or negative)}
+\item \textcolor{purple}{P: transitions from state to state}
+\end{itemize} 
+Whenever the agent moves, it will always try to go with the route that has the highest outcome of rewards, aka it makes a guess on where it will end up with the highest reward number and proceeds to take actions based on that.\newline
+Note that each state above is clearly defined, this makes it easier to have an AI model that learns this way.\newline
+This also makes it hard to be used with real-world use cases or anything that "too many" inputs.\newline
+The more states something has, the harder proper reinforcement learning becomes, as not only the reward will be very vague, but also the route chosen.\newline
+\textcolor{purple}{The policy \( \pi \) is the function that calculates the probability of taking one action over another -> which is more likely to lead to a higher reward?}\newline
+Note that the number of such functions is infinite in theory → no limit
+
+\subsection{Discount factory \(\gamma\)}
+This refers to the difference in time between rewards: take \$10 now or \$50 in 2 weeks?\newline
+How should the AI make this choice? Value the higher number or value the time, this factor makes it possible to change this behavior, as we might want to tweak it for a specific use case.\newline
+\includegraphics[scale=0.4]{2023_04_24_02_20_32.png}\newline
+Note the exponential increase of gamma with time -> power of 1, of 2, etc.
+
+\subsection{Return R vs Reward G}
+\large \(G_t = R_{t+1} + \gammaR_{t+2} +\gamma^2R_{t+3} + ... = \sum^{\infty}_{k=0}\gamma^kR_{t+k+1}\)\newline
+\normalsize
+\textcolor{purple}{Reward: this is the reward that is given immediately on landing in a state. The letter \emph{r is used for constant rewards} and \emph{R for random rewards}.}\newlinw
+\textcolor{purple}{Return: this is the sum of the future rewards, it is either a sum of random variables or constants. \emph{The letter G is used}}\newline
+\textcolor{teal}{Expected value: this is the estimation of the random variables -> we achieve this by \emph{taking the mean of all possibilities -> throwing a dice N times and divide the sum by N}}
+
+\subsection{The State Value Function V(s)}
+\large \(V_{\pi}(s) = E_{\pi}[G_t | S_t = s ] = E_{\pi} \left[\sum^{\infty}_{k=0}\gamma^kR_{t+k+1} | S_t = s \right]\)\newline
+\normalsize
+\includegraphics[scale=0.4]{2023_04_24_02_43_58.png}\newline
+Note, whenever you start to take these actions, there will be a \emph{delta} between the expected values and the real values.\newline
+Aka, once you take a step, you might notice that current + next expected is no longer equal to the previous sum of expected:\newline
+\includegraphics[scale=0.4]{2023_04_24_02_48_25.png}\newline
+NO
+
+\subsubsection{Temporal Difference}
+\(V(S_t) + \delta_t = r_{t+1} +V(S_{t+1})\)\newline
+the \(\delta\) is the difference between the original sum of expected values, to the current rewards, plus the rest of the expected values.\newline
+\includegraphics[scale=0.4]{2023_04_24_02_50_38.png}
+
+\subsection{Policy Evaluation: Estmating state values V(s)}
+\includegraphics[scale=0.4]{2023_04_24_03_11_29.png}
 
 \end{document}

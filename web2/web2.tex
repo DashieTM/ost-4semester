@@ -1128,6 +1128,51 @@ body[data-style='dark'] {
 }
 \end{lstlisting}
 
+\section{Accessibility}
+Use vim bindings bro.
+
+\subsection{Law}
+In Switzerland the only requirement is that state offered website need to be designed with acessibility in mind, however private companies do not have to adhere to this.
+
+\subsection{Tools}
+Browsers offer tools in order to "simulate" disabilities, this helps you to develop a website that can be used to increse acessibility.
+
+\subsubsection{Gray Scale 100\%}
+\begin{lstlisting}
+:root {
+  filter: grayscale(100%) !important;
+}
+\end{lstlisting}
+In general, make sure that your websites items can be differentiated by more than 1 thing:
+\begin{itemize}
+\item \textcolor{black}{Color OR Form}
+\item \textcolor{black}{Color OR Icon}
+\item \textcolor{black}{Color OR text}
+\end{itemize} 
+
+\subsection{Contrast}
+\includegraphics[scale=0.4]{2023_04_20_03_43_31.png}\newline
+The first is considered to  be AAA -> usable by people over 80 years old.\newline
+The second can still be considered to be AA -> usable by people over 50 years old.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \lstset{
     language=HTML,

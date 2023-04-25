@@ -970,7 +970,7 @@ These are the contexts where compile time evaluation is possible:
   \begin{lstlisting}
   static_assert(order == 66);
   \end{lstlisting}
-\item constexpr variables\newlien
+\item constexpr variables\newline
   \begin{lstlisting}
   constexpr unsigned pi = 3;
   \end{lstlisting}
@@ -1268,6 +1268,482 @@ constexpr ternary_value<D, Digits...> {
 \item \textcolor{black}{std::complex -> i,il,if (imaginary numbers)}
 \item \textcolor{black}{std::chrono::duration -> ns,us,ms,s,min,h (time)}
 \end{itemize} 
+
+\section{Multithreading and Mutexes}
+
+\subsection{std::thread}
+This is a replacement for the POSIX API which is rather dated, and does not lead to clean code.\newline
+It mostly works, but some things need to fall back to POSIX, or microtroll API on windoof.
+
+\begin{lstlisting}
+#include <thread>
+
+auto main() -> int {
+  // just like in rust -> create thread with closure/lambda
+  std::thread greeter {
+    [] { std::cout << "Hello, I'm thread!" << std::endl; }
+  };
+  // join the main thread -> blocking
+  greeter.join();
+}
+\end{lstlisting}
+
+\subsubsection{Functors}
+You can also use a struct/class as parameter to pass into the std::thread.\newline
+This essentially means defining a struct with the function operator()() -> which essentially means turning it into a lambda with data attached.\newline
+\begin{lstlisting}
+#include <thread>
+
+struct Functor {
+  auto operator()() const -> void {
+    std::cout << "Functor" << std::endl;
+  }
+};
+
+auto function() -> void {
+  std::cout << "Function" << std::endl;
+  // return value ignored -> aka only void supported
+}
+
+auto main() -> int {
+  std::thread functionThread{function};
+  std::thread functorThread{Functor{}};
+  functorThread.join();
+  functionThread.join();
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{purple}{Default consructible}
+\item \textcolor{purple}{return values are ignored -> not supported within std::thread}
+\end{itemize} 
+
+\subsection{Passing arguments to threads}
+\begin{lstlisting}
+// definition
+template<class Function, class... Args>
+explicit thread(Function&& f, Args&&...args);
+\end{lstlisting}
+
+\begin{lstlisting}
+// usage
+auto fibonacci(std::size_t n) -> std::size_t {
+  if (n < 2) {
+    return n;
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+auto printFib(std::size_t n) -> void {
+  auto fib = fibonacci(n);
+  std::cout << "fib(" << n << ") is "
+  << fib << '\n';
+}
+auto main() -> int {
+  std::thread function { printFib, 46 };
+  std::cout << "waiting..." << std::endl;
+  function.join();
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{std::thread constructor takes a function/functor/closure and arguments to forward}
+\item \textcolor{black}{passing arguments either by value, or you have to make sure references live long enough -> hello rust :)}
+\item \textcolor{black}{capturing references creates shared data -> no check for singular mutability}
+\end{itemize} 
+
+
+\subsection{Destroying threads}
+Since we are not using the POSIX API, we need another way of ending the thread, and just like every c++ thing, it does not do this automatically.\newline
+This means that you need to do this on your own with either \emph{join() or detach()}.\newline
+\textcolor{teal}{The first will attach the thread to the main thread, meaning the main thread will cascade destroy the thread.}\newline
+\textcolor{teal}{The second will destroy the thread at the next available frame from the main() thread.}\newline
+\includegraphics[scale=0.4]{2023_04_25_01_21_21.png}\newline
+\textcolor{red}{Note, without .join() or .detach() your program is killed in order to avoid undefined behavior(for once).}
+
+\subsubsection{Dangers}
+\begin{lstlisting}
+auto startThread() -> void {
+  using namespace std::chrono_literals;
+  std::string local{"local"};
+  std::thread t{[&] {
+    std::this_thread::sleep_for(1s);
+    std::cout << local << std::endl;
+  }};
+  t.detach();
+}
+auto main() -> int {
+  using namespace std::chrono_literals;
+  startThread();
+  std::this_thread::sleep_for(2s);
+}
+// problem, main thread can terminate before second thread -> therefore cout is no longer available
+// cout is a global that is created with the main thread, therefore it is now a dangling reference!
+\end{lstlisting}
+
+\begin{itemize}
+\item \textcolor{black}{detach or join can't be called inside destructors! -> exception problems}
+\item \textcolor{black}{unjoined and undetached threads can be destroyed with \emph{std::terminate()}}
+\item \textcolor{black}{when using .detach(), make sure you no longer use references from that thread -> danling references, nullptr... FUN}
+\end{itemize} 
+
+\subsection{std::jthread}
+\textcolor{teal}{Thread that will automatically call .join().}
+\begin{lstlisting}
+auto main() -> int {
+  std::jthread t {[]{
+    std::cout << "Hello Thread"<< std::endl;
+  }};
+  std::cout << "Hello Main" << std::endl;
+}
+\end{lstlisting}
+This thread can also be stopped by other threads with \emph{thread.request\_stop()}
+\begin{lstlisting}
+auto main() -> int {
+  // stop token makes it possible to check how many times stop was requested
+  // e.g. thread safe, and you can define how many times this will work
+  // request stop is blocking
+  // stop token only works with jthread
+  std::jthread t {[](std::stop_token token){
+    // check if stop was requested
+    while (!token.stop_requested()) {
+      std::this_thread::sleep_for(100ms);
+    }
+    std::cout << "Stop requested"<< std::endl;
+  }};
+  std::this_thread::sleep_for(2s);
+  // request stop
+  t.request_stop();
+}
+\end{lstlisting}
+
+\subsubsection{iostream and threads}
+IOstream is done via buffers, this is \emph{not threadsafe}, however it also does not create data races.\newline
+\textcolor{teal}{What happens is that the output or input sequence is not deterministic:}\newline
+\includegraphics[scale=0.4]{2023_04_25_01_36_40.png}
+
+\subsection{Current Thread}
+There is a helper namespace \emph{std::this\_thread} which holds helper functions for the current thread:
+\begin{lstlisting}
+auto main() -> int {
+  using std::cout;
+  using std::endl;
+  using namespace std::chrono_literals;
+  std::thread t { [] {
+    std::this_thread::yield();
+    cout << "Hello ID: "
+         << std::this_thread::get_id()
+         << endl;
+    std::this_thread::sleep_for(10ms);
+  }};
+  cout << "main() ID: "
+       << std::this_thread::get_id()
+       << endl;
+  cout << "t.get_id(): "
+       << t.get_id()
+       << endl;
+  t.join();
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{purple}{get\_id()}\newline
+  returns ID of current thread by the OS\newline
+  This ID is unique
+\item \textcolor{purple}{sleep\_for(time)}\newline
+  suspends the thread for a duration
+\item \textcolor{purple}{sleep\_until(time\_point)}\newline
+  sleep until a certain time point
+\item \textcolor{purple}{yield()}\newline
+  Allows OS to schedule other threads
+\end{itemize} 
+
+\subsection{Mutexes}
+\begin{itemize}
+\item \textcolor{purple}{lock():} blocking
+\item \textcolor{purple}{try\_lock():} non-blocking
+\item \textcolor{purple}{unlock():} non-blocking
+\item \textcolor{purple}{try\_lock\_for(duration):} non-blocking\newline
+  try to lock for a specific duration
+\item \textcolor{purple}{try\_lock\_until(time):} non-blocking\newline
+  try to lock until specific time
+\end{itemize} 
+Mutex versions: 
+\begin{itemize}
+\item \textcolor{purple}{std::mutex}\newline
+  standard mutex, not recursive, not timed 
+\item \textcolor{purple}{std::recursive\_mutex}\newline
+  recursive mutex -> allows multiple nested acquire operations of the same thread\newline
+  not timed
+\item \textcolor{purple}{std::timed\_mutex}\newline
+  timed, not recursive -> allows try\_lock\_for() etc.
+\item \textcolor{purple}{std::recursive\_timed\_mutex}\newline
+  timed and recursive
+\end{itemize} 
+\includegraphics[scale=0.4]{2023_04_25_01_49_33.png}
+
+\subsubsection{Read Locks}
+As already covered extensively with rust, multiple reads are allowed, but not multiple writes.\newline
+Hence c++ std::thread also provides read shared locks: 
+\begin{itemize}
+  \item \textcolor{black}{lock\_shared()}
+\item \textcolor{black}{try\_lock\_shared()}
+\item \textcolor{black}{try\_lock\_shared\_for(duration)}
+\item \textcolor{black}{try\_lock\_shared\_until(time)}
+\item unlock\_shared()
+\end{itemize} 
+
+\subsubsection{Mutex helper functions}
+\begin{itemize}
+\item \textcolor{black}{std::lock\_guard}\newline
+  for \emph{single} mutex\newline
+  locks when constructed\newline
+  unlocks when destructed
+\item \textcolor{black}{std::scoped\_lock}\newline
+    for \emph{multiple} mutex\newline
+  locks when constructed\newline
+  unlocks when destructed
+\item \textcolor{black}{std::unique\_lock}\newline
+  defered timed locking\newline
+  allows explicit locking and unlocking\newline
+  unlocks when destructed (in case still locked)
+\item \textcolor{black}{std::shared\_lock}\newline
+  wrapper for shared mutexes\newline
+  allows explicit locking and unlocking\newline
+  unlocks when destructed (in case still locked)
+\end{itemize} 
+
+\subsubsection{Example for thread save queue}
+\begin{lstlisting}
+template <typename T,
+typename MUTEX = std::mutex>
+struct threadsafe_queue {
+  using guard = std::lock_guard<MUTEX>;
+  auto push(T const &t) -> void {
+    guard lk{mx};
+    q.push(t);
+  }
+  T pop() { /* later */ return T{};}
+  auto try_pop(T & t) -> bool {
+    guard lk{mx};
+    // note the use of q instead of this
+    // function from queue used!
+    if (q.empty()) return false;
+    t = q.front();
+    q.pop();
+    return true;
+  }
+  auto empty() const -> bool{
+    guard lk{mx};
+    return q.empty();
+  }
+  private:
+  // mutable needed in the empty function
+  mutable MUTEX mx{};
+  std::queue<T> q{};
+};
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{Makes every member function mutually exclusive}
+\item \textcolor{black}{delegates functionality to std::queue}
+\item \textcolor{black}{scoped lock pattern}\newline
+  automatically locks and unlocks
+\item \textcolor{black}{strategized locking pattern}\newline
+  template parameter for mutex type\newline
+  could also be null\_mutex(boost)
+\end{itemize} 
+
+\subsubsection{Multiple Locks with std::scoped\_lock}
+\begin{lstlisting}
+// can't be noexcept, because locks might throw
+auto swap(threadsafe_queue<T> & other) -> void {
+if (this == &other) return;
+
+std::scoped_lock both{mx, other.mx};
+
+argumentsstd::swap(q, other.q);
+// no need to swap mutex or condition variable
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{acquires multiple locks in the constructor}
+\item \textcolor{black}{avoids deadlocks by relying on internal sequence}
+\item \textcolor{black}{blocks until all locks could be acquired}
+\item \textcolor{black}{Class template argument deduction avoids the need for specifying the template arguments}
+\end{itemize} 
+
+\subsubsection{Multiple Locks without std::scoped\_lock}
+\begin{lstlisting}
+// can't be noexcept, because locks might throw
+auto swap(threadsafe_queue<T> & other) -> void {
+if (this == &other) return;
+
+// std::defer_lock prevents immediate locking
+lock my_lock{mx, std::defer_lock};
+lock other_lock{other.mx, std::defer_lock};
+
+// blocks until all locks are acquired
+std::lock(my_lock, other_lock);
+
+std::swap(q, other.q);
+// no need to swap mutex or condition variable
+}
+\end{lstlisting}
+\begin{itemize}
+\item \textcolor{black}{acquires multiple locks in a single cell}
+\item \textcolor{black}{avoids deadlocks}
+\item \textcolor{black}{blocks untl all locks could be acquired}
+\item \textcolor{black}{can also be done with try\_lock -> in that case no blocking}
+\end{itemize} 
+
+\subsection{std::condition\_variable}
+\begin{itemize}
+\item \textcolor{black}{Waiting for the condition}
+  \begin{itemize}
+  \item \textcolor{black}{wait(mutex)requires surrounding loop}
+  \item \textcolor{black}{wait(mutex, predicate) loops internally}
+  \item \textcolor{black}{timed: wait\_for and wait\_until}
+  \end{itemize} 
+\item \textcolor{black}{notifying a (potential) change}
+  \begin{itemize}
+  \item \textcolor{black}{notify\_one}
+  \item \textcolor{black}{notify\_all}
+  \end{itemize} 
+\item \textcolor{black}{std::unique\_lock as condition -> releases lock}
+\end{itemize} 
+\begin{lstlisting}
+template <typename T,
+typename MUTEX = std::mutex>
+struct threadsafe_queue {
+  using guard = std::lock_guard<MUTEX>;
+  using lock = std::unique_lock<MUTEX>;
+  auto push(T const & t) -> void {
+    guard lk{mx};
+    q.push(t);
+    // like jafuck -> other thread can activate
+    notEmpty.notify_one();
+  }
+  auto pop() -> T {
+    lock lk{mx};
+    // wait for condition
+    notEmpty.wait(lk, [this] {
+      return !q.empty();
+    });
+    T t = q.front();
+    q.pop();
+    return t;
+  }
+  private:
+    mutable MUTEX mx{};
+    std::condition_variable notEmpty{};
+    std::queue<T> q{};
+};
+\end{lstlisting}
+
+\subsection{Containers}
+All current standard containers are \emph{NOT thread safe}, this means that we will have to build thread safe versions of it.\newline
+Note that accessing a singular element from a container is not a data race -> as singular elements are different from each other.\newline
+\textcolor{teal}{Concurrent uses of containers are dangerous by default!}\newline
+\textcolor{teal}{shared\_ptr copies to the same object can be used from different threads, but accessing the object
+itself can race if non-const -> reference counter is atomic}
+
+\subsection{Returns from a thread}
+\subsubsection{Shared state}
+We can return shared state, but this is not intuitive:
+\begin{lstlisting}
+auto main() -> int {
+  auto mutex = std::mutex{};
+  auto finished = std::condition_variable{};
+  auto shared = 0;
+  auto thread = std::thread{[&]{
+    std::this_thread::sleep_for(2s);
+    auto guard = std::lock_guard{mutex};
+    shared = 42;
+    finished.notify_all();
+  }};
+  std::this_thread::sleep_for(1s);
+  auto lock = std::unique_lock{mutex};
+  finished.wait(lock);
+  std::cout << "The answer is:"
+            << shared << '\n';
+  thread.join();
+}
+\end{lstlisting}
+
+\subsubsection{std::future and std::promise}
+Future represent result that maybe compute asynchronously:
+\begin{itemize}
+\item \textcolor{purple}{wait():} blocks until available
+\item \textcolor{purple}{wait\_for(timeout):} blocks until available or timed out
+\item \textcolor{purple}{wait\_until(time):} blocks until available or timepoint has been reached
+\item \textcolor{purple}{get():} blocks until available and returns the result value or throws if the future contains an exception
+\end{itemize} 
+Promises are one origin of futures:
+\begin{itemize}
+\item \textcolor{black}{get\_future():} obtain a future
+\item \textcolor{black}{set\_result(value):} sets the associated futures result
+\item \textcolor{black}{set\_exception(err):} sets the associated exception
+\end{itemize} 
+Usage:
+\begin{lstlisting}
+auto main() -> int {
+  using namespace std::chrono_literals;
+  std::promise<int> promise{};
+  auto result = promise.get_future();
+  auto thread = std::thread { [&]{
+    std::this_thread::sleep_for(2s);
+    promise.set_value(42);
+  }};
+  std::this_thread::sleep_for(1s);
+  std::cout << "The answer is: " << result.get() << '\n';
+  thread.join();
+}
+\end{lstlisting}
+
+\subsection{std::async}
+\begin{lstlisting}
+// definition:
+template<typename Function, typename ...Args>
+auto async(Function&& f, Args&&... args) -> std::future<...>;
+
+// usage:
+auto main() -> int {
+  auto the_answer = std::async([] {
+    // Calculate for 7.5 million years
+    return 42;
+  });
+  std::cout << "The answer is: " << the_answer.get() << '\n';
+}
+\end{lstlisting}
+\begin{itemize}
+  \item \textcolor{purple}{Schedules the execution of the lambda ( \emph{CAN BE IN SAME THREAD!})}
+\item \textcolor{purple}{returns an std::future that will store the result}
+\item \textcolor{purple}{get() waits for the result to be available}
+\end{itemize} 
+
+\subsubsection{std::async::launch and std::async::deferred}
+\textcolor{teal}{std::async::launch:} forces the async to \emph{definitely use a new thread!}\newline
+\textcolor{teal}{std::async::deferred:} defers execution until the result is obtained from the std::future\newline
+\textcolor{red}{By default it does either of the two, so just make sure to define it!}\newline
+std::aync::launch
+\begin{lstlisting}
+auto main() -> int {
+  // new thread guaranteed
+  auto the_answer = std::async(std::launch::async, [] {
+    // Calculate for 7.5 million years
+    return 42;
+  });
+  std::cout << "The answer is: " << the_answer.get() << '\n';
+}
+\end{lstlisting}
+std::async::deferred
+\begin{lstlisting}
+auto main() -> int {
+  // lazy evaluation, simply returns the 42 as soon as ready, in this case instantly!!
+  auto the_answer = std::async(std::launch::deferred, [] {
+    // Calculate for 7.5 million years
+    return 42;
+  });
+}
+\end{lstlisting}
+
+
 
 
 \end{document}
