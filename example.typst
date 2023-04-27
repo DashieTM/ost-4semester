@@ -1,0 +1,13 @@
+#import "../template.typst"
+
+#show: doc => template.conf(
+  author: "Fabio Lenherr",
+  "kappa",
+  "a test for typst",
+  doc,
+)
+
+#template.section("whatever")
+#template.subsection("sub")
+#template.subsubsection("subsub")
+#template.subsubsubsection("subsubsub")
