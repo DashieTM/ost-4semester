@@ -1,47 +1,48 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2023.3.20)  27 MAR 2023 09:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex 2023.4.7)  28 APR 2023 22:36
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **parallel-programming.tex
 (./parallel-programming.tex
-LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-04-10> (/usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
-Document Class: scrartcl 2021/11/13 v3.35 KOMA-Script document class (article)
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-02-22> (/usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
+Document Class: scrartcl 2022/10/12 v3.38 KOMA-Script document class (article)
 (/usr/share/texmf-dist/tex/latex/koma-script/scrkbase.sty
-Package: scrkbase 2021/11/13 v3.35 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
+Package: scrkbase 2022/10/12 v3.38 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2021/11/13 v3.35 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
+Package: scrbase 2022/10/12 v3.38 KOMA-Script package (KOMA-Script-independent basics and keyval usage)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2021/11/13 v3.35 KOMA-Script package (file load hooks)
+Package: scrlfile 2022/10/12 v3.38 KOMA-Script package (file load hooks)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
-Package: scrlfile-hook 2021/11/13 v3.35 KOMA-Script package (using LaTeX hooks)
+Package: scrlfile-hook 2022/10/12 v3.38 KOMA-Script package (using LaTeX hooks)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrlogo.sty
-Package: scrlogo 2021/11/13 v3.35 KOMA-Script package (logo)
+Package: scrlogo 2022/10/12 v3.38 KOMA-Script package (logo)
 ))) (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
 Applying: [2021/05/01] Usage of raw or classic option list on input line 252.
 Already applied: [0000/00/00] Usage of raw or classic option list on input line 368.
 )) (/usr/share/texmf-dist/tex/latex/koma-script/tocbasic.sty
-Package: tocbasic 2021/11/13 v3.35 KOMA-Script package (handling toc-files)
-\scr@dte@tocline@numberwidth=\skip47
-\scr@dte@tocline@numbox=\box50
+Package: tocbasic 2022/10/12 v3.38 KOMA-Script package (handling toc-files)
+\scr@dte@tocline@numberwidth=\skip48
+\scr@dte@tocline@numbox=\box51
 )
-Package tocbasic Info: babel extension for `toc' omitted
-(tocbasic)             because of missing \bbl@set@language on input line 135.
-Class scrartcl Info: File `size8.clo' used to setup font sizes on input line 2242.
+Package tocbasic Info: omitting babel extension for `toc'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `toc' on input line 135.
+Class scrartcl Info: File `size8.clo' used to setup font sizes on input line 2367.
  (/usr/share/texmf-dist/tex/latex/extsizes/size8.clo
 File: size8.clo 1999/11/11 v1.4a NON-Standard LaTeX file (size option)
 ) (/usr/share/texmf-dist/tex/latex/koma-script/typearea.sty
-Package: typearea 2021/11/13 v3.35 KOMA-Script package (type area)
-\ta@bcor=\skip48
+Package: typearea 2022/10/12 v3.38 KOMA-Script package (type area)
+\ta@bcor=\skip49
 \ta@div=\count185
-\ta@hblk=\skip49
-\ta@vblk=\skip50
-\ta@temp=\skip51
-\footheight=\skip52
+\ta@hblk=\skip50
+\ta@vblk=\skip51
+\ta@temp=\skip52
+\footheight=\skip53
 
 DIV calculation for typearea with good linewidth.
 
@@ -67,7 +68,7 @@ Package typearea Info: These are the values describing the layout:
 (typearea)              \topskip        = 8.0pt
 (typearea)              \footskip       = 33.25pt
 (typearea)              \baselineskip   = 9.5pt
-(typearea)              on input line 1743.
+(typearea)              on input line 1767.
 )
 \c@part=\count186
 \c@section=\count187
@@ -75,81 +76,148 @@ Package typearea Info: These are the values describing the layout:
 \c@subsubsection=\count189
 \c@paragraph=\count190
 \c@subparagraph=\count191
-\scr@dte@section@maxnumwidth=\skip53
+\scr@dte@section@maxnumwidth=\skip54
 Class scrartcl Info: using compatibility default `runin=bysign'
-(scrartcl)           for `\section on input line 4852.
+(scrartcl)           for `\section on input line 4994.
 Class scrartcl Info: using compatibility default `afterindent=bysign'
-(scrartcl)           for `\section on input line 4852.
-\scr@dte@part@maxnumwidth=\skip54
+(scrartcl)           for `\section on input line 4994.
+\scr@dte@part@maxnumwidth=\skip55
 Class scrartcl Info: using compatibility default `afterindent=false'
-(scrartcl)           for `\part on input line 4860.
-\scr@dte@subsection@maxnumwidth=\skip55
+(scrartcl)           for `\part on input line 5002.
+\scr@dte@subsection@maxnumwidth=\skip56
 Class scrartcl Info: using compatibility default `runin=bysign'
-(scrartcl)           for `\subsection on input line 4870.
+(scrartcl)           for `\subsection on input line 5012.
 Class scrartcl Info: using compatibility default `afterindent=bysign'
-(scrartcl)           for `\subsection on input line 4870.
-\scr@dte@subsubsection@maxnumwidth=\skip56
+(scrartcl)           for `\subsection on input line 5012.
+\scr@dte@subsubsection@maxnumwidth=\skip57
 Class scrartcl Info: using compatibility default `runin=bysign'
-(scrartcl)           for `\subsubsection on input line 4880.
+(scrartcl)           for `\subsubsection on input line 5022.
 Class scrartcl Info: using compatibility default `afterindent=bysign'
-(scrartcl)           for `\subsubsection on input line 4880.
-\scr@dte@paragraph@maxnumwidth=\skip57
+(scrartcl)           for `\subsubsection on input line 5022.
+\scr@dte@paragraph@maxnumwidth=\skip58
 Class scrartcl Info: using compatibility default `runin=bysign'
-(scrartcl)           for `\paragraph on input line 4891.
+(scrartcl)           for `\paragraph on input line 5033.
 Class scrartcl Info: using compatibility default `afterindent=bysign'
-(scrartcl)           for `\paragraph on input line 4891.
-\scr@dte@subparagraph@maxnumwidth=\skip58
+(scrartcl)           for `\paragraph on input line 5033.
+\scr@dte@subparagraph@maxnumwidth=\skip59
 Class scrartcl Info: using compatibility default `runin=bysign'
-(scrartcl)           for `\subparagraph on input line 4901.
+(scrartcl)           for `\subparagraph on input line 5043.
 Class scrartcl Info: using compatibility default `afterindent=bysign'
-(scrartcl)           for `\subparagraph on input line 4901.
-\abovecaptionskip=\skip59
-\belowcaptionskip=\skip60
-\c@pti@nb@sid@b@x=\box51
-Package tocbasic Info: babel extension for `lof' omitted
-(tocbasic)             because of missing \bbl@set@language on input line 6076.
-\scr@dte@figure@maxnumwidth=\skip61
+(scrartcl)           for `\subparagraph on input line 5043.
+\abovecaptionskip=\skip60
+\belowcaptionskip=\skip61
+\c@pti@nb@sid@b@x=\box52
+Package tocbasic Info: omitting babel extension for `lof'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lof' on input line 6211.
+\scr@dte@figure@maxnumwidth=\skip62
 \c@figure=\count192
-Package tocbasic Info: babel extension for `lot' omitted
-(tocbasic)             because of missing \bbl@set@language on input line 6091.
-\scr@dte@table@maxnumwidth=\skip62
+Package tocbasic Info: omitting babel extension for `lot'
+(tocbasic)             because of feature `nobabel' available
+(tocbasic)             for `lot' on input line 6227.
+\scr@dte@table@maxnumwidth=\skip63
 \c@table=\count193
-Class scrartcl Info: Redefining `\numberline' on input line 6258.
-\bibindent=\dimen138
-) (../ost-summary-template.tex (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2021/02/14 v1.3d Input encoding file
-\inpenc@prehook=\toks17
-\inpenc@posthook=\toks18
-) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
+Class scrartcl Info: Redefining `\numberline' on input line 6397.
+\bibindent=\dimen140
+) (/usr/share/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2022/12/19 v0.5x Insert pages of external PDF documents (AM)
+ (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+) (/usr/share/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count194
+\calc@Bcount=\count195
+\calc@Adimen=\dimen141
+\calc@Bdimen=\dimen142
+\calc@Askip=\skip64
+\calc@Bskip=\skip65
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count196
+\calc@Cskip=\skip66
+) (/usr/share/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
+\ESO@tempdima=\dimen143
+\ESO@tempdimb=\dimen144
+ (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
  (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+) (/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+)) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
-Package xcolor Info: Model `RGB' extended on input line 1368.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
- (/usr/share/texmf-dist/tex/latex/graphics/dvipsnam.def
-File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
-)) (/usr/share/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2022/02/26 3.73 The Babel package
-\babel@savecnt=\count194
-\U@D=\dimen139
+Package graphics Info: Driver file: pdftex.def on input line 107.
+)
+\Gin@req@height=\dimen145
+\Gin@req@width=\dimen146
+)
+\AM@pagewidth=\dimen147
+\AM@pageheight=\dimen148
+\AM@fboxrule=\dimen149
+ (/usr/share/texmf-dist/tex/latex/pdfpages/pppdftex.def
+File: pppdftex.def 2022/12/19 v0.5x Pdfpages driver for pdfTeX (AM)
+)
+\pdfpages@includegraphics@status=\count197
+\AM@pagebox=\box53
+\AM@global@opts=\toks17
+\AM@pagecnt=\count198
+\AM@toc@title=\toks18
+\AM@lof@heading=\toks19
+\c@AM@survey=\count199
+\AM@templatesizebox=\box54
+) (../ost-summary-template.tex (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks20
+\inpenc@posthook=\toks21
+)
+
+../ost-summary-template.tex:5: LaTeX Error: Option clash for package xcolor.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5 \usepackage
+               [english]{babel}
+The package xcolor has already been loaded with options:
+  []
+There has now been an attempt to load it with options
+  [dvipsnames]
+Adding the global options:
+  ,dvipsnames
+to your \documentclass declaration may fix this.
+Try typing  <return>  to proceed.
+
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2023/02/13 3.86 The Babel package
+\babel@savecnt=\count266
+\U@D=\dimen150
 \l@unhyphenated=\language87
  (/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
 \bbl@readstream=\read2
-\bbl@dirlevel=\count195
+\bbl@dirlevel=\count267
  (/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
@@ -158,8 +226,11 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 105.
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 108.
-)) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-02-21 v7.00n Hypertext links for LaTeX
+)) (/usr/share/texmf-dist/tex/generic/babel/locale/en/babel-english.tex
+Package babel Info: Importing font and identification data for english
+(babel)             from babel-en.ini. Reported on input line 11.
+) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
  (/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 ) (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
@@ -172,8 +243,8 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-) (/usr/share/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
-Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+) (/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 ) (/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 ) (/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty
@@ -184,14 +255,22 @@ Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 ) (/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-) (/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+) (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
+ (/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count268
 )
-\@linkdim=\dimen140
-\Hy@linkcounter=\count196
-\Hy@pagecounter=\count197
+\@linkdim=\dimen151
+\Hy@linkcounter=\count269
+\Hy@pagecounter=\count270
  (/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-02-21 v7.00n Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -199,68 +278,66 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count198
+\Hy@SavedSpaceFactor=\count271
  (/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-02-21 v7.00n Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4137.
-Package hyperref Info: Link nesting OFF on input line 4142.
-Package hyperref Info: Hyper index ON on input line 4145.
-Package hyperref Info: Plain pages OFF on input line 4152.
-Package hyperref Info: Backreferencing OFF on input line 4157.
+Package hyperref Info: Hyper figures OFF on input line 4177.
+Package hyperref Info: Link nesting OFF on input line 4182.
+Package hyperref Info: Hyper index ON on input line 4185.
+Package hyperref Info: Plain pages OFF on input line 4192.
+Package hyperref Info: Backreferencing OFF on input line 4197.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4390.
-\c@Hy@tempcnt=\count199
+Package hyperref Info: Bookmarks ON on input line 4425.
+\c@Hy@tempcnt=\count272
  (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4749.
-\XeTeXLinkMargin=\dimen141
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen152
  (/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count266
-\Field@Width=\dimen142
-\Fld@charsize=\dimen143
-Package hyperref Info: Hyper figures OFF on input line 6027.
-Package hyperref Info: Link nesting OFF on input line 6032.
-Package hyperref Info: Hyper index ON on input line 6035.
-Package hyperref Info: backreferencing OFF on input line 6042.
-Package hyperref Info: Link coloring OFF on input line 6047.
-Package hyperref Info: Link coloring with OCG OFF on input line 6052.
-Package hyperref Info: PDF/A mode OFF on input line 6057.
-LaTeX Info: Redefining \ref on input line 6097.
-LaTeX Info: Redefining \pageref on input line 6101.
+\Fld@menulength=\count273
+\Field@Width=\dimen153
+\Fld@charsize=\dimen154
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
  (/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count267
-\c@Item=\count268
-\c@Hfootnote=\count269
+\Hy@abspage=\count274
+\c@Item=\count275
+\c@Hfootnote=\count276
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
  (/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2022-02-21 v7.00n Hyperref driver for pdfTeX
+File: hpdftex.def 2023-02-07 v7.00v Hyperref driver for pdfTeX
  (/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count270
-\c@bookmark@seq@number=\count271
+\Fld@listcount=\count277
+\c@bookmark@seq@number=\count278
  (/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
-Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
  (/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip63
+\Hy@SectionHShift=\skip67
 ) (/usr/share/texmf-dist/tex/latex/sectsty/sectsty.sty
 Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
 
@@ -291,87 +368,90 @@ Package: geometry 2020/01/02 v5.9 Page Geometry
  (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count272
-\Gm@cntv=\count273
-\c@Gm@tempcnt=\count274
-\Gm@bindingoffset=\dimen144
-\Gm@wd@mp=\dimen145
-\Gm@odd@mp=\dimen146
-\Gm@even@mp=\dimen147
-\Gm@layoutwidth=\dimen148
-\Gm@layoutheight=\dimen149
-\Gm@layouthoffset=\dimen150
-\Gm@layoutvoffset=\dimen151
-\Gm@dimlist=\toks19
+\Gm@cnth=\count279
+\Gm@cntv=\count280
+\c@Gm@tempcnt=\count281
+\Gm@bindingoffset=\dimen155
+\Gm@wd@mp=\dimen156
+\Gm@odd@mp=\dimen157
+\Gm@even@mp=\dimen158
+\Gm@layoutwidth=\dimen159
+\Gm@layoutheight=\dimen160
+\Gm@layouthoffset=\dimen161
+\Gm@layoutvoffset=\dimen162
+\Gm@dimlist=\toks22
 ) (/usr/share/texmf-dist/tex/latex/koma-script/scrlayer-scrpage.sty
-Package: scrlayer-scrpage 2021/11/13 v3.35 KOMA-Script package (end user interface for scrlayer)
+Package: scrlayer-scrpage 2022/10/12 v3.38 KOMA-Script package (end user interface for scrlayer)
  (/usr/share/texmf-dist/tex/latex/koma-script/scrlayer.sty
-Package: scrlayer 2021/11/13 v3.35 KOMA-Script package (defining layers and page styles)
-Package scrlayer Info: Using already defined \footheight
-(scrlayer)             hoping, that this is a length and
-(scrlayer)             not only a macro on input line 136.
-Package scrlayer Info: patching LaTeX kernel macro \pagestyle on input line 2162.
+Package: scrlayer 2022/10/12 v3.38 KOMA-Script package (defining layers and page styles)
+Package scrlayer Info: patching LaTeX kernel macro \pagestyle on input line 2176.
 )
 Package scrlayer-scrpage Info: Makeing stand-alone element `pagehead' from
-(scrlayer-scrpage)             alias to `pageheadfoot' on input line 1085.
-Package scrlayer-scrpage Info: deactivating warning for font element
-(scrlayer-scrpage)             `pagefoot' on input line 1109.
-)
-Package scrlayer-scrpage Info: auto-selection of `pagestyleset=KOMA-Script'.
- (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2021/10/15 v2.17l AMS math features
-\@mathmargin=\skip64
+(scrlayer-scrpage)             alias to `pageheadfoot' on input line 1089.
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2022/04/08 v2.17n AMS math features
+\@mathmargin=\skip68
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
  (/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks20
-\ex@=\dimen152
+\@emptytoks=\toks23
+\ex@=\dimen163
 )) (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen153
+\pmbraise@=\dimen164
 ) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
-Package: amsopn 2021/08/26 v2.02 operator names
+Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count275
+\inf@bad=\count282
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count276
-\leftroot@=\count277
+\uproot@=\count283
+\leftroot@=\count284
 LaTeX Info: Redefining \overline on input line 399.
-\classnum@=\count278
-\DOTSCASE@=\count279
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count285
+\DOTSCASE@=\count286
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box52
-\strutbox@=\box53
-\big@size=\dimen154
+\Mathstrutbox@=\box55
+\strutbox@=\box56
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen165
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count280
-\c@MaxMatrixCols=\count281
+\macc@depth=\count287
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count288
 \dotsspace@=\muskip17
-\c@parentequation=\count282
-\dspbrk@lvl=\count283
-\tag@help=\toks21
-\row@=\count284
-\column@=\count285
-\maxfields@=\count286
-\andhelp@=\toks22
-\eqnshift@=\dimen155
-\alignsep@=\dimen156
-\tagshift@=\dimen157
-\tagwidth@=\dimen158
-\totwidth@=\dimen159
-\lineht@=\dimen160
-\@envbody=\toks23
-\multlinegap=\skip65
-\multlinetaggap=\skip66
-\mathdisplay@stack=\toks24
-LaTeX Info: Redefining \[ on input line 2938.
-LaTeX Info: Redefining \] on input line 2939.
+\c@parentequation=\count289
+\dspbrk@lvl=\count290
+\tag@help=\toks24
+\row@=\count291
+\column@=\count292
+\maxfields@=\count293
+\andhelp@=\toks25
+\eqnshift@=\dimen166
+\alignsep@=\dimen167
+\tagshift@=\dimen168
+\tagwidth@=\dimen169
+\totwidth@=\dimen170
+\lineht@=\dimen171
+\@envbody=\toks26
+\multlinegap=\skip69
+\multlinetaggap=\skip70
+\mathdisplay@stack=\toks27
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
 ) (/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
  (/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
@@ -382,75 +462,70 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )) (/usr/share/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
-Package: fancyvrb 2022/04/12 4.2 verbatim text (tvz,hv)
-\FV@CodeLineNo=\count287
+Package: fancyvrb 2023/01/19 4.5a verbatim text (tvz,hv)
+\FV@CodeLineNo=\count294
 \FV@InFile=\read3
-\FV@TabBox=\box54
-\c@FancyVerbLine=\count288
-\FV@StepNumber=\count289
+\FV@TabBox=\box57
+\c@FancyVerbLine=\count295
+\FV@StepNumber=\count296
 \FV@OutFile=\write3
 ) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count290
+\etb@tempcnta=\count297
 ) (/usr/share/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count291
-\lst@gtempboxa=\box55
-\lst@token=\toks25
-\lst@length=\count292
-\lst@currlwidth=\dimen161
-\lst@column=\count293
-\lst@pos=\count294
-\lst@lostspace=\dimen162
-\lst@width=\dimen163
-\lst@newlines=\count295
-\lst@lineno=\count296
-\lst@maxwidth=\dimen164
+\lst@mode=\count298
+\lst@gtempboxa=\box58
+\lst@token=\toks28
+\lst@length=\count299
+\lst@currlwidth=\dimen172
+\lst@column=\count300
+\lst@pos=\count301
+\lst@lostspace=\dimen173
+\lst@width=\dimen174
+\lst@newlines=\count302
+\lst@lineno=\count303
+\lst@maxwidth=\dimen175
  (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count297
-\lst@skipnumbers=\count298
-\lst@framebox=\box56
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count304
+\lst@skipnumbers=\count305
+\lst@framebox=\box59
 ) (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2020/03/24 1.8d listings configuration
+File: listings.cfg 2023/02/27 1.9 listings configuration
 ))
-Package: listings 2020/03/24 1.8d (Carsten Heinz)
- (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
- (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
-File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
-)
-Package graphics Info: Driver file: pdftex.def on input line 107.
-)
-\Gin@req@height=\dimen165
-\Gin@req@width=\dimen166
-) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+ (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip67
-\enit@outerparindent=\dimen167
-\enit@toks=\toks26
-\enit@inbox=\box57
-\enit@count@id=\count299
-\enitdp@description=\count300
-) (/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
-Package: titlesec 2021/07/05 v2.14 Sectioning titles
-\ttl@box=\box58
-\beforetitleunit=\skip68
-\aftertitleunit=\skip69
-\ttl@plus=\dimen168
-\ttl@minus=\dimen169
-\ttl@toksa=\toks27
-\titlewidth=\dimen170
-\titlewidthlast=\dimen171
-\titlewidthfirst=\dimen172
+\labelindent=\skip71
+\enit@outerparindent=\dimen176
+\enit@toks=\toks29
+\enit@inbox=\box60
+\enit@count@id=\count306
+\enitdp@description=\count307
 )
-Class scrartcl Info: Unknown `titesec' release.
-(scrartcl)           Cross your fingers, that is compatible on input line 86.
- (/usr/share/texmf-dist/tex/latex/ragged2e/ragged2e.sty
-Package: ragged2e 2021/12/15 v3.1 ragged2e Package
+
+Class scrartcl Warning: Usage of package `titlesec' together
+(scrartcl)              with a KOMA-Script class is not recommended.
+(scrartcl)              I'd suggest to use KOMA-Script features
+(scrartcl)              like \setkomafont, \RedeclareSectionCommand, \sectionlinesformat
+(scrartcl)              and several others to re-configure section
+(scrartcl)              headings.
+(scrartcl)              Nevertheless, using requested
+(scrartcl)              package `titlesec' on input line 86.
+
+(/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+Package: titlesec 2021/07/05 v2.14 Sectioning titles
+\ttl@box=\box61
+\beforetitleunit=\skip72
+\aftertitleunit=\skip73
+\ttl@plus=\dimen177
+\ttl@minus=\dimen178
+\ttl@toksa=\toks30
+\titlewidth=\dimen179
+\titlewidthlast=\dimen180
+\titlewidthfirst=\dimen181
+) (/usr/share/texmf-dist/tex/latex/ragged2e/ragged2e.sty
+Package: ragged2e 2023/02/25 v3.4 ragged2e Package
 
 
 LaTeX Warning: Command \@arrayparboxrestore  has changed.
@@ -458,9 +533,9 @@ LaTeX Warning: Command \@arrayparboxrestore  has changed.
 
 (/usr/share/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2022/03/08 v6.0d a miscellany of footnote facilities
-\FN@temptoken=\toks28
-\footnotemargin=\dimen173
-\@outputbox@depth=\dimen174
+\FN@temptoken=\toks31
+\footnotemargin=\dimen182
+\@outputbox@depth=\dimen183
 Package footmisc Info: Declaring symbol style bringhurst on input line 695.
 Package footmisc Info: Declaring symbol style chicago on input line 703.
 Package footmisc Info: Declaring symbol style wiley on input line 712.
@@ -468,42 +543,42 @@ Package footmisc Info: Declaring symbol style lamport-robust on input line 723.
 Package footmisc Info: Declaring symbol style lamport* on input line 743.
 Package footmisc Info: Declaring symbol style lamport*-robust on input line 764.
 )
-\CenteringLeftskip=\skip70
-\RaggedLeftLeftskip=\skip71
-\RaggedRightLeftskip=\skip72
-\CenteringRightskip=\skip73
-\RaggedLeftRightskip=\skip74
-\RaggedRightRightskip=\skip75
-\CenteringParfillskip=\skip76
-\RaggedLeftParfillskip=\skip77
-\RaggedRightParfillskip=\skip78
-\JustifyingParfillskip=\skip79
-\CenteringParindent=\skip80
-\RaggedLeftParindent=\skip81
-\RaggedRightParindent=\skip82
-\JustifyingParindent=\skip83
+\CenteringLeftskip=\skip74
+\RaggedLeftLeftskip=\skip75
+\RaggedRightLeftskip=\skip76
+\CenteringRightskip=\skip77
+\RaggedLeftRightskip=\skip78
+\RaggedRightRightskip=\skip79
+\CenteringParfillskip=\skip80
+\RaggedLeftParfillskip=\skip81
+\RaggedRightParfillskip=\skip82
+\JustifyingParfillskip=\skip83
+\CenteringParindent=\skip84
+\RaggedLeftParindent=\skip85
+\RaggedRightParindent=\skip86
+\JustifyingParindent=\skip87
 ) (/usr/share/texmf-dist/tex/latex/tools/array.sty
-Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen175
-\ar@mcellbox=\box59
-\extrarowheight=\dimen176
-\NC@list=\toks29
-\extratabsurround=\skip84
-\backup@length=\skip85
-\ar@cellbox=\box60
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen184
+\ar@mcellbox=\box62
+\extrarowheight=\dimen185
+\NC@list=\toks32
+\extratabsurround=\skip88
+\backup@length=\skip89
+\ar@cellbox=\box63
 ) (/usr/share/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen177
-\c@nlinenum=\count301
-\TeXr@lab=\toks30
+\rotheadsize=\dimen186
+\c@nlinenum=\count308
+\TeXr@lab=\toks33
 ))
-LaTeX Font Info:    Trying to load font information for T1+cmss on input line 5.
+LaTeX Font Info:    Trying to load font information for T1+cmss on input line 6.
  (/usr/share/texmf-dist/tex/latex/base/t1cmss.fd
-File: t1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+File: t1cmss.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 ) (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-04-14 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count302
-\l__pdf_internal_box=\box61
+File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count309
+\l__pdf_internal_box=\box64
 )
 
 LaTeX Warning: Unused global option(s):
@@ -512,59 +587,61 @@ LaTeX Warning: Unused global option(s):
 (./parallel-programming.aux)
 \openout1 = `parallel-programming.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-Package scrbase Info: activating english \contentsname on input line 5.
-Package scrbase Info: activating english \listfigurename on input line 5.
-Package scrbase Info: activating english \listtablename on input line 5.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+Package scrbase Info: activating english \abstractname on input line 6.
+Package scrbase Info: activating english \partname on input line 6.
+Package scrbase Info: activating english \figurename on input line 6.
+Package scrbase Info: activating english \tablename on input line 6.
+Package scrbase Info: activating english \contentsname on input line 6.
+Package scrbase Info: activating english \listfigurename on input line 6.
+Package scrbase Info: activating english \listtablename on input line 6.
+Package scrbase Info: activating english \refname on input line 6.
+Package scrbase Info: activating english \indexname on input line 6.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count303
-\scratchdimen=\dimen178
-\scratchbox=\box62
-\nofMPsegments=\count304
-\nofMParguments=\count305
-\everyMPshowfont=\toks31
-\MPscratchCnt=\count306
-\MPscratchDim=\dimen179
-\MPnumerator=\count307
-\makeMPintoPDFobject=\count308
-\everyMPtoPDFconversion=\toks32
+\scratchcounter=\count310
+\scratchdimen=\dimen187
+\scratchbox=\box65
+\nofMPsegments=\count311
+\nofMParguments=\count312
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count313
+\MPscratchDim=\dimen188
+\MPnumerator=\count314
+\makeMPintoPDFobject=\count315
+\everyMPtoPDFconversion=\toks35
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+)) (/usr/share/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+ (/usr/share/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+ (/usr/share/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
-Package hyperref Info: Link coloring OFF on input line 5.
- (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
- (/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
-Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
-Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-)
-\c@section@level=\count309
-)
-LaTeX Info: Redefining \ref on input line 5.
-LaTeX Info: Redefining \pageref on input line 5.
-LaTeX Info: Redefining \nameref on input line 5.
+Package hyperref Info: Link coloring OFF on input line 6.
  (./parallel-programming.out) (./parallel-programming.out)
 \@outlinefile=\write4
 \openout4 = `parallel-programming.out'.
@@ -576,12 +653,12 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 5.
+(scrartcl)           before \begin{document} on input line 6.
  (/usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
  (/usr/share/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count310
+\BKM@id=\count316
 ))
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -617,17 +694,17 @@ File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count311
-Package ragged2e Info: ABD: executing \RaggedRight on input line 5.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
+\c@lstlisting=\count317
+Package ragged2e Info: ABD: executing \RaggedRight on input line 6.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 8.
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 8.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 7--7
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
 |[][][][][][]|
  []
 
@@ -635,7 +712,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--7
 ./parallel-programming.toc:79: Undefined control sequence.
 \sls@ps@scrheadings@odd@middle@head ...ies \TITLE 
                                                   , \AUTHOR , \pagename ~\th...
-l.79 ...h explicit tasks}{12}{subsubsection.9.5.5}
+l.79 ...h explicit tasks}{13}{subsubsection.9.5.5}
                                                   %
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -646,7 +723,7 @@ and I'll forget about whatever was undefined.
 ./parallel-programming.toc:79: Undefined control sequence.
 \sls@ps@scrheadings@odd@middle@head ... , \AUTHOR 
                                                   , \pagename ~\thepage }
-l.79 ...h explicit tasks}{12}{subsubsection.9.5.5}
+l.79 ...h explicit tasks}{13}{subsubsection.9.5.5}
                                                   %
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -654,124 +731,160 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 
-])
+]
+./parallel-programming.toc:110: You can't use `macro parameter character #' in horizontal mode.
+<argument> ...ne {11.6}Rendez-Vous in Java and C##
+                                                  ######}\Hy@toclinkend \nob...
+l.110 ...s in Java and C####}{19}{subsection.11.6}
+                                                  %
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./parallel-programming.toc:110: You can't use `macro parameter character #' in horizontal mode.
+<argument> ... {11.6}Rendez-Vous in Java and C####
+                                                  ####}\Hy@toclinkend \nobre...
+l.110 ...s in Java and C####}{19}{subsection.11.6}
+                                                  %
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./parallel-programming.toc:110: You can't use `macro parameter character #' in horizontal mode.
+<argument> ...11.6}Rendez-Vous in Java and C######
+                                                  ##}\Hy@toclinkend \nobreak...
+l.110 ...s in Java and C####}{19}{subsection.11.6}
+                                                  %
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./parallel-programming.toc:110: You can't use `macro parameter character #' in horizontal mode.
+<argument> ....6}Rendez-Vous in Java and C########
+                                                  }\Hy@toclinkend \nobreak {...
+l.110 ...s in Java and C####}{19}{subsection.11.6}
+                                                  %
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+)
 \tf@toc=\write5
 \openout5 = `parallel-programming.toc'.
 
  (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2020/03/24 1.8d listings language file
+File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 20--20
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 24--24
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_08_47_23.png, id=187, 625.33624pt x 304.13625pt>
+<../Screenshots/2023_02_20_08_47_23.png, id=224, 625.33624pt x 304.13625pt>
 File: ../Screenshots/2023_02_20_08_47_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_47_23.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_08_47_23.png  used on input line 31.
+Package pdftex.def Info: ../Screenshots/2023_02_20_08_47_23.png  used on input line 32.
 (pdftex.def)             Requested size: 250.13007pt x 121.65233pt.
 
-Overfull \hbox (28.45448pt too wide) in paragraph at lines 31--32
+Overfull \hbox (28.45448pt too wide) in paragraph at lines 32--33
  []$[]$$[]$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 33--33
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_08_45_03.png, id=188, 458.71375pt x 177.66376pt>
+<../Screenshots/2023_02_20_08_45_03.png, id=225, 458.71375pt x 177.66376pt>
 File: ../Screenshots/2023_02_20_08_45_03.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_03.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_03.png  used on input line 34.
+Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_03.png  used on input line 35.
 (pdftex.def)             Requested size: 183.48224pt x 71.06424pt.
-<../Screenshots/2023_02_20_08_45_08.png, id=189, 393.47pt x 216.81pt>
+<../Screenshots/2023_02_20_08_45_08.png, id=226, 393.47pt x 216.81pt>
 File: ../Screenshots/2023_02_20_08_45_08.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_08_45_08.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_08.png  used on input line 35.
+Package pdftex.def Info: ../Screenshots/2023_02_20_08_45_08.png  used on input line 36.
 (pdftex.def)             Requested size: 157.38521pt x 86.72246pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[2 <../Screenshots/2023_02_20_08_47_23.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--40
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--43
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
+Underfull \hbox (badness 10000) in paragraph at lines 46--46
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_03_15.png, id=190, 209.78375pt x 320.19624pt>
+<../Screenshots/2023_02_20_09_03_15.png, id=293, 209.78375pt x 320.19624pt>
 File: ../Screenshots/2023_02_20_09_03_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_03_15.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_09_03_15.png  used on input line 50.
+Package pdftex.def Info: ../Screenshots/2023_02_20_09_03_15.png  used on input line 51.
 (pdftex.def)             Requested size: 83.912pt x 128.07622pt.
-<../Screenshots/2023_02_20_09_04_01.png, id=191, 598.235pt x 353.32pt>
+<../Screenshots/2023_02_20_09_04_01.png, id=294, 598.235pt x 353.32pt>
 File: ../Screenshots/2023_02_20_09_04_01.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_04_01.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_09_04_01.png  used on input line 51.
+Package pdftex.def Info: ../Screenshots/2023_02_20_09_04_01.png  used on input line 52.
 (pdftex.def)             Requested size: 239.28975pt x 141.32549pt.
-[2 <../Screenshots/2023_02_20_08_47_23.png (PNG copy)> <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)> <../Screenshots/2023_02_20_09_03_15.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
 |[][][][][][][]|
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 67.
+LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 68.
 (/usr/share/texmf-dist/tex/latex/base/ts1cmss.fd
-File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+File: ts1cmss.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
-Underfull \hbox (badness 10000) in paragraph at lines 69--69
+Underfull \hbox (badness 10000) in paragraph at lines 70--70
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--77
+Underfull \hbox (badness 10000) in paragraph at lines 78--78
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--92
+Underfull \hbox (badness 10000) in paragraph at lines 93--93
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--107
+Underfull \hbox (badness 10000) in paragraph at lines 108--108
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_14_43.png, id=221, 592.2125pt x 362.35374pt>
+<../Screenshots/2023_02_20_09_14_43.png, id=295, 592.2125pt x 362.35374pt>
 File: ../Screenshots/2023_02_20_09_14_43.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_14_43.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_09_14_43.png  used on input line 108.
+Package pdftex.def Info: ../Screenshots/2023_02_20_09_14_43.png  used on input line 109.
 (pdftex.def)             Requested size: 236.8808pt x 144.93892pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 110--110
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 113--113
+[3{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../Screenshots/2023_02_20_08_45_03.png (PNG copy)> <../Screenshots/2023_02_20_08_45_08.png (PNG copy)> <../Screenshots/2023_02_20_09_03_15.png (PNG copy)> <../Screenshots/2023_02_20_09_04_01.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 |[][][][][][][]|
  []
 
@@ -780,608 +893,1147 @@ Underfull \hbox (badness 10000) in paragraph at lines 114--114
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_07_53.png, id=222, 516.93124pt x 201.75375pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_02_20_09_07_53.png, id=301, 516.93124pt x 201.75375pt>
 File: ../Screenshots/2023_02_20_09_07_53.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_07_53.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_09_07_53.png  used on input line 116.
+Package pdftex.def Info: ../Screenshots/2023_02_20_09_07_53.png  used on input line 117.
 (pdftex.def)             Requested size: 206.76883pt x 80.70006pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--118
+Underfull \hbox (badness 10000) in paragraph at lines 119--119
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--123
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
 |[][][][][][][]|
  []
 
-[3 <../Screenshots/2023_02_20_09_04_01.png (PNG copy)> <../Screenshots/2023_02_20_09_14_43.png (PNG copy)> <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 132--132
+
+Underfull \hbox (badness 10000) in paragraph at lines 133--133
 |[][][][][][][]|
  []
 
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 135.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 136.
 (/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <7> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 136.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 137.
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--160
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 180--180
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 |[][][][][][][]|
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 207--207
+[4 <../Screenshots/2023_02_20_09_14_43.png (PNG copy)> <../Screenshots/2023_02_20_09_07_53.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_20_09_38_24.png, id=228, 374.39874pt x 307.1475pt>
+<../Screenshots/2023_02_20_09_38_24.png, id=344, 374.39874pt x 307.1475pt>
 File: ../Screenshots/2023_02_20_09_38_24.png Graphic file (type png)
 <use ../Screenshots/2023_02_20_09_38_24.png>
-Package pdftex.def Info: ../Screenshots/2023_02_20_09_38_24.png  used on input line 212.
+Package pdftex.def Info: ../Screenshots/2023_02_20_09_38_24.png  used on input line 213.
 (pdftex.def)             Requested size: 149.75684pt x 122.85681pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--225
-|[][][][][][][]|
- []
-
-[4 <../Screenshots/2023_02_20_09_38_24.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
+Underfull \hbox (badness 10000) in paragraph at lines 226--226
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
+Underfull \hbox (badness 10000) in paragraph at lines 239--239
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_02_27_08_31_29.png, id=297, 663.47874pt x 440.64626pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_02_27_08_31_29.png, id=345, 663.47874pt x 440.64626pt>
 File: ../Screenshots/2023_02_27_08_31_29.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_08_31_29.png>
-Package pdftex.def Info: ../Screenshots/2023_02_27_08_31_29.png  used on input line 249.
+Package pdftex.def Info: ../Screenshots/2023_02_27_08_31_29.png  used on input line 250.
 (pdftex.def)             Requested size: 199.04515pt x 132.19489pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 251--251
+Underfull \hbox (badness 10000) in paragraph at lines 252--252
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 255--255
+Underfull \hbox (badness 10000) in paragraph at lines 256--256
+|[][][][][][][]|
+ []
+
+[5 <../Screenshots/2023_02_20_09_38_24.png (PNG copy)> <../Screenshots/2023_02_27_08_31_29.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 270--270
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 269--269
+Underfull \hbox (badness 10000) in paragraph at lines 301--301
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--300
+Underfull \hbox (badness 10000) in paragraph at lines 314--314
 |[][][][][][][]|
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 313--313
-|[][][][][][][]|
- []
-
-[5 <../Screenshots/2023_02_27_08_31_29.png (PNG copy)>]
-<../Screenshots/2023_02_27_09_36_15.png, id=343, 597.23125pt x 346.29375pt>
+<../Screenshots/2023_02_27_09_36_15.png, id=381, 597.23125pt x 346.29375pt>
 File: ../Screenshots/2023_02_27_09_36_15.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_36_15.png>
-Package pdftex.def Info: ../Screenshots/2023_02_27_09_36_15.png  used on input line 336.
+Package pdftex.def Info: ../Screenshots/2023_02_27_09_36_15.png  used on input line 337.
 (pdftex.def)             Requested size: 238.88826pt x 138.51503pt.
-<../Screenshots/2023_02_27_09_37_23.png, id=344, 465.74pt x 249.93375pt>
+<../Screenshots/2023_02_27_09_37_23.png, id=382, 465.74pt x 249.93375pt>
 File: ../Screenshots/2023_02_27_09_37_23.png Graphic file (type png)
 <use ../Screenshots/2023_02_27_09_37_23.png>
-Package pdftex.def Info: ../Screenshots/2023_02_27_09_37_23.png  used on input line 337.
+Package pdftex.def Info: ../Screenshots/2023_02_27_09_37_23.png  used on input line 338.
 (pdftex.def)             Requested size: 186.2927pt x 99.97173pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--340
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 366--366
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--370
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 393--393
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 398--398
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 400--400
+Underfull \hbox (badness 10000) in paragraph at lines 341--341
 |[][][][][][][]|
  []
 
 [6 <../Screenshots/2023_02_27_09_36_15.png (PNG copy)> <../Screenshots/2023_02_27_09_37_23.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 409--409
+Underfull \hbox (badness 10000) in paragraph at lines 367--367
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 434--434
+Underfull \hbox (badness 10000) in paragraph at lines 371--371
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--457
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 478--478
+Underfull \hbox (badness 10000) in paragraph at lines 399--399
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 481--481
+Underfull \hbox (badness 10000) in paragraph at lines 401--401
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--410
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 435--435
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 458--458
 |[][][][][][][]|
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 523--523
+Underfull \hbox (badness 10000) in paragraph at lines 479--479
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 532--532
+Underfull \hbox (badness 10000) in paragraph at lines 482--482
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--535
+Underfull \hbox (badness 10000) in paragraph at lines 524--524
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_06_09_43_52.png, id=453, 256.96pt x 80.3pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 533--533
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--536
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_06_09_43_52.png, id=488, 256.96pt x 80.3pt>
 File: ../Screenshots/2023_03_06_09_43_52.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_43_52.png>
-Package pdftex.def Info: ../Screenshots/2023_03_06_09_43_52.png  used on input line 538.
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_43_52.png  used on input line 539.
 (pdftex.def)             Requested size: 102.78217pt x 32.11942pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--540
+Underfull \hbox (badness 10000) in paragraph at lines 541--541
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_06_09_44_14.png, id=454, 601.24625pt x 90.3375pt>
+<../Screenshots/2023_03_06_09_44_14.png, id=489, 601.24625pt x 90.3375pt>
 File: ../Screenshots/2023_03_06_09_44_14.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_44_14.png>
-Package pdftex.def Info: ../Screenshots/2023_03_06_09_44_14.png  used on input line 542.
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_44_14.png  used on input line 543.
 (pdftex.def)             Requested size: 240.49423pt x 36.13435pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 544--544
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_06_09_47_31.png, id=455, 646.415pt x 217.81375pt>
+<../Screenshots/2023_03_06_09_47_31.png, id=490, 646.415pt x 217.81375pt>
 File: ../Screenshots/2023_03_06_09_47_31.png Graphic file (type png)
 <use ../Screenshots/2023_03_06_09_47_31.png>
-Package pdftex.def Info: ../Screenshots/2023_03_06_09_47_31.png  used on input line 546.
+Package pdftex.def Info: ../Screenshots/2023_03_06_09_47_31.png  used on input line 547.
 (pdftex.def)             Requested size: 258.56142pt x 87.12395pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 563--563
+[8 <../Screenshots/2023_03_06_09_43_52.png (PNG copy)> <../Screenshots/2023_03_06_09_44_14.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 564--564
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 565--565
+Underfull \hbox (badness 10000) in paragraph at lines 566--566
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 580--580
+Underfull \hbox (badness 10000) in paragraph at lines 581--581
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_08_42_17.png, id=456, 430.60875pt x 250.9375pt>
+<../Screenshots/2023_03_13_08_42_17.png, id=548, 430.60875pt x 250.9375pt>
 File: ../Screenshots/2023_03_13_08_42_17.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_08_42_17.png>
-Package pdftex.def Info: ../Screenshots/2023_03_13_08_42_17.png  used on input line 586.
+Package pdftex.def Info: ../Screenshots/2023_03_13_08_42_17.png  used on input line 587.
 (pdftex.def)             Requested size: 172.24043pt x 100.37321pt.
-[8 <../Screenshots/2023_03_06_09_43_52.png (PNG copy)> <../Screenshots/2023_03_06_09_44_14.png (PNG copy)> <../Screenshots/2023_03_06_09_47_31.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 588--588
+
+Underfull \hbox (badness 10000) in paragraph at lines 589--589
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 592--592
+Underfull \hbox (badness 10000) in paragraph at lines 593--593
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 595--595
+Underfull \hbox (badness 10000) in paragraph at lines 596--596
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 612--612
+Underfull \hbox (badness 10000) in paragraph at lines 613--613
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_09_23.png, id=496, 403.5075pt x 226.8475pt>
+<../Screenshots/2023_03_13_09_09_23.png, id=549, 403.5075pt x 226.8475pt>
 File: ../Screenshots/2023_03_13_09_09_23.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_09_23.png>
-Package pdftex.def Info: ../Screenshots/2023_03_13_09_09_23.png  used on input line 613.
+Package pdftex.def Info: ../Screenshots/2023_03_13_09_09_23.png  used on input line 614.
 (pdftex.def)             Requested size: 161.40013pt x 90.73738pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 617--617
+[9 <../Screenshots/2023_03_06_09_47_31.png (PNG copy)> <../Screenshots/2023_03_13_08_42_17.png (PNG copy)> <../Screenshots/2023_03_13_09_09_23.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 618--618
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_17_53.png, id=497, 443.6575pt x 290.08376pt>
+<../Screenshots/2023_03_13_09_17_53.png, id=588, 443.6575pt x 290.08376pt>
 File: ../Screenshots/2023_03_13_09_17_53.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_17_53.png>
-Package pdftex.def Info: ../Screenshots/2023_03_13_09_17_53.png  used on input line 618.
+Package pdftex.def Info: ../Screenshots/2023_03_13_09_17_53.png  used on input line 619.
 (pdftex.def)             Requested size: 177.45984pt x 116.03143pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 636--636
+Underfull \hbox (badness 10000) in paragraph at lines 637--637
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 641--641
+Underfull \hbox (badness 10000) in paragraph at lines 642--642
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_13_09_34_03.png, id=498, 440.64626pt x 160.6pt>
+<../Screenshots/2023_03_13_09_34_03.png, id=589, 440.64626pt x 160.6pt>
 File: ../Screenshots/2023_03_13_09_34_03.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_34_03.png>
-Package pdftex.def Info: ../Screenshots/2023_03_13_09_34_03.png  used on input line 645.
+Package pdftex.def Info: ../Screenshots/2023_03_13_09_34_03.png  used on input line 646.
 (pdftex.def)             Requested size: 176.25537pt x 64.23885pt.
-<../Screenshots/2023_03_13_09_35_29.png, id=499, 427.5975pt x 171.64125pt>
+<../Screenshots/2023_03_13_09_35_29.png, id=590, 427.5975pt x 171.64125pt>
 File: ../Screenshots/2023_03_13_09_35_29.png Graphic file (type png)
 <use ../Screenshots/2023_03_13_09_35_29.png>
-Package pdftex.def Info: ../Screenshots/2023_03_13_09_35_29.png  used on input line 646.
+Package pdftex.def Info: ../Screenshots/2023_03_13_09_35_29.png  used on input line 647.
 (pdftex.def)             Requested size: 171.03596pt x 68.65527pt.
-[9 <../Screenshots/2023_03_13_08_42_17.png (PNG copy)> <../Screenshots/2023_03_13_09_09_23.png (PNG copy)> <../Screenshots/2023_03_13_09_17_53.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 648--648
+
+Underfull \hbox (badness 10000) in paragraph at lines 649--649
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 653--653
+Underfull \hbox (badness 10000) in paragraph at lines 654--654
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 656--656
+Underfull \hbox (badness 10000) in paragraph at lines 657--657
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 658--658
+Underfull \hbox (badness 10000) in paragraph at lines 659--659
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 660--660
+Underfull \hbox (badness 10000) in paragraph at lines 661--661
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--671
+Underfull \hbox (badness 10000) in paragraph at lines 672--672
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 692--692
+Underfull \hbox (badness 10000) in paragraph at lines 693--693
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 694--694
+Underfull \hbox (badness 10000) in paragraph at lines 695--695
+|[][][][][][][]|
+ []
+
+[10 <../Screenshots/2023_03_13_09_17_53.png (PNG copy)> <../Screenshots/2023_03_13_09_34_03.png (PNG copy)> <../Screenshots/2023_03_13_09_35_29.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 704--704
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 703--703
+Underfull \hbox (badness 10000) in paragraph at lines 709--709
 |[][][][][][][]|
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 708--708
-|[][][][][][][]|
- []
-
-<../Screenshots/2023_03_20_08_25_48.png, id=531, 789.95125pt x 259.97125pt>
+<../Screenshots/2023_03_20_08_25_48.png, id=636, 789.95125pt x 259.97125pt>
 File: ../Screenshots/2023_03_20_08_25_48.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_08_25_48.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_08_25_48.png  used on input line 711.
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_25_48.png  used on input line 712.
 (pdftex.def)             Requested size: 315.9749pt x 103.98665pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 718--718
+Underfull \hbox (badness 10000) in paragraph at lines 719--719
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_20_08_29_42.png, id=532, 839.135pt x 268.00125pt>
+<../Screenshots/2023_03_20_08_29_42.png, id=637, 839.135pt x 268.00125pt>
 File: ../Screenshots/2023_03_20_08_29_42.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_08_29_42.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_08_29_42.png  used on input line 721.
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_29_42.png  used on input line 722.
 (pdftex.def)             Requested size: 335.64804pt x 107.1986pt.
-[10 <../Screenshots/2023_03_13_09_34_03.png (PNG copy)> <../Screenshots/2023_03_13_09_35_29.png (PNG copy)> <../Screenshots/2023_03_20_08_25_48.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 723--723
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--724
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 741--741
+Underfull \hbox (badness 10000) in paragraph at lines 742--742
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 752--752
+Underfull \hbox (badness 10000) in paragraph at lines 753--753
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 772--772
+Underfull \hbox (badness 10000) in paragraph at lines 773--773
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_20_08_40_04.png, id=563, 811.03pt x 464.73625pt>
+<../Screenshots/2023_03_20_08_40_04.png, id=638, 811.03pt x 464.73625pt>
 File: ../Screenshots/2023_03_20_08_40_04.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_08_40_04.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_08_40_04.png  used on input line 773.
+Package pdftex.def Info: ../Screenshots/2023_03_20_08_40_04.png  used on input line 774.
 (pdftex.def)             Requested size: 324.40625pt x 185.8912pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 789--789
+[11 <../Screenshots/2023_03_20_08_25_48.png (PNG copy)> <../Screenshots/2023_03_20_08_29_42.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 790--790
 |[][][][][][][]|
  []
 
-[11 <../Screenshots/2023_03_20_08_29_42.png (PNG copy)> <../Screenshots/2023_03_20_08_40_04.png (PNG copy)>] (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2020/03/24 1.8d listings language file
+(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
-Underfull \hbox (badness 10000) in paragraph at lines 820--820
+Underfull \hbox (badness 10000) in paragraph at lines 821--821
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 828--828
+Underfull \hbox (badness 10000) in paragraph at lines 829--829
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 837--837
+Underfull \hbox (badness 10000) in paragraph at lines 838--838
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 847--847
+Underfull \hbox (badness 10000) in paragraph at lines 848--848
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 861--861
+Underfull \hbox (badness 10000) in paragraph at lines 862--862
+|[][][][][][][]|
+ []
+
+[12 <../Screenshots/2023_03_20_08_40_04.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 879--879
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 878--878
+Underfull \hbox (badness 10000) in paragraph at lines 888--888
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 887--887
+Underfull \hbox (badness 10000) in paragraph at lines 896--896
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 895--895
+Underfull \hbox (badness 10000) in paragraph at lines 907--907
 |[][][][][][][]|
  []
 
-[12]
-Underfull \hbox (badness 10000) in paragraph at lines 906--906
-|[][][][][][][]|
- []
-
-<../Screenshots/2023_03_20_09_23_13.png, id=674, 437.635pt x 278.03876pt>
+<../Screenshots/2023_03_20_09_23_13.png, id=726, 437.635pt x 278.03876pt>
 File: ../Screenshots/2023_03_20_09_23_13.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_09_23_13.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_09_23_13.png  used on input line 910.
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_23_13.png  used on input line 911.
 (pdftex.def)             Requested size: 175.05089pt x 111.21352pt.
-<../Screenshots/2023_03_20_09_24_26.png, id=675, 762.85pt x 272.01625pt>
+<../Screenshots/2023_03_20_09_24_26.png, id=727, 762.85pt x 272.01625pt>
 File: ../Screenshots/2023_03_20_09_24_26.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_09_24_26.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_09_24_26.png  used on input line 911.
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_24_26.png  used on input line 912.
 (pdftex.def)             Requested size: 305.1346pt x 108.80457pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 913--913
+Underfull \hbox (badness 10000) in paragraph at lines 914--914
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 927--927
-|[][][][][][][]|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 974--974
+Underfull \hbox (badness 10000) in paragraph at lines 928--928
 |[][][][][][][]|
  []
 
 [13 <../Screenshots/2023_03_20_09_23_13.png (PNG copy)> <../Screenshots/2023_03_20_09_24_26.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 992--992
+Underfull \hbox (badness 10000) in paragraph at lines 975--975
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_20_09_32_19.png, id=728, 818.05624pt x 509.905pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 993--993
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_03_20_09_32_19.png, id=778, 818.05624pt x 509.905pt>
 File: ../Screenshots/2023_03_20_09_32_19.png Graphic file (type png)
 <use ../Screenshots/2023_03_20_09_32_19.png>
-Package pdftex.def Info: ../Screenshots/2023_03_20_09_32_19.png  used on input line 993.
+Package pdftex.def Info: ../Screenshots/2023_03_20_09_32_19.png  used on input line 994.
 (pdftex.def)             Requested size: 327.21669pt x 203.95837pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 997--997
+Underfull \hbox (badness 10000) in paragraph at lines 998--998
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+Underfull \hbox (badness 10000) in paragraph at lines 1003--1003
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1004--1004
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1005
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_27_08_26_16.png, id=729, 284.06125pt x 256.96pt>
+<../Screenshots/2023_03_27_08_26_16.png, id=779, 284.06125pt x 256.96pt>
 File: ../Screenshots/2023_03_27_08_26_16.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_26_16.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_26_16.png  used on input line 1015.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_26_16.png  used on input line 1016.
 (pdftex.def)             Requested size: 113.62247pt x 102.78217pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1019--1019
+[14 <../Screenshots/2023_03_20_09_32_19.png (PNG copy)> <../Screenshots/2023_03_27_08_26_16.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1020--1020
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1025
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1026
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_27_08_28_38.png, id=730, 803.0pt x 336.25626pt>
+<../Screenshots/2023_03_27_08_28_38.png, id=825, 803.0pt x 336.25626pt>
 File: ../Screenshots/2023_03_27_08_28_38.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_28_38.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_28_38.png  used on input line 1027.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_28_38.png  used on input line 1028.
 (pdftex.def)             Requested size: 321.1943pt x 134.5001pt.
-[14 <../Screenshots/2023_03_20_09_32_19.png (PNG copy)> <../Screenshots/2023_03_27_08_26_16.png (PNG copy)> <../Screenshots/2023_03_27_08_28_38.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 1040--1040
+
+Underfull \hbox (badness 10000) in paragraph at lines 1041--1041
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_27_08_29_27.png, id=751, 842.14626pt x 503.8825pt>
+<../Screenshots/2023_03_27_08_29_27.png, id=826, 842.14626pt x 503.8825pt>
 File: ../Screenshots/2023_03_27_08_29_27.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_29_27.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_29_27.png  used on input line 1041.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_29_27.png  used on input line 1042.
 (pdftex.def)             Requested size: 336.85254pt x 201.54942pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1043--1043
+Underfull \hbox (badness 10000) in paragraph at lines 1044--1044
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_27_08_31_54.png, id=752, 763.85374pt x 337.26pt>
+<../Screenshots/2023_03_27_08_31_54.png, id=827, 763.85374pt x 337.26pt>
 File: ../Screenshots/2023_03_27_08_31_54.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_31_54.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_31_54.png  used on input line 1044.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_31_54.png  used on input line 1045.
 (pdftex.def)             Requested size: 305.53607pt x 134.9016pt.
-<../Screenshots/2023_03_27_08_33_03.png, id=753, 790.955pt x 500.87125pt>
+<../Screenshots/2023_03_27_08_33_03.png, id=828, 790.955pt x 500.87125pt>
 File: ../Screenshots/2023_03_27_08_33_03.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_33_03.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_33_03.png  used on input line 1045.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_33_03.png  used on input line 1046.
 (pdftex.def)             Requested size: 316.3764pt x 200.34494pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
+[15 <../Screenshots/2023_03_27_08_28_38.png (PNG copy)> <../Screenshots/2023_03_27_08_29_27.png (PNG copy)> <../Screenshots/2023_03_27_08_31_54.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1048
 |[][][][][][][]|
  []
 
-<../Screenshots/2023_03_27_08_34_12.png, id=754, 772.8875pt x 260.975pt>
+<../Screenshots/2023_03_27_08_34_12.png, id=842, 772.8875pt x 260.975pt>
 File: ../Screenshots/2023_03_27_08_34_12.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_34_12.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_34_12.png  used on input line 1049.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_34_12.png  used on input line 1050.
 (pdftex.def)             Requested size: 309.14952pt x 104.38815pt.
-[15 <../Screenshots/2023_03_27_08_29_27.png (PNG copy)> <../Screenshots/2023_03_27_08_31_54.png (PNG copy)> <../Screenshots/2023_03_27_08_33_03.png (PNG copy)> <../Screenshots/2023_03_27_08_34_12.png (PNG copy)>]
-<../Screenshots/2023_03_27_08_38_16.png, id=768, 344.28625pt x 305.14pt>
+<../Screenshots/2023_03_27_08_38_16.png, id=843, 344.28625pt x 305.14pt>
 File: ../Screenshots/2023_03_27_08_38_16.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_38_16.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_38_16.png  used on input line 1067.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_38_16.png  used on input line 1068.
 (pdftex.def)             Requested size: 137.71205pt x 122.05382pt.
-<../Screenshots/2023_03_27_08_39_35.png, id=769, 378.41376pt x 294.09875pt>
+<../Screenshots/2023_03_27_08_39_35.png, id=844, 378.41376pt x 294.09875pt>
 File: ../Screenshots/2023_03_27_08_39_35.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_08_39_35.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_08_39_35.png  used on input line 1088.
+Package pdftex.def Info: ../Screenshots/2023_03_27_08_39_35.png  used on input line 1089.
 (pdftex.def)             Requested size: 151.36281pt x 117.6374pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1090--1090
+Underfull \hbox (badness 10000) in paragraph at lines 1091--1091
+|[][][][][][][]|
+ []
+
+[16 <../Screenshots/2023_03_27_08_33_03.png (PNG copy)> <../Screenshots/2023_03_27_08_34_12.png (PNG copy)> <../Screenshots/2023_03_27_08_38_16.png (PNG copy)> <../Screenshots/2023_03_27_08_39_35.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1105--1105
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
+Underfull \hbox (badness 10000) in paragraph at lines 1117--1117
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1116--1116
-|[][][][][][][]|
- []
+LaTeX Warning: File `2023_03_27_09_00_43.png' not found on input line 1119.
 
 
-LaTeX Warning: File `2023_03_27_09_00_43.png' not found on input line 1118.
-
-
-./parallel-programming.tex:1118: Package pdftex.def Error: File `2023_03_27_09_00_43.png' not found: using draft setting.
+./parallel-programming.tex:1119: Package pdftex.def Error: File `2023_03_27_09_00_43.png' not found: using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1118 ...hics[scale=0.4]{2023_03_27_09_00_43.png}
+l.1119 ...hics[scale=0.4]{2023_03_27_09_00_43.png}
                                                   \newline
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-<../Screenshots/2023_03_27_09_01_23.png, id=770, 830.10126pt x 519.9425pt>
+<../Screenshots/2023_03_27_09_01_23.png, id=873, 830.10126pt x 519.9425pt>
 File: ../Screenshots/2023_03_27_09_01_23.png Graphic file (type png)
 <use ../Screenshots/2023_03_27_09_01_23.png>
-Package pdftex.def Info: ../Screenshots/2023_03_27_09_01_23.png  used on input line 1120.
+Package pdftex.def Info: ../Screenshots/2023_03_27_09_01_23.png  used on input line 1121.
 (pdftex.def)             Requested size: 332.03462pt x 207.97331pt.
-[16 <../Screenshots/2023_03_27_08_38_16.png (PNG copy)> <../Screenshots/2023_03_27_08_39_35.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 1122--1122
+
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1123
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1136--1136
+Underfull \hbox (badness 10000) in paragraph at lines 1137--1137
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1144
+Underfull \hbox (badness 10000) in paragraph at lines 1145--1145
 |[][][][][][][]|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1147--1147
+Underfull \hbox (badness 10000) in paragraph at lines 1148--1148
 |[][][][][][][]|
  []
 
-[17 <../Screenshots/2023_03_27_09_01_23.png (PNG copy)>] (./parallel-programming.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 1162--1162
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1164
+|[][][][][][][]|
+ []
+
+[17 <../Screenshots/2023_03_27_09_01_23.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1181--1181
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1193--1193
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1211--1211
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1247--1247
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1250--1250
+|[][][][][][][]|
+ []
+
+./parallel-programming.tex:1253: You can't use `macro parameter character #' in horizontal mode.
+<argument> In C##
+                  there are a bunch of rules the compiler will follow when u...
+l.1253 ...ut instructions after this instruction.}
+                                                  \newline
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+<../Screenshots/2023_04_06_02_08_42.png, id=910, 742.775pt x 167.62625pt>
+File: ../Screenshots/2023_04_06_02_08_42.png Graphic file (type png)
+<use ../Screenshots/2023_04_06_02_08_42.png>
+Package pdftex.def Info: ../Screenshots/2023_04_06_02_08_42.png  used on input line 1254.
+(pdftex.def)             Requested size: 297.10474pt x 67.0493pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1256--1256
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_06_02_09_10.png, id=911, 477.785pt x 128.48pt>
+File: ../Screenshots/2023_04_06_02_09_10.png Graphic file (type png)
+<use ../Screenshots/2023_04_06_02_09_10.png>
+Package pdftex.def Info: ../Screenshots/2023_04_06_02_09_10.png  used on input line 1258.
+(pdftex.def)             Requested size: 191.11061pt x 51.39108pt.
+./parallel-programming.tex:1260: Illegal parameter number in definition of \@currentlabelname.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:1260: Illegal parameter number in definition of \ttl@savemark.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:1260: Illegal parameter number in definition of \ttl@savetitle.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:1260: Illegal parameter number in definition of \ttl@savewrite.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:1260: Illegal parameter number in definition of \ttl@passexplicit.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./parallel-programming.tex:1260: You can't use `macro parameter character #' in horizontal mode.
+<argument> ...section ~Rendez-Vous in Java and C##
+                                                  \@@par 
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1260--1260
+|[][][][][][][]|
+ []
+
+./parallel-programming.tex:1260: Illegal parameter number in definition of \reserved@a.
+<to be read again> 
+                   }
+l.1260 \subsection{Rendez-Vous in Java and C#}
+                                              
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+LaTeX Warning: File `2023_04_06_02_10_27.png' not found on input line 1261.
+
+
+./parallel-programming.tex:1261: Package pdftex.def Error: File `2023_04_06_02_10_27.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1261 ...hics[scale=0.4]{2023_04_06_02_10_27.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<../Screenshots/2023_04_06_02_10_42.png, id=912, 669.50125pt x 346.29375pt>
+File: ../Screenshots/2023_04_06_02_10_42.png Graphic file (type png)
+<use ../Screenshots/2023_04_06_02_10_42.png>
+Package pdftex.def Info: ../Screenshots/2023_04_06_02_10_42.png  used on input line 1262.
+(pdftex.def)             Requested size: 267.79576pt x 138.51503pt.
+[18 <../Screenshots/2023_04_06_02_08_42.png (PNG copy)> <../Screenshots/2023_04_06_02_09_10.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1264--1264
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1265--1265
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1269--1269
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_17_08_56_24.png, id=950, 212.795pt x 166.6225pt>
+File: ../Screenshots/2023_04_17_08_56_24.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_08_56_24.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_08_56_24.png  used on input line 1271.
+(pdftex.def)             Requested size: 85.11649pt x 66.64781pt.
+<../Screenshots/2023_04_17_08_56_38.png, id=951, 203.76125pt x 169.63374pt>
+File: ../Screenshots/2023_04_17_08_56_38.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_08_56_38.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_08_56_38.png  used on input line 1272.
+(pdftex.def)             Requested size: 81.50305pt x 67.85228pt.
+<../Screenshots/2023_04_17_09_10_06.png, id=952, 361.35pt x 87.32625pt>
+File: ../Screenshots/2023_04_17_09_10_06.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_09_10_06.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_09_10_06.png  used on input line 1273.
+(pdftex.def)             Requested size: 144.53743pt x 34.92987pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1275--1275
+|[][][][][][][]|
+ []
+
+
+LaTeX Warning: File `2023_04_17_09_08_35.png' not found on input line 1276.
+
+
+./parallel-programming.tex:1276: Package pdftex.def Error: File `2023_04_17_09_08_35.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1276 ...hics[scale=0.4]{2023_04_17_09_08_35.png}
+                                                  \newline
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1279--1279
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_17_09_19_29.png, id=953, 570.13pt x 224.84pt>
+File: ../Screenshots/2023_04_17_09_19_29.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_09_19_29.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_09_19_29.png  used on input line 1281.
+(pdftex.def)             Requested size: 228.04796pt x 89.9344pt.
+<../Screenshots/2023_04_17_09_19_53.png, id=954, 577.15625pt x 305.14pt>
+File: ../Screenshots/2023_04_17_09_19_53.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_09_19_53.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_09_19_53.png  used on input line 1283.
+(pdftex.def)             Requested size: 230.8584pt x 122.05382pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1285--1285
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_17_09_24_17.png, id=955, 456.70625pt x 209.78375pt>
+File: ../Screenshots/2023_04_17_09_24_17.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_09_24_17.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_09_24_17.png  used on input line 1287.
+(pdftex.def)             Requested size: 182.67926pt x 83.912pt.
+(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+) (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+) [19 <../Screenshots/2023_04_06_02_10_42.png (PNG copy)> <../Screenshots/2023_04_17_08_56_24.png (PNG copy)> <../Screenshots/2023_04_17_08_56_38.png (PNG copy)> <../Screenshots/2023_04_17_09_10_06.png (PNG copy)> <../Screenshots/2023_04_17_09_19_29.png (PNG copy)> <../Screenshots/2023_04_17_09_19_53.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1294--1294
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1308--1308
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_17_09_30_44.png, id=961, 428.60126pt x 361.35pt>
+File: ../Screenshots/2023_04_17_09_30_44.png Graphic file (type png)
+<use ../Screenshots/2023_04_17_09_30_44.png>
+Package pdftex.def Info: ../Screenshots/2023_04_17_09_30_44.png  used on input line 1324.
+(pdftex.def)             Requested size: 171.43745pt x 144.53743pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1349--1349
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1364--1364
+|[][][][][][][]|
+ []
+
+[20 <../Screenshots/2023_04_17_09_24_17.png (PNG copy)> <../Screenshots/2023_04_17_09_30_44.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1388
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1408--1408
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1423--1423
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1438--1438
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1449--1449
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1460--1460
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1467--1467
+|[][][][][][][]|
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 1486--1486
+|[][][][][][][]|
+ []
+
+
+LaTeX Warning: File `2023_04_24_09_23_47.png' not found on input line 1488.
+
+
+./parallel-programming.tex:1488: Package pdftex.def Error: File `2023_04_24_09_23_47.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1488 ...hics[scale=0.4]{2023_04_24_09_23_47.png}
+                                                  \newline
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1490--1490
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_24_09_25_14.png, id=1111, 413.545pt x 204.765pt>
+File: ../Screenshots/2023_04_24_09_25_14.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_09_25_14.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_09_25_14.png  used on input line 1492.
+(pdftex.def)             Requested size: 165.41505pt x 81.90454pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1494--1494
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_24_09_25_55.png, id=1112, 701.62125pt x 426.59375pt>
+File: ../Screenshots/2023_04_24_09_25_55.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_09_25_55.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_09_25_55.png  used on input line 1495.
+(pdftex.def)             Requested size: 280.64352pt x 170.63446pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1497--1497
+|[][][][][][][]|
+ []
+
+
+LaTeX Warning: File `2023_04_24_02_24_02.png' not found on input line 1501.
+
+
+./parallel-programming.tex:1501: Package pdftex.def Error: File `2023_04_24_02_24_02.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1501 ...hics[scale=0.4]{2023_04_24_02_24_02.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1503--1503
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_24_02_32_44.png, id=1113, 353.32pt x 460.72125pt>
+File: ../Screenshots/2023_04_24_02_32_44.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_02_32_44.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_02_32_44.png  used on input line 1529.
+(pdftex.def)             Requested size: 141.32549pt x 184.28523pt.
+[22 <../Screenshots/2023_04_24_09_25_14.png (PNG copy)> <../Screenshots/2023_04_24_09_25_55.png (PNG copy)>]
+<../Screenshots/2023_04_24_02_33_05.png, id=1141, 426.59375pt x 454.69875pt>
+File: ../Screenshots/2023_04_24_02_33_05.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_02_33_05.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_02_33_05.png  used on input line 1530.
+(pdftex.def)             Requested size: 170.63446pt x 181.87627pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1533--1533
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1534--1534
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_24_09_28_33.png, id=1142, 729.72626pt x 310.15875pt>
+File: ../Screenshots/2023_04_24_09_28_33.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_09_28_33.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_09_28_33.png  used on input line 1535.
+(pdftex.def)             Requested size: 291.88533pt x 124.0613pt.
+
+./parallel-programming.tex:1539: LaTeX Error: Invalid UTF-8 byte sequence (â\lst@FillFixed@\lst@EC€).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1539 int gridSize = (N + blockSize â€“ 
+                                         1) / blockSize;
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+./parallel-programming.tex:1539: LaTeX Error: Invalid UTF-8 byte "93.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1539 int gridSize = (N + blockSize â€“ 
+                                         1) / blockSize;
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1553--1553
+|[][][][][][][]|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1570--1570
+|[][][][][][][]|
+ []
+
+<../Screenshots/2023_04_24_09_39_56.png, id=1143, 632.3625pt x 301.125pt>
+File: ../Screenshots/2023_04_24_09_39_56.png Graphic file (type png)
+<use ../Screenshots/2023_04_24_09_39_56.png>
+Package pdftex.def Info: ../Screenshots/2023_04_24_09_39_56.png  used on input line 1572.
+(pdftex.def)             Requested size: 252.94052pt x 120.44786pt.
+[23 <../Screenshots/2023_04_24_02_32_44.png (PNG copy)> <../Screenshots/2023_04_24_02_33_05.png (PNG copy)> <../Screenshots/2023_04_24_09_28_33.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1574--1574
+|[][][][][][][]|
+ []
+
+
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1177, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf  used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf  used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1180, page=1, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 1>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page1 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 1>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page1 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+[24 <../Screenshots/2023_04_24_09_39_56.png (PNG copy)>]
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 1>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page1 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 1>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page1 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 1>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page1 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+ [25 <../parallel-programming/parprog.pdf>]
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1211, page=2, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 2>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page2 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 2>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page2 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 2>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page2 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+[26 <../parallel-programming/parprog.pdf>]
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1216, page=3, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 3>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page3 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 3>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page3 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 3>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page3 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+[27 <../parallel-programming/parprog.pdf>]
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1221, page=4, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 4>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page4 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 4>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page4 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 4>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page4 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+[28 <../parallel-programming/parprog.pdf>]
+
+pdfTeX warning: pdflatex (file ../parallel-programming/parprog.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../parallel-programming/parprog.pdf, id=1226, page=5, 597.50877pt x 845.04814pt>
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 5>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page5 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 5>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page5 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+File: ../parallel-programming/parprog.pdf Graphic file (type pdf)
+<use ../parallel-programming/parprog.pdf, page 5>
+Package pdftex.def Info: ../parallel-programming/parprog.pdf , page5 used on input line 1583.
+(pdftex.def)             Requested size: 597.50731pt x 845.04608pt.
+[29 <../parallel-programming/parprog.pdf>] (./parallel-programming.aux)
 Package rerunfilecheck Info: File `parallel-programming.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20801 strings out of 478238
- 375417 string characters out of 5850456
- 1357395 words of memory out of 10000000
- 38102 multiletter control sequences out of 15000+600000
- 478999 words of font info for 53 fonts, out of 8000000 for 9000
+ 22629 strings out of 476025
+ 413253 string characters out of 5796533
+ 2215388 words of memory out of 10000000
+ 41798 multiletter control sequences out of 15000+600000
+ 522013 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,20n,106p,10650b,1950s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on parallel-programming.pdf (17 pages, 1278313 bytes).
+ 108i,20n,106p,10643b,2183s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfso0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfsx0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
+Output written on parallel-programming.pdf (29 pages, 2275646 bytes).
 PDF statistics:
- 1025 PDF objects out of 1200 (max. 8388607)
- 951 compressed objects within 10 object streams
- 633 named destinations out of 1000 (max. 500000)
- 251 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1488 PDF objects out of 1728 (max. 8388607)
+ 1368 compressed objects within 14 object streams
+ 909 named destinations out of 1000 (max. 500000)
+ 403 words of extra memory for PDF output out of 10000 (max. 10000000)
 

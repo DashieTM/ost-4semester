@@ -22,7 +22,6 @@
     ],
     header-ascent: 100% - 30pt,
     footer: [
-      #counter(page).update(1)
       #align(center,
         [#counter(page).display(
           both: false,
@@ -31,6 +30,7 @@
     ],
     footer-descent: 100% - 25pt
   )
+  counter(page).update(1)
   set align(left)
   show raw.where(block: true): content => block(
     width: 100%,

@@ -1,4 +1,5 @@
 \documentclass[main.tex,fontsize=8pt,paper=a4,paper=portrait,DIV=calc,]{scrartcl}
+\usepackage[final]{pdfpages}
 \input{../ost-summary-template.tex}
 
 \allsectionsfont{\centering}
@@ -1578,5 +1579,7 @@ float *matrix =
   (float *)malloc(NofRows * NofCols * sizeof(float));
 matrix[row * NofCols + col] =
 \end{lstlisting}
+
+\includepdf[pages=-,scale=1]{../parallel-programming/parprog.pdf}
 
 \end{document}
