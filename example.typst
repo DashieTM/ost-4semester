@@ -1,4 +1,4 @@
-#import "../template.typst"
+#import "./template.typst"
 
 #show: doc => template.conf(
   author: "Fabio Lenherr",
@@ -11,3 +11,32 @@
 #template.subsection("sub")
 #template.subsubsection("subsub")
 #template.subsubsubsection("subsubsub")
+
+```rust
+fn main() {
+    println!("this be rust")
+}
+```
+
+asdfasdf
+
+
+```rust
+fn main() {
+    println!("this be rust")
+}
+```
+
+
+asdfasd
+
+
+
+
+
+
+```rust
+pingpang
+```
+
+

@@ -7,3 +7,9 @@
 *.out
 *.txt
 *.toc
+*.xsim
+*.blg
+*.bcf
+*.bbl
+*.run
+
