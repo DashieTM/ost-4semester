@@ -6,3 +6,167 @@
   "summary",
   doc,
 )
+
+#section("GPU Performance Optimizations")
+
+#subsection("Matrix multiplication")
+
+#subsubsection("Sequentially")
+#align(center, [#image("../Screenshots/2023_05_01_08_46_36.png", width: 30%)])
+```csharp
+float sum = 0;
+for (int k = 0; k < K; k++) {
+  sum += A[i, k] * B[k, j];
+}
+C[i, j] = sum;
+```
+#subsubsection("Concurrent")
+```C
+__global__
+void multiply(float *A, float *B, float *C) {
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  int j = blockIdx.y * blockDim.y + threadIdx.y;
+  if (i < N && j < M) {
+    float sum = 0;
+    for (int k = 0; k < K; k++) {
+      sum += A[i * K + k] * B[k * M + j];
+    }
+    C[i * M + j] = sum;
+  }
+}
+```
+Note the need for boundary checking with N and M -> height and width of grid
+
+#subsection("Warp")
+#align(center, [#image("../Screenshots/2023_05_01_08_57_07.png", width: 50%)])
+Each block is executed internally as warps, which are groups of 32 threads.\
+In other words: if a block has 128 threads, then there are 4 warps with 32 threads each that are executed.
+- all threads within a warp execute the same instruction -> SIMD single instruction, multiple data
+- Branches are executed alternately
+- Stream Multiprocessor can acoommodate all warps of a block
+- But only a few are really running in parallel at the same time (1 to 24)
+
+#subsubsection("Divergence")
+Whenever we use if branches, we need to make sure that the threads of a warp will not be split.\
+If they are, then we can get into performance losses, as the other threads of the warp will have to wait.\
+#image("../Screenshots/2023_05_01_09_13_56.png", width: 70%)
+Left: Here only thread 0 will go into the if branch -> all others will have to wait!\
+right: Here all 32 threads of a warp will go into a branch, no waiting! This is correct!
+
+#subsubsection("Memory Coalescing")
+This is the idea of fetching memory per warp.\
+E.g. as soon as one thread of the warp needs certain memory, memory size according to the warp is fetched.\
+-> instead of 1 int, 32 ints\
+#align(center, [#image("../Screenshots/2023_05_01_09_35_50.png", width: 70%)])
+
+#subsubsubsection("DRAM")
+DRAM is the way cuda achieves this memory access -> make data access truly parallel.
+- each time memory is accessed -> neighboring memory for next thread is accessed as well
+- many sensors which detect accessed
+
+#subsubsubsection("Non-Coalescing")
+Note that fetching acros warps are not done at once, here we would need multiple memory fetches, which will cost us more time!
+#align(center, [#image("../Screenshots/2023_05_01_09_36_47.png", width: 70%)])
+
+#subsection("Memory model with cuda")
+- global memory for all threads
+- each thread has local memory with same latency -> thread safe
+- shared memory as cache -> very small
+- each thread has its own registers
+#align(center, [#image("../Screenshots/2023_05_01_10_39_27.png", width: 70%)])
+
+#subsubsection("Specifying Memory variants")
+You can specify where you want to store your variables:
+#align(center, [#image("../Screenshots/2023_05_01_10_55_16.png", width: 70%)])
+- registers: extremely fast, per thread, on chip
+- shared memory: small, fast, shared in block
+- global: slow, big
+- constant: like global, but is faster since it is cached, can't be mutated!
+
+#subsubsection("Dealing with limited shared memory")
+We have already discussed that you want to load as much data into memory as you can, but sometimes this means you can't store everything you want in shared memory, since that is too small.\
+Instead, you can load things iteratively and then store the intermediate result in the shared memory.\
+#align(center,[#image("../Screenshots/2023_05_01_11_08_45.png", width:70%)])
+```C
+float sum = 0.0;
+for (int tile = 0; tile < nofTiles; tile++) {
+  // Read tile from A and B in shared memory
+  // Each thread reads an element from each tile
+  __syncthreads();
+  // Multiply row of A-Tile by
+  // Column of B-Tile from shared memory
+  sum += partialProduct;
+  __syncthreads();
+}
+C[row * M + col] = sum;
+```
+#text(purple,"Note, the syncthreads is used to make sure the intermediate results that we wanted to store are visible for all threads.")\
+#align(center,[#image("../Screenshots/2023_05_01_11_11_03.png", width:70%)])
+#text(red,[*IMPORANT*: When using this, make sure the entire block, aka all threads call \_\_syncThreads, otherwise it will cause undefined behavior ])
+#pagebreak()
+
+#subsection("Tiling Shared Memory")
+#columns(2, [#image("../Screenshots/2023_05_01_11_22_43.png", width:100%) #colbreak() #image("../Screenshots/2023_05_01_11_23_06.png", width:100%)])
+```C
+__shared__ float Asub[TILE_SIZE][TILE_SIZE];
+__shared__ float Bsub[TILE_SIZE][TILE_SIZE];
+int tx = threadIdx.x, ty = threadIdx.y;
+int col = blockIdx.x * TILE_SIZE + tx;
+int row = blockIdx.y * TILE_SIZE + ty;
+for (int tile = 0; tile < nofTiles; tile++) {
+  Asub[ty][tx] = A[row * K + tile * TILE_SIZE + tx];
+  Bsub[ty][tx] = B[(tile * TILE_SIZE + ty) * M + col];
+  __syncthreads();
+  // Multiply row of A-Tile by column of B-Tile from shared memory
+  __syncthreads();
+}
+```
+
+#subsubsection("Usage of tiled memory")
+#columns(2, [
+#image("../Screenshots/2023_05_01_11_35_41.png")
+#colbreak()
+```C
+float sum = 0.0;
+for (int tile = 0; tile < nofTiles; tile++) {
+  Asub[ty][tx] = A[row * K + tile * TILE_SIZE + tx];
+  Bsub[ty][tx] = B[(tile * TILE_SIZE + ty) * M + col];
+  __syncthreads();
+  for (int ksub = 0; ksub < TILE_SIZE; ksub++) {
+    sum += Asub[ty][ksub] * Bsub[ksub][tx];
+  }
+  __syncthreads();
+}
+C[row * M + col] = sum;
+```])
+
+#subsection("Differences to OpenCL")
+#align(center, [#image("../Screenshots/2023_05_01_11_38_03.png", width: 70%)])
+```C
+__local float Asub[TILE_SIZE][TILE_SIZE];
+__local float Bsub[TILE_SIZE][TILE_SIZE];
+int tx = get_local_id(0), ty = get_local_id(1);
+int col = get_group_id(0) * TILE_SIZE + tx;
+int row = get_group_id(1) * TILE_SIZE + ty;
+// .....
+
+// next snippet
+float sum = 0.0;
+for (int tile = 0; tile < nofTiles; tile++) {
+  Asub[ty][tx] = A[row * K + tile * TILE_SIZE + tx];
+  Bsub[ty][tx] = B[(tile * TILE_SIZE + ty) * M + col];
+  barrier(CLK_LOCAL_MEM_FENCE);
+  for (int ksub = 0; ksub < TILE_SIZE; ksub++) {
+    sum += Asub[ty][ksub] * Bsub[ksub][tx];
+  }
+  barrier(CLK_LOCAL_MEM_FENCE);
+}
+C[row * M + col] = sum;
+```
+#text(red, [Note, the boundary checking is missing here!])
+
+
+
+
+
+
