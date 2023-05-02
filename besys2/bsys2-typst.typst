@@ -7,3 +7,391 @@
   doc,
 )
 
+#section("Sinals, Pipes and Sockets")
+#subsection("Signals")
+Signals allow you to mimmick an interrupt, e.g. if a signal is sent to a process, then the OS will simply treat this like an interrupt.\
+- process is interrupted
+- A Chosen Signal-Handler-Function is chosen
+- run said function
+- continue process (if the Signal-Handler-Function doesn't end the process)
+
+#subsubsection("Signal Origins")
+- Hardware/OS
+  - illegal instructions
+  - access on illegal memory -> segfault
+  - division by 0
+- other processes
+  - \<C-c\> entered
+  - processes such as kill, killall etc.
+
+#subsubsection("Handling of Signals")
+- each process has *1 handler per signal*
+- On process begin, there is a default handler (1 of 3) for each signal:
+  - ignore-handler: ignore the signal
+  - terminate-handler: terminates the program
+  - abnormal-terminate-handler: terminates the program and generates a dore dump
+- pretty much all Signal-Handlers can be overwritten (exceptions: _SIGKILL and SIGSTOP_)
+
+#subsubsection("Important Signals")
+#subsubsubsection("Program defects")
+- #text(purple, [SIGFPE]): error in arithmetic operation
+- #text(purple, [SIGILL]): unknown instruction
+- #text(purple, [SIGSEGV]): illegal memory access
+- #text(purple, [SIGSYS]): unknown system call -> syscall unknown code
+
+#subsubsubsection("Program cancel")
+- #text(purple, [SIGTERM]): the regular, formal way to request program termination
+- #text(purple, [SIGINT]): A more pushy way to ask the program to terminate\
+  generated when the user enters \<C-c\>
+- #text(purple, [SIGQUIT]): like SIGINT, but abnormal termination → core dump generated\
+  generated when the user enters \<C-\\\>
+- #text(purple, [SIGABRT]): same as SIGQUIT, but preferably only called when the process notices an error by itself\
+  see panic in rust
+- #text(purple, [SIGKILL]): last resort, *process can't block, ignore, or catch this request*\
+  process will definitely be killed
+
+#subsubsubsection("Stop And Continue")
+- #text(purple, [SIGSTP]): process is put into stopped mode (similar to waiting)\
+  can be caused by user -> \<C-z\>
+- #text(purple, [SIGSTOP]): like SIGSTOP, but can't be ignored or catched
+- #text(purple, [SIGCONT]): immediately continues the process\
+  can be done in the shell with fg, or bg -> foreground and background
+
+#subsubsection("Sending signals from shell")
+You can send signals from the shell with commands:
+```bash
+kill 1234 5232 -- process 1234 and 5232 asked to terminate -> SIGTERM
+kill -KILL 1234 SIGKILL sent to process 1234 
+kill -l -- list all signal possibilities
+```
+#subsubsection("Custom Signal Handler")
+```C
+int sigaction (
+  int signal,
+  struct sigaction *new,
+  struct sigaction *old)
+```
+- signal is the number of the signal (_SIGKILL or SIGSTOP_ not allowed!)
+- defines signal-handler for signal *if new is not 0*
+- returns the current signal-handler for signal *if old is not 0*
+
+#subsubsubsection("Sigaction Struct")
+```C
+struct sigaction {
+  void (*sa_handler)(int);
+  sigset_t sa_mask;
+  int sa_flags;
+};
+```
+- sa\_handler: address of function which will be called when a signal is received
+- sa\_mask: defines which signals will be blocked when the handler runs (own signal is always blocked)
+- sa\_flags: allows multiple additional properties
+
+#subsubsubsection("Specifying the Signal")
+We can specify the signal for the handler with sigset\_t.\
+sigset is a set of signals and it can be interacted with by these functions:
+- #text(purple, [int sigemptyset (sigeset\_t \*set)]): no signal chosen
+- #text(purple, [int sigfillset (sigeset\_t \*set)]): all signals chosen
+- #text(purple, [int sigaddset (sigeset\_t \*set)]): adds a signal to the set
+- #text(purple, [int sigdelset (sigeset\_t \*set)]): removes a signal from the set
+- #text(purple, [int sigismember (sigeset\_t \*set)]): returns 1 when the signal is inside the set
+
+#subsection("Pipes")
+#subsubsection("Duplicating File Descriptors")
+```C
+int dup (int source_fd);
+int dup2 (int source_fd, int destination_fd);
+```
+- both functions duplicate the source file descriptor and return the new one
+- dup allocates a new file descriptor
+- dup2 overwrites an existing filedescriptor
+Usage:
+```C
+int fd = open ("log.txt", ...);
+int id = fork ();
+if (id == 0) // child {
+  // duplicate fd for log.txt as standard output
+  dup2 (fd, 1);
+  // e.g. load new image with exec*,
+  // file descriptors remain
+}
+else { // parent
+  close (fd);
+}
+```
+#subsubsection("Abstract Files")
+While the POSIX philosophy is that everything is a file, this is obviously not the truth.\
+Hence we have things that are "abstract files", like a terminal etc.\
+The idea is that _everything that can be opened, closed, read, or written_ is a file.\
+In fact, the terminal can indeed do this :)\
+- if it implemented read,write,open,close -> its a file
+- lseek is not needed for this
+- C-APPI-FIles (FILE \*) can basically use any POSIX file!
+
+#subsubsection("Pipe Explanation")
+#text(purple, [A pipe is a file in memory, which can be used over 2 file descriptors:\
+- read end: in order to read from the pipe
+- write end: in order to write into the pipe
+])
+- Data which will be written into _write end_ can be read from _read end_ *exactly once* -> FiFo
+- Pipes do not support lseek
+- Pipes allow communication over regular process boundaries
+- Example in shell (wrapper for a real pipe): cat file | rg "your string to search"
+
+#subsubsubsection("Reading from a Pipe")
+- You can read from a pipe as if it is a file
+- If there is no data in the pipe, then it will block until there is data
+- If there is no data in the pipe, and there is no open write-end, then it returns 0 (EOF)
+- reading process must close it's write-end -> should not do both at the same time!
+- writing process will signal the end of communication by closing the write-end
+
+#subsubsection("Pipe Example in C")
+```C
+int pipe (int fd [2]); // equivalent to int pipe (int *fd)
+```
+- Creates a pipe and the 2 needed file descriptors, which will be placed in the fd array
+- Pipe lives as long as it is open in the process
+- return value is 0 for ok, -1 if error and code in errno
+- under linux, the default pipe size is 16 pages (1 page = 4KB -> 64KB)
+- can be used like a file with close, read, write -> open already, no need for that
+Example Usage:
+```C
+int fd [2];
+pipe (fd);
+int id = fork ();
+if (id == 0) { // child
+  close (fd [1]); // don't use write end
+  char buffer [BSIZE];
+  int n = read (fd[0], buffer, BSIZE);
+} else {
+  // parent
+  close (fd [0]); // don't use read end
+  char * text = "pingpang";
+  write (fd [1], text, strlen(text) + 1);
+}
+// the idea is we read from parent, and then proceed to write to child. 
+```
+
+#subsubsection("Example from shell to C")
+shell
+```bash
+cmda | cmdb
+```
+C
+```C
+int fd [2];
+pipe (fd);
+int id1 = fork ();
+if (id1 == 0) { 
+  // child (cmda)
+  // don't use read end
+  close (fd [0]);
+  // define pipe write end as stdout
+  dup2 (fd [1], 1);
+  exec ("cmda", ...);
+} else {
+  // parent (shell)
+  int id2 = fork ();
+  if (id2 == 0) { 
+    // child (cmdb)
+    // don't use write end
+    close (fd [1]);
+    // define pipe read end as stdin
+    dup2 (fd [0], 0);
+    exec ("cmdb", ...);
+  } else {
+    // parent (shell)
+    wait (0);
+    wait (0);
+  }
+}
+```
+
+#subsubsection("Named Pipes")
+```C
+int mkfifo(const char *path, mode_t mode);
+```
+- creates a pipe with a name and a path in the filesystem
+- has permission bits like a normal file
+- lives independently of the creating process, depending on the system even lives after reboot
+- must be deleted like a link -> unlink pathtopipe
+
+#subsubsection("Note about Pipes")
+- Pipes are unidirectional: not specified what happens when we write into read-end or read from write-end
+- reading process should close write-end
+  - reason: if all read-ends are closed, then process with open write-end receives SIGPIPE (no readers left, stop writing!)
+- Transferring of data between reader and writer depends on implementation
+- multiple writes can be condensed into one (if they are in order and follow immediately)
+- read receives all data at once
+- reading once does not mean that there won't be more to read later
+
+#subsection("Sockets")
+#subsubsection("Berkeley Sockets")
+- Berkeley sockets are an abstraction over communication mechanisms
+  - examples: UDP, TCP
+- Sockets are represent an endpoint on a machine
+- *Sockets require a name(e.g. IP, Port-number)* -> apache on 127.0.0.1 8080  
+#align(center,[#image("../Screenshots/2023_05_02_06_05_29.png", width: 50%)])
+
+#subsubsection("Creating a Socket")
+```C
+int socket(int domain, int type, int protocol);
+```
+- Creates a new socket as a file
+- scokets are not named at first
+- all operations on socket are blocking by default(can be configured)
+- returns the file descriptor (>=0) or -1 on error with code in errno
+
+#subsubsubsection("Details")
+- domain: the address domain
+  - AF\_UNIX: internal socket for the machine -> paths in a machine\
+    Example: acpid
+  - AF\_INET: internet IPV4 
+  - AF\_INET6: internet IPV6
+- type: communication type
+  - SOCK\_DGRAM: Datagram-Socket -> simple, unreliable, unidirectional, connectionless communication (UDP)
+  - SOCK\_STREAM: Datagram-Socket -> reliable, bidirectional, connection oriented communication (TCP)
+- protocol: system specific
+  - 0 means the default based on other 2 parameters
+
+#subsubsection("Socker usage Client")
+Note that file functions can again be used
++ start connection: connect 
++ send data: send or write
++ receive data: recv or read
++ close connection: close
+
+#subsubsection("Socker usage Server")
++ choose a name/address to bind the server to: bind
++ provide a queue for clients to send requests to: listen
++ create a connection with a requesting client: accept (creates new socket)
++ receive data: recv or read
++ send data: send or write
++ close connection: close
+#text(teal,[obviously send or write are optional and can be repeated multiple times])
+
+#subsubsubsection("Defining a regular Address")
+```C
+#include <sys/socket.h>
+
+struct sockaddr {       // general interface
+sa_family_t sa_family;  // address family
+                        // (integer)
+char sa_data[];         // address
+                        // (variable-length data)
+};
+code
+```
+#subsubsubsection("Defining an IP-Address")
+```C
+#include <netinet/in.h>
+struct in_addr {
+  in_addr_t s_addr;       // 32-bit unsigned integer
+}; 
+struct sockaddr_in {      // internet (IP) address
+  sa_family_t sin_family; // = AF_INET
+  in_port_t sin_port;     // 16-bit unsigned integer
+  struct in_addr sin_addr;
+};
+code
+```
+Usage:
+```C
+struct sockaddr_in ip_addr;
+ip_addr.sin_port = htons (443);   // Default HTTPS port
+inet_pton (AF_INET, "192.168.0.1", &ip_addr.sin_addr.s_addr);
+// port in memory: 0x01 0xBB
+// addr in memory: 0xC0 0xA8 0x00 0x01
+code
+```
+- htons converts 16 Bit of host-byte-order (intel: little endian) to network-byte-order (always big endian), htonl 32Bit
+- ntohs and nthol are the opposites to htons and htonl
+- inet\_pton: converts protocol specific addresses from string to Netwrok-BO
+- inet\_ntop: the opposite to pton
+
+#subsubsubsection("Binding of a local Address")
+```C
+int bind (int socket,
+          const struct sockaddr *local_address,
+          socklen_t address_len);
+```
+- binds a socket to the specified, unused local address (error if bound)
+- blocks until the binding is done
+- returns 0 on ok, -1 on error with code in errno
+
+#subsubsubsection("Starting a Connection")
+```C
+int connect (int socket,
+             const struct sockaddr *remote_address,
+             socklen_t address_len);
+```
+- binds a socket to the specified, unused local address (error if bound)
+- tries to create a connection with the specified remote address
+- blocks until the connectin is established or an (unspecified) timeout has been reached
+- returns 0 on ok, -1 on error with code in errno
+
+#subsubsubsection("Create Queue for Clients") 
+```C
+int listen (int socket, int backlog);
+```
+- marks the socket as ready for connections
+- creates a queue, which can take as many connections as specified in the backlog, or the maximum default amount
+- returns 0 on ok, -1 on error with code in errno
+
+#subsubsubsection("Creating Sockets per Connection Request")
+```C
+int accept (int socket,
+            struct sockaddr *remote_address,
+            socklen_t address_len);
+```
+- waits until a connection is requested in the queue
+  - then proceeds to create a new socket and binds it to a local address
+  - the address of the client is written in remote\_address
+  - the new socket can not accept any other connections, only the socket with the queue does that
+  - returns file-descriptor of the new socket(>=0), otherwise -1 and code in errno
+
+#subsubsubsection("Typical usage with a server")
+```C
+int server_fd = socket (...);
+bind (server_fd, ...);
+listen (server_fd, ...);
+while (running) {
+  int client_fd = accept (server_fd, 0, 0);
+  // will call close(client_fd)
+  delegate_to_worker_thread (client_fd);
+}
+```
+
+#subsubsubsection("Sending and Receiving of Data (example)")
+```C
+ssize_t send (int socket,
+              const void *buffer,
+              size_t length, 
+              int flags);
+ssize_t recv (int socket,
+              void *buffer,
+              size_t length, 
+              int flags);
+```
+- send (fd, buf, len, 0) = write (fd, buf, len)
+- recv (fd, buf, len, 0) = read (fd, buf, len)
+- flags: special stuff, don't care
+- *buffering of data is the job of the network stack, we don't care about it*
+
+#subsubsubsection("Closing of a Socket")
+```C
+int close (int socket);
+```
+- closes the socket for the calling process
+- if another process still has this socket open, then the connection will stay (socket not closed)
+- the opposite side will *not* be noticed if this socket is closed (only applies to the opposite side if no connection is running right now)
+- the opposite side will not receive an EOF on read (there is no eof in a socket :) ) and the client does not leave the read-queue
+
+#subsubsubsection("Shotdown of a Socket")
+```C
+int shutdown (int socket, int mode);
+```
+- closes the socket for *all processes* and stops all connections
+- mode SHUT\_RD: no read access from now till shutdown
+- mode SHUT\_WR: no write access from now till shutdown
+- mode SHUT\_RDWR: no read OR write access from now till shutdown
