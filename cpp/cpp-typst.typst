@@ -7,3 +7,323 @@
   doc,
 )
 
+#section("Memory Model and Atomics")
+#subsection("The C++ standard")
+#subsubsection("C++ Standard defines an abstract machine")
+- describes how a program is executed
+- Abstracts away platform specifics
+- Represents the "minimal viable computer" requried to execute a valid C++ program
+
+#subsubsection("The C++ abstract machine defines:")
+- in what order initialization takes place
+- in what order a program is executed
+- what a thread is
+- what a memory location is
+- how threads interact 
+- what constitutes a data race
+
+#subsubsubsection("Memory Location")
+An object of scalar type:
+- arithmetic
+- pointer
+- enum 
+- std::nullptr -> pointer to 0 
+
+#subsubsubsection("Conflict")
+- two expression evaluations run in parallel and both access the same *Memory Location*
+-> one writes, the other reads -> see rust borrow checker
+
+#subsubsubsection("Data Race")
+The program contains two conflicting actions -> *Undefined Behavior*
+
+#subsection("Memory Model")
+- defines when the effect of an operation is visible to other threads -> when change happens globally
+- How and when operations might be reordered -> reordering of code lines
+
+#text(red, [Note: Reads/Writes in a single statement are "unsequenced" -> they are not in guaranteed order, see SQL problems])
+```cpp
+std::cout << ++i << ++i; // output not deterministic!
+```
+
+#subsubsection("Visibility of effects")
+- sequenced-before: within a single thread\ 
+  _as code was written_\
+  #text(red, [Note, this is only guaranteed for multi line statements, not for single line statements like cout!! -> see Note above])
+- happens-before: either sequences-before or inter-thread happens-before\ 
+- synchronizes-with: inter-thread sync.
+
+#subsubsection("Ordering")
+This is the way code is executed -> as written ? Can the compiler reshuffle for optimizations?
+- Sequentially-consistent: "intuitive" and the default behavior\
+  _as code was written_\
+  #text(red, [When you change away from this, make sure you actually *NEED* another ordering!!])
+- Acquire/Release: weaker guarantees than Sequentially-consistent\
+  _can reshuffle_
+- Consume (_discouraged_): slightly weaker than acquire-release
+  _can reshuffle_
+- Relaxed: No guarantees besides atomicity!
+  _can reshuffle_
+
+#subsection("Atomics")
+Definition:
+```cpp
+template<typename T>
+struct atomic;
+
+class atomic_flag;
+```
+- Template class to create atomic types
+- _Atomics are guaranteed to be data-race free!_
+- Several spezializations in the standard library
+- Most basic atomic: std::atomic\_flag
+  - Guaranteed to be lock-free
+  - clear() - sets the flag to false 
+  - test\_and\_set() -set flag to true and return old value
+- Other atomics might use locks internally 
+  - check with is\_lock\_free()
+
+Usage:
+```cpp
+auto outputWhenReady(std::atomic_flag & flag,
+                     std::ostream & out) -> void {
+  while (flag.test_and_set())
+    yield();
+  out << "Here is thread: “
+      << get_id()
+      << std::endl;
+  flag.clear();
+}
+auto main() -> int {
+  std::atomic_flag flag { };
+  std::thread t { [&flag] {
+    outputWhenReady(flag, std:: cout);}
+  };
+  outputWhenReady(flag, std::cout);
+  t.join();
+}
+```
+The reason why only these 2 are implemented -> clear and test\_and\_set, is that these 2 functions are supported by _all_ CPUs!
+
+#subsubsection("Operations on Atomics")
+#text(red, [Using your own types with std::atomic is possible, but they must be *trivially-copyable* -> no container in container etc.])
+#align(center, [#image("../Screenshots/2023_05_02_01_38_54.png", width: 50%)])
+#text(purple, [spezializations like std::atomic<int> can provide things like ++, --, +=, etc.])
+
+#subsection("Applying Memory Orders")
+#columns(2,[
+#text(purple, [All atomic operations take an additional argument to specify the memory order -> (std::memory\_order)])
+- std::memory\_order::seq\_cst
+- std::memory\_order::acquire
+- std::memory\_order::release
+- std::memory\_order::acq\_rel
+- std::memory\_order::relaxed
+- std::memory\_order::consume
+#colbreak()
+```cpp
+auto outputWhenReady(std::atomic_flag & flag,
+  std::ostream & out) -> void {
+  while (flag.test_and_set(std::memory_order::seq_cst))
+    yield();
+  out << "Here is thread: “
+      << get_id()
+      << std::endl;
+  flag.clear(std::memory_order::seq_cst);
+}
+auto main() -> int {
+  std::atomic_flag flag { };
+  std::thread t { [&flag] {
+    outputWhenReady(flag, std::cout);}
+  };
+  outputWhenReady(flag, std::cout);
+  t.join();
+}
+```
+])
+
+#subsection("Sequentially-Consistent Mode")
+- Sequential Consistency 
+  - Global execution order of operations
+  - every thread observes the same order
+- Memory order flag
+  - std::memory\_order::seq\_cst
+- Default behavior
+- The latest modification (in the global execution order) will be available to a read
+
+```cpp
+// thread1
+auto write_x() {
+  x.store(true);
+}
+// thread2
+auto write_y() {
+  y.store(true);
+}
+// thread3
+auto read_x_then_y() {
+  while (!x.load());
+  if (y.load()) ++z;
+}
+// thread3
+auto read_y_then_x() {
+  while (!y.load());
+  if (x.load()) ++z;
+}
+```
+#pagebreak()
+#columns(2,[
+*Z == 2*
+#image("../Screenshots/2023_05_02_01_50_32.png")
+#colbreak()
+*Z == 1*
+#image("../Screenshots/2023_05_02_01_51_03.png")
+])
+
+#subsection("Acquire/Release Mode")
+Has 3 different versions:
+- std::memory\_order::acquire
+  - no reads or writes in the current thread can be reordered before this load
+  - All writes in other threads that release the same atomic are visisble in the current thread
+- std::memory\_order::release
+  - No reads or writes in the current thread can be reordered after this store
+  - All writes in the current thread are visible in the other threads that acquire the same atomic
+- std::memory\_order::acq\_rel
+  - Works on the latest value\
+    #text(red, [This is the way to always receive the up-to-date value!])
+Usage:
+```cpp
+x.test_and_set(std::memory_order::acq_rel);
+```
+#align(center, [*Z == 0* #image("../Screenshots/2023_05_02_02_07_10.png", width: 50%)])
+The issue here is that you no longer have a guaranteed order, as you can see, the atomicity is given, but the order in which x and y are written or read is not consistent.\
+Note, the ordering of x and y alone is still ok, but not the ordering of both combined.
+
+#subsection("Relaxed Ordering Mode")
+- No promises about sequence whatsoever
+- No data-races for atomic values -> *the only guarantee*
+- Order of observable effects can be inconsistent 
+  - load and store operations can happen in parallel
+- May be more "efficient" on certain platforms
+  - less synchroniztion means less pipeline stalling or waiting for memory loads
+- #text(red,[Extremely difficult to get right! You will need to prove the correctness of this program!])
+```cpp
+#include <atomic>
+#include <thread>
+#include <cassert>
+std::atomic<bool> x{};
+std::atomic<bool> y{};
+std::atomic<int> z{};
+auto write_x_then_y() -> void {
+  x.store(true, std::memory_order::relaxed);
+  y.store(true, std::memory_order::relaxed);
+}
+auto read_y_then_x() -> void {
+  while(!y.load(std::memory_order::relaxed)); // Spin
+  if(x.load(std::memory_order::relaxed))
+  ++z;
+}
+auto main() -> int {
+  auto a = std::thread{write_x_then_y};
+  auto b = std::thread{read_y_then_x};
+  a.join();
+  b.join();
+  assert(z.load() != 0);
+}
+```
+#align(center, [*Z == 0* #image("../Screenshots/2023_05_02_02_11_20.png", width: 50%)])
+Here no order guarantees are given at all, aka even the order of x and y themselves can be shuffled!!
+
+#subsection("Release/Consume Ordering")
+- #text(red, [Don't fucking use, even the standard tells you to not use this!])
+- Similar to Acquire/Release
+   - Introduces data-dependency concept
+    - dependency-ordered-before
+    - carries-a-dependency-to
+    - Only dependent data is synchronized
+    - Subtle difference == hard to use
+
+#subsection("Custom Types with std::atomic")
+```cpp
+struct SimpleType {
+  int first;
+  float second;
+}; // ok
+
+// some that do not work:
+struct NonTrivialCCtor {
+  NonTrivialCCtor(NonTrivialCCtor const&) {
+    std::cout << "copied!\n";
+  } // ERROR: can't create nontrivial constructor -> only trivial copy allowed
+};
+
+struct NonTrivialMember {
+  int first;
+  std::string second;
+}; // strings can't be copied trivially -> not usable!!
+```
+- You can not have a custom copy constructor
+- You can not have a custom move constructor
+- You can not have a custom copy assignment operator
+- You can not have a custom move assignment operator
+- *Object can only be accessed as a whole*
+  - no member access operator in std::atomic
+
+#section("Bibs and Bobs (volatile and Interrupts)")
+#subsection("Volatile")
+```cpp
+volatile int mem{0};
+```
+- Semantics different from dotnot and Jafuck
+- volatile prevents the compiler from optimizing the reads/write on this variable
+- *Prevents reordering in the same thread _by the compiler!_*
+  - Hardware might still reorder instructions, can't be solved by software
+- Useful when accessing memory-mapped hardware
+  - *never use it for inter-thread communication!*
+- Currently there are proposals to reduce/remove volatile from the language -> replacement with library functionality and cleanup semantics
+#text(red, [Again, whatever you learned in Parprog, this is different in CPP, it is only a flag to tell the compiler to not optimize, it doesn to do anything for thread synchronization or blocking!])
+
+#subsection("Interrupts")
+- Events coming from the OS/CPU
+- Can be suppressed by the platform
+- When an interrupt occurs, a previously registered function is called
+  - such functions are called Interrupt Service Routines (ISRs)
+  - ISRs should generally be short and must run to completion
+- After the intterupt was handled, execution of the program resumes
+
+#subsubsection("Interrupts and Shared Data")
+- Data sharing between ISRs and normal programs need to be protected
+  - All access must be atomic
+  - Modiciations need to become visible
+- Volatile helps regarding visibility
+  - Supresses compiler optimizations -> makes sure read happens!
+- Interrupts may need to be disabled temporarily to guarantee atomicity
+- Refer to your hardware manual for specific details on how to deal with interrupts
+
+#subsubsection("Interrupts Example")
+- On AVR-based Arduinos, interrupts cannot be interrupted
+  - Other platforms support so-called Interrupt-Nesting (e.g. ARM, Risc V, …)
+- *Before accessing shared data, interrupts must be disabled and enabled afterwards*
+  - noInterrupts() – disable interrupts
+  - interrupts() – enable interrupts
+- *Interrupts sources can be “external”, e.g.pins on the board*
+  - check hardware manual..
+
+```cpp
+constexpr byte ledPin = 13;
+constexpr byte switchPin = 2;
+volatile bool ledState = LOW;
+void toggleLed() {
+  ledState = !ledState;
+}
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(switchPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(switchPin),
+  toggleLed,
+  CHANGE);
+}
+void loop() {
+  noInterrupts();
+  digitalWrite(ledPin, ledState);
+  interrupts();
+}
+```

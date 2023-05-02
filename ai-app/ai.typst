@@ -1,0 +1,8 @@
+#import "../template.typst": *
+
+#show: doc => conf(
+  author: "Fabio Lenherr",
+  "AI Applications",
+  "summary",
+  doc,
+)
