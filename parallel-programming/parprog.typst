@@ -165,6 +165,259 @@ C[row * M + col] = sum;
 ```
 #text(red, [Note, the boundary checking is missing here!])
 
+#section("Cluster Parallelization")
+#subsection("Neumann Computer Architecture")
+A PC is comprised of the following components:
+- Memory
+- Control Unit\ 
+  fetches and decodes instructions sequentially
+- Arithmetic Logic Unit\
+  performs basic arithmetic operations\
+  (CPU is made out of the Control Unit and the Arithmetic Logic Unit)
+- Input/Output
+#align(center, [#image("../Screenshots/2023_05_08_08_22_56.png", width: 50%)])
+
+#subsection("Harvard Architecture")
+Here all units are on their own with the Control Unit controlling all data flow.
+#align(center, [#image("../Screenshots/2023_05_08_08_25_59.png", width: 50%)])
+
+#subsection("Flynns Classical Taxonomy")
+Different classifications for computers
+#align(center, [#image("../Screenshots/2023_05_08_08_27_12.png", width: 50%)])
+
+#subsubsection("SISD Single Instruction Stream Single Data Stream")
+#columns(2,[
+#image("../Screenshots/2023_05_08_08_28_45.png")
+#colbreak()
+#image("../Screenshots/2023_05_08_08_28_58.png")
+])
+- Conventional Serial Computers
+- Sequentially executes instructions -> one cpu core solves all problems
+- process one stream of instructions and one stream of data
+
+#subsubsection("SIMD Single Instruction Multiple Data")
+#align(center, [#image("../Screenshots/2023_05_08_08_30_59.png", width: 50%)])
+
+#subsubsection("MISD Multiple Instruction Single Data")
+#align(center, [#image("../Screenshots/2023_05_08_08_31_41.png", width: 50%)])
+- N-version programming
+- redundancy -> multiple cores produce the same result -> healthcare, aviation industry
+- MISD can be applied to fault tolerant real time
+
+#subsubsection("MIMD Multiple Instruction Multiple Data")
+#align(center, [#image("../Screenshots/2023_05_08_08_33_47.png", width: 50%)])
+- processors work on their own data with their own instructions
+- tasks executed by different processors can start or finish at different times
+- MIMD is the only real parallel computer
+
+#subsection("Parallel Computer Memory Architectures")
+#subsubsection("Shared Memory")
+Multiple processors share the same memory and can access it independendly.\
+If one processors changes memory, then it will be visible by all other processors.\
+*This is what can lead to race conditions.*
+#align(center, [#image("../Screenshots/2023_05_08_08_35_28.png", width: 50%)])
+
+#subsubsubsection("Uniform Memory Access UMA vs Non-Uniform Memory Access NUMA")
+#columns(2, [
+#image("../Screenshots/2023_05_08_08_37_24.png")
+- Most commonly represented by the *symmetric multiprocessor(SMP)*
+- Access of memory takes the same amount of time for each processor
+- structure of accessed memory is the same for each processor
+#colbreak()
+#image("../Screenshots/2023_05_08_08_39_23.png")
+- linking of SMPS
+- One SMP can *directly access* the memory of another SMP
+- memory access time depends on the location of the SMP -> might need to hop over another SMP (top right to bottom left)
+])
+
+#subsubsection("Distributed Memory")
+#align(center, [#image("../Screenshots/2023_05_08_08_41_00.png", width: 50%)])
+- Distributed Memory system require intercommunication -> internet/intranet
+- no global address space across all processors -> no direct memory access of other system
+- if a processor needs the memory of another system, then the programmer needs to define how said transfer is done
+
+#subsubsection("Hybrid Model")
+#align(center, [#image("../Screenshots/2023_05_08_08_43_08.png", width: 50%)])
+- most modern supercomputers use this model
+- all processors in a machine share the same memory, and they can request data from another machine over network
+
+#subsection("Programming Models")
+#subsubsection("SPMD Single Program Multiple Data")
+#align(center, [#image("../Screenshots/2023_05_08_08_44_24.png", width: 50%)])
+- high level programming model
+- Single Program: Execution is done in 1 program. (Note, the program is still parallelized!)
+- Multiple Data: All tasks may use different data
+- most commonly used parallel programming model for multi-node clusters
+
+#subsubsection("MPMD Multple Program Multiple Data")
+#align(center, [#image("../Screenshots/2023_05_08_08_47_35.png", width: 50%)])
+- high level programming model
+- Multiple Programs: Tasks may execute different programs simultaneously.
+- Multiple Data: All tasks may use different data
+
+#subsection("C Cluster Programming")
+- Compiling on cluster: mpicc cluster.c
+- Launching on cluster: psub-parprog -f a.out -c 32
+
+#subsection("Message Passing Interface MPI")
+#align(center, [#image("../Screenshots/2023_05_08_08_58_26.png", width: 50%)])
+- distributed programming Model 
+  - MPI is baded on Actor/CSP-Principle -> communication between processors
+  - common choice for parallelization on cluster
+- parallelization by running multiple processors that cooperate on same task
+- Each process had direct acces only to its own data -> segmented memory
+  - variables are private
+- Processes communicate with each other by sending and receiving messages -> see streams in rust
+#align(center, [#image("../Screenshots/2023_05_08_09_09_12.png", width: 50%)])
+
+#subsubsection("SPMD in MPI")
+- All processes run their own local copy of the program
+- all processes have their own separate copy of the data
+- all processes have a unique identifier (rank) starting from 0
+- processes can take different paths through the program depending on the ID
+- Usually one process per core to maximize the benefit of parallelization
+
+#subsubsection("Message in MPI")
+- A message transfers data of "items" from the memory of one process to another
+- A message typically contains:
+  - ID of the sending process
+  - ID of the receiver
+  - data type to be sent
+  - number of items to be sent
+  - data itself -> items
+  - a message type identifier
+
+
+#subsubsection("Communication Modes in MPI")
+#columns(2, [
+#image("../Screenshots/2023_05_08_09_16_44.png")
+- one to one
+#colbreak()
+#image("../Screenshots/2023_05_08_09_16_52.png")
+- one to many
+])
+
+#subsubsection("Example MPI program")
+```C
+#include <stdio.h>
+#include "mpi.h"
+int main(int argc, char* argv[]){
+  MPI_Init(&argc, &argv);
+
+  // process identification
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  // MPI_MAX_PROCESSOR_NAME is a const defined by MPI
+  // zero initialized a name (string) with max length
+  char name[MPI_MAX_PROCESSOR_NAME];
+  int len;
+  MPI_Get_processor_name(name, &len);
+
+  printf("MPI process %i on %s\n", rank, name);
+
+  MPI_Finalize();
+}
+```
+
+#subsubsubsection("MPI init")
+
+#subsubsubsection("MPI functions")
+- MPI\_Comm\_rank(MPI\_Comm communicator, int\* rank)\
+  returns the rank of a process in a communicator
+- MPI\_Finalize()\
+  used to cleanup the MPI environment, -> all stacks etc that were created for it\
+  Note: *no more MPI calls are allowed after this!*
+- MPI\_Get\_processor\_name( char\* name, int\* name\_length)\
+  returns the name of the current processor
+- MPI\_Init(&arcs, &argv)\
+  - has to be the first call in a MPI program
+  - sends the commandline arguments to all other processes via broadcast
+  - init creates all global and internal variables for MPI
+  - creates a communicator between all processes
+  - *assigned unique ranks to processes -> identification!*
+  - MPI\_COMM\_WORLD created for us, communication between all processes
+  - _defining your own communicators with custom groups is possible!_
+
+#subsubsubsection("Execution of MPI Programs")
+*mpiexec –n 32 a.out*
+#align(center, [#image("../Screenshots/2023_05_08_09_30_51.png", width: 50%)])
+
+#subsubsubsection("Communication in Code")
+```C
+// sending and receiving of int value
+// SEND
+MPI_Send(value, ?, type, rank, tag, sope, status)
+MPI_Send(&value, 1, MPI_INT, receiverRank, tag,
+         MPI_COMM_WORLD);
+
+// RECEIVE
+MPI_Recv(value, ?, type, rank, tag, sope, status)
+MPI_Recv(&value, 1, MPI_INT, senderRank, tag,
+         MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+```
+- value -> variable to send or receive
+- amount -> amount of data to send or receive, see below for sending of multiple data
+- type: variable type to send -> MPI\_INT, see below for more types
+- tag: custom number for message type (>= 0)
+- scope: span across a group of processors -> MPI\_COMM\_WORLD 
+- status: error information (ignored in snippet -> MPI\_STATUS\_IGNORE)
+
+Example Usage:
+```C
+int rank, size;
+MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+MPI_Comm_size(MPI_COMM_WORLD, &size);
+if (rank == 0) {
+  int value = rand(); int to;
+  for (to = 1; to < size; to++) {
+    MPI_Send(&value, 1, MPI_INT, to, 0, MPI_COMM_WORLD);
+  }
+} else {
+  int value;
+  MPI_Recv(&value, 1, MPI_INT, 0, 0, MPI_COMM_WORLD,
+  MPI_STATUS_IGNORE);
+  printf("%i received by %i", value, rank);
+}
+```
+#text(purple,[Note the rank in the if statement, this means that depending on the ID, a different process will do something else!])
+
+#subsubsubsection("Sending of multiple Data")
+Above we defined how to send one instance of data, but how to send multiple? Send an array!
+```C
+int array[LENGTH];
+// note the use of length later on
+// SEND
+MPI_Send(array, LENGTH, MPI_INT, receiverRank, tag,
+         MPI_COMM_WORLD);
+
+// RECEIVE
+MPI_Recv(array, LENGTH, MPI_INT, senderRank, tag,
+         MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+```
+
+#subsubsection("Data Types in MPI")
+#align(center, [#image("../Screenshots/2023_05_08_09_37_12.png", width: 50%)])
+#text(purple,[custom types are possible with *MPI\_Type\_contiguous*])
+
+#subsubsection("Barriers in MPI")
+You can define barriers, which means all processes will wait when they reach this code until all other have as well.\
+This allows synchronization between threads in MPI, just like with regular parallel programming!
+#align(center, [#image("../Screenshots/2023_05_08_09_39_43.png", width: 50%)])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

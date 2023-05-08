@@ -2,8 +2,10 @@
 
 #show: doc => conf(
   author: "Fabio Lenherr",
-  "C++ Advanced",
+  "Secure Software",
   "summary",
   doc,
 )
+
+
 
