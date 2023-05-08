@@ -31,4 +31,28 @@
 \contentsline {subsubsection}{\numberline {4.3.7}How to train RNN?}{8}{subsubsection.4.3.7}%
 \contentsline {subsubsection}{\numberline {4.3.8}Loss across time steps}{8}{subsubsection.4.3.8}%
 \contentsline {subsubsection}{\numberline {4.3.9}Backpropagation through Time}{8}{subsubsection.4.3.9}%
+\contentsline {subsection}{\numberline {4.4}Deep RNN}{8}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Unroll}{9}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Bi-Directional RNN}{9}{subsubsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.3}Backpropagation through time BPTT}{9}{subsubsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.4}Vanishing gradient of simple/vanilla RNNs}{9}{subsubsection.4.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.5}Solutions to the problem of backpropagation}{9}{subsubsection.4.4.5}%
+\contentsline {subsubsection}{\numberline {4.4.6}Efficient Solution: Gated RNNs}{10}{subsubsection.4.4.6}%
+\contentsline {subsubsection}{\numberline {4.4.7}LSTM}{10}{subsubsection.4.4.7}%
+\contentsline {subsubsection}{\numberline {4.4.8}Gated Recurrent Units GRU}{12}{subsubsection.4.4.8}%
+\contentsline {subsubsection}{\numberline {4.4.9}LSTM vs GRU}{13}{subsubsection.4.4.9}%
+\contentsline {subsection}{\numberline {4.5}Seq2seq}{13}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1}Encoder}{14}{subsubsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.2}Decoder}{14}{subsubsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.3}Problems}{14}{subsubsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.6}Transformers}{14}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Attention}{14}{subsubsection.4.6.1}%
+\contentsline {section}{\numberline {5}Reinforcement Learning}{16}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Limitations}{16}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Markov Decision Process MDP}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Discount factory \(\gamma \)}{16}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Return R vs Reward G}{16}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}The State Value Function V(s)}{16}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Temporal Difference}{17}{subsubsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.6}Policy Evaluation: Estmating state values V(s)}{17}{subsection.5.6}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

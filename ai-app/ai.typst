@@ -6,3 +6,47 @@
   "summary",
   doc,
 )
+
+#section("Reinforcement Learning")
+#subsection("Model-free vs Model-based")
+Model based reinforcement learning algorithms are *based on a simulated world* and can therefore *do planning*.\
+Model-free algorithms do not know about a world, the only thing it knows is states and rewards.
+
+#subsection("Q-Value function")
+#align(center,[#image("../Screenshots/2023_05_08_02_12_24.png", width: 70%)])
+Unlike the V-function, we do not know about the values of each state -> e.g. we do not have a simulated world, this means we can't know about the states rewards.\
+What we do instead, is we base the reward on the action.
+
+#subsection("SARSA State-Action-Reward-State-Action")
+#align(center,[#image("../Screenshots/2023_05_08_02_14_37.png", width: 70%)])
+- The update of Q(s,a), is based on the agent's observation of s, a, r and s', and its choice of a'. 
+
+#subsection("Q-Learning")
+#align(center,[#image("../Screenshots/2023_05_08_02_16_02.png", width: 70%)])
+- difference between SARSA and Q-Learning: the update of Q(s,a) is based on the agents observations of r and s' and the Q-value of "best" action in S'
+- The next action a' can differ from the best action (for example when exploring). That means, in the next step, the agent can take one action a', but use another action (maxa) for the Q-update.
+- Algorithms that learn from actions that differ from the actually taken actions are called off-policy. (SARSA is on-policy, Q-learning is off-policy)
+
+#subsection("Greedy Epsilon")
+This is the dillema with the options an agent has.\
+In order to *explore potential better options* it needs to *explore currently worse options*, aka take the -1 hit in order to potentially gain a plus 8 reward.\
+However, this does not guarantee a better points finish, so sometimes the opposite approach is better.\
+Meaning the *agent is greedy and takes the current best option*.\
+In reality, you might want something in between, and the epsilon value is exactly this parameter to tweak.
+#text(purple, [exploitation(Greedy-Policy) vs exploration(Random-Policy)])
+
+#subsubsection("Epsilon application")
+- Probability $epsilon$ for random action -> *explore*
+- Probability $1 - epsilon$ for highest value -> *exploitation*
+#text(purple,[This means that the higher the $epsilon$ is, the higher the chance for exploration!])
+
+#subsection("Policy Iteration")
+The idea is that each iteration you check whether or not your current $epsilon$ value still maks sense.\
+If not you can make changes that will increase the quality of your model on each step.\
+#align(center,[#image("../Screenshots/2023_05_08_02_41_08.png", width: 70%)])
+
+
+
+
+
+
