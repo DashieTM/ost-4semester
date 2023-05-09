@@ -395,3 +395,286 @@ int shutdown (int socket, int mode);
 - mode SHUT\_RD: no read access from now till shutdown
 - mode SHUT\_WR: no write access from now till shutdown
 - mode SHUT\_RDWR: no read OR write access from now till shutdown
+
+#section("Message Passing")
+#text(purple, [An operation consisting of 2 things:])
+- Send: Copies the message from one process to another
+- Receive: Copies the message from one processor into this one
+
+#subsection("Implemenation differences")
+- fixed or variable size
+  - message passing with fixed size is tedious -> if message doesn't match, you would need to split it etc\
+    more memory is used in order to communicate -> split messages -> inefficient
+  - message passing with variable size is more work to implement
+- direct or indirect communication
+- synchronous or async communication
+- buffering
+- with or without message priority
+
+#subsubsection("Direct Communication")
+#subsubsubsection("Sending of Messages")
+- process 1 sends message to process 2
+- process 1 needs to know process 2 -> must know id
+- communication solely between 2 processes
+
+#subsubsubsection("Receiving of Messages")
+- symetric: receiver must know name/alias/id of sender
+- asymetric: receiver does not need to now id -> receives it via out-parameter
+
+#subsubsection("Indirect Communication")
+- acts like a mailbox
+  - process p1 sends message to queue Q
+  - process p2 receives message from queue -> receive(Q,message)
+- Communication requires that both processes use the same queue
+- there can be multiple queues between two processors
+
+#subsubsubsection("Indirect Communication with more than 2 processes")
+- Which process is the receives in multiprocessor queue? Solutions:
+  - restrict queue to only one sender or receiver
+  - restrict calls to receive of queue to 1 process
+  - random selection
+  - selection via algorithm -> round robin
+
+#subsubsubsection("Lifecycle of a Queue")
+- If the queue belongs to a process -> queue lives as long as owner process
+- If the queue belongs to the OS -> queue exists independent from processes\
+  OS has functions to deal with creation, deletion for queues -> we don't care
+
+#subsubsection("Message Synchronization")
+#text(purple,[We can send messages synchronous -> blocking, or async -> non-blocking])
+- blocking send: sender is blocked until the endpoint has received the message
+- non-blocking send: sender sends the message and doesn't care anymore
+- blocking receive: reciever is blocked until message is available
+- non-blocking receive: receiver gets message or 0 if none is available\
+  0 as a supposed error message
+
+#subsubsubsection("Rendevous")
+#text(purple,[If receiver and sender are both blocked, then there will be a rendezvous as soon as both made their call])
+- OS can omit one copy operation and directly copy the message from one process to the other
+- implicit synchronization mechanism
+- trivial implementation of the producer-consumer problem
+
+#subsubsubsection("Producer-Consumer Problem")
+```C
+// Producer
+message msg;
+open (Q);
+while (1) {
+  produce_next (&msg);
+  send (Q, &msg);
+}
+
+// Consumer
+message msg;
+open (Q);
+while (1) {
+  receive (Q, &msg);
+  consume_next (&msg);
+}
+```
+
+#subsubsubsection("Buffering in Message-Passing")
+- no buffering: queue length is 0 -> no messages can be saved, only blocking send and receive will work
+- restricted: N (variable) can be saved, send and receive most block when full
+- no restriction: save until pc explodes
+
+#subsubsubsection("Message-Passing Priority")
+Some systems allow for priority setting with messages, in this case the higher priority messages will be selected first.
+
+#subsubsection("POSIX Message-Passing")
+- indirect communication over message-queues that exist in the OS
+- variable message size, with a configurable max depending on queue
+- synchronous and async usage
+- priority -> min 32 (32K on linux)
+- more info: man mq\_overview
+
+#subsubsubsection("mq\_open")
+```C
+mqd_t mq_open (const char *name, int flags,
+               mode_t mode,
+               struct mq_attr *attr);
+```
+- opens a message-queue with system name
+- returns a message-queue-descriptor
+- *should begin with a / and not contain any other / -> otherwise result implementation dependent*
+- flags:
+  - 0\_RDONLY: read only
+  - 0\_RDWR: read and write
+  - 0\_CREAT: creates queue if it does not exist
+  - 0\_NONBLOCK: send and receive do *not* block
+- mode: sets access permissions -> S\_IRUSR | S\_IWUSR
+- mq\_attr: see next 
+
+#subsubsubsection("mq\_attr")
+```C
+struct mq_attr {
+  long mq_flags;   // flags: 0 or 0_NONBLOCK
+  long mq_maxmsg;  // Max. number of messages on queue
+  long mq_msgsize; // max. message size (bytes)
+  long mq_curmsgs; // number of messages currently in queue
+};
+```
+- used in mq\_open: or 0 for default values
+- can be read with mq\_getattr
+- can be set with mq\_setattr
+
+#subsubsubsection("mq\_close")
+```C
+int mq_close(mqd_t queue);
+```
+- closes the queue with the descriptor queue for this process
+- queue will still be in system -> removal is another function, see below 
+
+#subsubsubsection("mq\_unlink")
+```C
+int mq_unlink(const char *name);
+```
+- removes the queue with the name in the system
+- name will be removed immediately (flagged for removal)
+- queue will be removed as soon as all processes have closed the queue
+
+#subsubsubsection("mq\_send")
+```C
+int mq_send (mqd_t queue, const char *msg,
+             size_t length, unsigned int priority);
+```
+- sends the message to the address msg with length (bytes) to the queue
+- blocks only if the queue is full\
+  *even if 0\_NONBLOCK is set!*
+- variant with timeout -> mq\_timedsend
+
+#subsubsubsection("mq\_receive")
+```C
+size_t mq_receive (mqd_t queue, char *msg,
+                size_t length, unsigned int *priority);
+```
+- copies the next message from the queue to the buffer which exists on the address msg with lentgh (bytes)\
+  *buffer must be minimum as big as the max message size defined in mq\_attr!!*
+- blocks when the queue is empty\
+  *even if 0\_NONBLOCK is set!*
+- variant with timeout -> mq\_timedreceive
+- priority is an out-parameter -> priority for receiving message
+- if return is -1 -> error
+
+#section("Shared Memory")
+Multiple processors that can access the same memory.\
+However from bsys1, we know that each processor has its own virtual memory. V1 and V2\
+This means both processors can act independently and access memory whenever without data races.\
+*It also means that you need synchronization!*
+#align(center, [#image("../Screenshots/2023_05_09_05_58_46.png", width: 70%)])
+#text(purple, [Note, when you need to send an address to another process, *do not this with addresses*, it is different for another process!])
+#align(center, [#image("../Screenshots/2023_05_09_06_02_13.png", width: 70%)])
+2 Different addresses reference the same physical memory!
+
+#subsubsection("Relative Addresses")
+#align(center, [#image("../Screenshots/2023_05_09_06_04_11.png", width: 70%)])
+#text(purple,[If you want to use pointers, then you have to use relative pointers -> as the relations are the same!\
+The idea is, you share a starting address -> hey my starting address is 4000 -> and then go from there])
+
+#subsection("Shared Memory in POSIX")
+You need:
+- an object modelled after a file which holds information about shared memory
+- processes 
+- 1 object per process that holds the mappings for a specific process 
+
+#subsubsection("shm\_open")
+```C
+int shm_open (const char *name, int flags, mode_t mode);
+```
+- opens shared memory with a system name
+- returns a file-descriptor
+- name should begin with / and no more / in rest of name
+- flags:
+  - 0\_RDONLY: read only
+  - 0\_RDWR: read write
+  - 0\_CREAT: create shared memory if it doesn't exist
+- mode: sets permissions S\_IRUSR | S\_IWUSR
+Examples:
+
+```C
+// open mysharedmemory (create if not exist) and set permission to read and write
+int fd = shm_open ("/mysharedmemory", O_RDWR | O_CREAT , S_IRUSR | S_IWUSR );
+
+// open mysharedmemory with permission read only
+int fd = shm_open ("/mysharedmemory", O_RDONLY, 0);
+
+```
+
+#subsubsection("ftruncate")
+```C
+int ftruncate (int fd, offset_t length);
+```
+- standard function for all files -> set size
+- returns 0 on ok, otherwise -1 and error code in errno
+- *must be set*, to allocate amount of frames
+- used for shared memory with multiples of page/framesizes
+
+#subsubsection("close")
+```C
+int close(int fd);
+```
+- standard function for all files -> closes file
+- returns 0 on ok, -1 if error and error code in errno
+- *shared memory stays in system!* even if no process uses said memory anymore
+
+#subsubsection("shm\_unlink")
+```C
+int shm_unlink(const char *name);
+```
+- deletes shared memory with the name in the system (flagged for removal)
+- only deletes when no process uses this anymore
+
+#subsubsection("mmap")
+```C
+void * mmap (
+        void *hint_address,
+        size_t length,
+        int protection,
+        int flags,
+        int file_descriptor,
+        off_t offset);
+```
+#text(purple,[This is a multi use function, but we can use it for shared memory:])
+```C
+void * address = mmap (
+    0,                        // void *hint_address,
+    size_of_shared_memory,    // size_t length,
+    PROT_READ | PROT_WRITE,   // int protection,
+    MAP_SHARED,               // int flags,
+    fd,                       // int file_descriptor,
+    0                         // off_t offset
+);
+```
+maps the shared memory, with which the file-descriptor was opened into the virtual address space of the currently running process, and returns the virtual address of the first byte
+
+#subsubsection("munmap")
+```C
+int munmap(void *address, size_t length);
+```
+#text(purple, [remvoes the previously set mapping])
+
+#subsection("Message-Passing vs Shared Memory")
+#text(purple, [Shared memory is often the faster approach])
+- existing applications with one process relatively easily can be mapped to multiple processes with shared memory
+  - such programs are often not that maintainable
+- often result is async, but not parallel -> dependency chain
+- system is less modular and processes are not as protected from each other
+
+#text(purple, [Message-Passing requires more engineering])
+- existing applications often need to be reimplemented
+  - less of a problem for properly coded applications
+- applications with message-passing can be extended easily
+- sometimes implemented in OS -> QNX (wtf?)
+
+#text(purple, [Performance Comparison])
+- single processor systems are better with shared memory
+- multi-processor systems are a bit more complex\
+  due to caching, shared memory often needs more time and more synchronization, which reduces the performance advantage over message passing\
+  often, message passing is as fast as shared memory with these systems, and in the future, message-passing is likely to be faster
+
+#subsection("Message-Passing vs Pipes")
+- Pipes are unidirectional, message-queues are bidirectional
+- pipes send and receive bytestream of data, data in message-queues are organized over individual messages
+- pipes allow FIFO, while message-queues allow random access
+- pipes don't need to have a name in the file system (named pipes are optional), message-queues however *always need a name*
+

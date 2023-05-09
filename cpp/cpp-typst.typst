@@ -327,3 +327,354 @@ void loop() {
   interrupts();
 }
 ```
+
+#section("Network")
+#subsection("Sockets")
+#align(center, [#image("../Screenshots/2023_05_09_01_13_51.png", width: 70%)])
+
+#subsection("Client example with TCP socket")
+#subsubsection("Creation of Socket")
+```cpp
+// create a context
+// create a socket and add the context to it
+asio::io_context context{};
+asio::ip::tcp::socket socket{context};
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_15_16.png", width: 70%)])
+
+#subsubsection("Connect to Socket")
+```cpp
+// with IP
+auto address = asio::ip::make_address("127.0.0.1");
+auto endpoint = asio::ip::tcp::endpoint(address, 80);
+socket.connect(endpoint);
+
+// with domain
+asio::ip::tcp::resolver resolver{context};
+auto endpoints = resolver.resolve(domain, "80");
+asio::connect(socket, endpoints);
+// we might have multiple answers here -> multiple DNS entries 
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_16_18.png", width: 70%)])
+
+#subsubsection("Write to socket")
+```cpp
+std::ostringstream request{};
+request << "GET / HTTP/1.1\r\n";
+request << "Host: " << domain << "\r\n";
+request << "\r\n";
+asio::write(socket, asio::buffer(request.str()));
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_35_21.png", width: 70%)])
+
+#subsubsection("Read from socket")
+```cpp
+constexpr size_t bufferSize = 1024;
+std::array<char, bufferSize> reply{};
+asio::error_code errorCode{};
+auto readLength = asio::read(socket, asio::buffer(reply.data(), bufferSize), errorCode);
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_36_27.png", width: 70%)])
+
+#subsubsubsection("Advanced Read")
+- *asio::read also allows you to specify completion conditions*
+  - asio::transfer\_all: Default, transfers all available data or until buffer is full
+  - asio::transfer\_at\_least(std::size\_t bytes): Read at least x number of bytes, but may transfer more
+  - asio::transfer\_exactly(std::size\_t bytes): self explanatory
+- *asio::read\_until allows you to specify conditions on the data being read*
+  - simple matching of characters or strings
+  - more complex matching using std::regex
+  - allows you to specify a callable object -> expects std::pair\<iterator,bool\> operator()(iterator begin, iterator end)
+  - *may read more! -> check the number of bytes returned!*
+
+#subsubsection("Close socket")
+- shutdown() closes the read/write stream associated with the socket, indicating to the peer that no more data will be received/sent.
+- The destructor of the socket cancels all pending operations and destroys the object
+```cpp
+socket.shutdown(asio::ip::tcp::socket::shutdown_both);
+socket.close();
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_45_45.png", width: 70%)])
+
+#subsection("Data Sources/Buffers")
+- *ASIO does not manage memory for you*
+- *Fixed size buffers using asio::buffers*
+  - must provide at least as much memory as you would like to read
+  - Can use several standard containers as a backend
+  - Pointer + Size combinations are also available
+- Dynamically sized buffers using asio::dynamic\_buffer()
+  - for use with std::strng and std::vector -> heap
+  - automatic resize as known by vector!
+- Streambuf buffers using asio::streambuf
+  - works with std::istream and std::ostream -> IO
+
+#subsection("Server example with TCP socket")
+#subsubsection("Creating socket")
+- an acceptor is a special socket responsible for establishing incoming connections
+- In ASIO the acceptor is bound to a given local endpoint and *starts listening automatically*
+```cpp
+asio::io_context context{};
+asio::ip::tcp::endpoint localEndpoint{asio::ip::tcp::v4(), port};
+asio::ip::tcp::acceptor acceptor{context, localEndpoint};
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_47_44.png", width: 70%)])
+
+#subsubsection("Accepting Connections")
+- The accept() member function blocks until a client tries to establish a connection
+- it returns a new socket through which the connected client can be reached
+```cpp
+asio::ip::tcp::endpoint peerEndpoint{};
+asio::ip::tcp::socket peerSocket = acceptor.accept(peerEndpoint);
+```
+#align(center, [#image("../Screenshots/2023_05_09_01_49_03.png", width: 70%)])
+
+#subsubsubsection("Handling multiple requests at once")
+#align(center, [#image("../Screenshots/2023_05_09_01_55_19.png", width: 70%)])
+#align(center, [#image("../Screenshots/2023_05_09_01_55_28.png", width: 70%)])
+- The program invokes an async operation on an I/O object and passes a completion handler as a callback
+- The I/O object delegates the operation and the callback to its io\_context
+- The operating system performs the asynchronous operation
+- The OS singals the io\_context that the operation has been completed
+- When the program calls io\_context::run() the remainin asynchronous operations are performed (wait for the result of he OS)
+- Still inside io\_context::run() the completion handler is called to handle the result (or error) of the asynchronous operation
+
+#subsection("Asynchronous Read/Write on Sockets")
+#columns(2,[
+- Async read operations
+  - asio::async\_read
+  - asio::async\_read\_until
+  - asio::async\_read\_at
+#colbreak()
+- Async write opertions
+  - asio::async\_write
+  - asio::async\_write\_at
+])
+- These functions *return immediately*
+- The operation is processed by the executor associated with the streams asio::io\_context
+- A completion handler is called when the operation is done
+#align(center, [#image("../Screenshots/2023_05_09_02_19_01.png", width: 70%)])
+
+#subsubsection("Example Asynchronous Read")
+- asio::async\_read\_until 
+  - reads from async stream into a buffer until specific character is encountered
+  - then calls handler
+  - completion handler takes asio::error\_code and size\_t as parameters
+```cpp
+auto readCompletionHandler = [] (asio::error_code ec, std::size_t length) {
+  //...
+};
+asio::async_read_until(socket, buffer, '\n', readCompletionHandler);
+```
+
+#subsubsection("Example Asynchronous Write")
+- asio::async\_write writes data from a buffer to async stream until all data bas been written or error occurs
+- then calls completion handler
+  - completion handler takes asio::error\_code and size\_t as parameters
+```cpp
+auto writeCompletionHandler = [] (asio::error_code ec, std::size_t length) {
+  //...
+};
+asio::async_write(socket, buffer, writeCompletionHandler);
+```
+
+#subsubsection("Async Acceptor Overview")
+```cpp
+struct Server {
+  using tcp = asio::ip::tcp;
+  Server(asio::io_context & context, unsigned short port)
+        : acceptor{context, tcp::endpoint{tcp::v4(), port}}{
+    accept();
+  }
+private:
+  auto accept() -> void {
+    auto acceptHandler = [this] (asio::error_code ec, tcp::socket peer) {
+      if (!ec) {
+        auto session = std::make_shared<Session>(std::move(peer));
+        session->start();
+      }
+      accept();
+    };
+    acceptor.async_accept(acceptHandler);
+    }
+  tcp::acceptor acceptor;
+};
+```
+
+#subsubsection("Asynchronous Acceptor -> accept()")
+- creates an accept handler that is called when an incoming connection has been established
+  - the second parameter is the socket of the newly connected client
+  - A session object is created (on the heap) to handle all communication with the client
+  - accept() is called to continue accepting new inbound connection attempts
+- the accept handler is registered to handle the next accept asynchronously
+```cpp
+auto accept() -> void {
+  auto acceptHandler = [this] (asio::error_code ec, tcp::socket peer) {
+    if (!ec) {
+      auto session = std::make_shared<Session>(std::move(peer));
+      session->start();
+    }
+    accept();
+  };
+  acceptor.async_accept(acceptHandler);
+}
+```
+
+#subsubsection("Asychronous Acceptor (constructor)")
+```cpp
+Server(asio::io_context & context, unsigned short port)
+      : acceptor{context, tcp::endpoint{tcp::v4(), port}}{
+  accept();
+}
+```
+- creates the sever
+- initialized the acceptor with the given context and port
+- calls accept for registering the accept handler for the next incoming conenction -> does not block
+
+#subsubsection("Asychronous Acceptor (Use)")
+```cpp
+auto main() -> int {
+  asio::io_context context{};
+  Server server{context, 1234};
+  context.run();
+}
+```
+- creates an io\_context
+ - has an associated executor that handles the async calls
+- create the server on port 1234 (see above)
+- Run the executor of the io\_context until no async operation is left
+  - Since we already have an async\_accept request pending this operation does not return immediately
+  - We will keep the this run() call busy
+- *It is important that the server object llives as long as async operations on it are processed*
+
+#subsection("Sessions with Async IO")
+```cpp
+struct Session : std::enable_shared_from_this<Session> {
+  explicit Session(asio::ip::tcp::socket socket);
+  auto start() -> void {
+    read();
+  }
+private:
+  auto read() -> void;
+  auto write(std::string data) -> void;
+  asio::streambuf buffer{};
+  std::istream input{&buffer};
+  asio::ip::tcp::socket socket;
+};
+```
+- constructor stored the client connection
+- start(): initiates the first async read
+- read(): invokes async reading
+- write(): invokes async writing -> called by handler in read
+- the fields store the data of the session
+- enable\_shared\_from\_this 
+  This is needed in order to keep the session alive -> e.g. lives until function is done via incrementing reference counting\
+  The session is defined as std::shared\_ptr:
+  ```cpp
+if (!ec) {
+auto session = std::make_shared<Session>(std::move(peer));
+session->start();
+}
+```\
+The handler then increments the reference counter:
+```cpp
+//In the accept handler
+void Session::read() {
+auto handler = [self = shared_from_this()](error_code ec, size_t length) {
+  // ..
+}
+```
+#align(center, [#image("../Screenshots/2023_05_09_02_38_32.png", width: 70%)])
+
+#subsection("Async Operations without Callbacks")
+- specify special objects as callbacks
+- asio::use\_future
+  - returns std::future\<T\>
+  - Errors are communicated via exception in future
+- asio::detached
+  - ignores the result of the operation -> fire and forget
+- asio::use\_awaitable (cpp 20, probably not usable)
+  - returns asio::awaitable\<T\> which can be awaited in coroutine
+
+#subsection("Signal Handling")
+```cpp
+#include <asio.hpp>
+#include <csignal>
+#include <iostream>
+
+auto main() -> int {
+  auto context = asio::io_context{};
+  auto signals = asio::signal_set{context, SIGINT, SIGTERM};
+  signals.async_wait([&](auto error, auto sig) {
+    if (!error) {
+      std::cout << "received signal: " << sig << '\n’;
+    } else {
+      std::cout << "signal handling aborted\n";
+    }
+  });
+  context.run();
+}
+code
+```
+- waits for an event and executes completion handler specified
+- note, you can't wait for SIGKILL and SIGSTOP, these actions will always happen
+
+#subsection("Accessing Shared Data")
+```cpp
+auto main() -> int {
+  auto context = asio::io_context{};
+  // start some async operations
+  through asio::io_context
+  auto runners = std::vector<std::thread>{};
+  for(int i{}; i < 4; ++i) {
+    runners.push_back(std::thread{[&]{
+      context.run();
+    }});
+  }
+  io_context.run()
+  asio::io_context!
+  for_each(runners.begin(), runners.end(),
+           [](auto & runner){
+            runner.join();
+           });
+}
+```
+- Multiple async operations can be in flight -> reading rom multiple sockets
+- All completion handlers are dispatched through asio::io\_context
+  - handlers run on a thread executing io\_context.run()
+  - multiple threads can call run() on the same asio::io\_context
+  - *could lead to data races!*
+    ```cpp
+// example for potential datarace
+// globally accessible
+auto results = std::vector<int> { };
+// in connection class
+asio::async_read(socket, asio::buffer(buffer), [&](auto err, auto bytes) {
+auto result = parse(buffer);
+results.push_back(result); // << data race here
+});
+    ```
+
+#subsubsection("Strands")
+#text(purple,[ensure sequential execution of signal handlers])
+- implicit strands 
+  - if only one thread calls io\_context.run()
+  - our program blocks calling multiple handlers
+- explicit strands
+  - objects of type asio::strand\<\>
+  - created using asio::make\_strand(executor)
+  - asio::make\_strang(execution\_context)
+  - applied to handlers using asio::bind\_executor(strand, handler)
+    ```cpp
+// same code as above, now with strands -> data race resolved
+// globally accessible
+auto results = std::vector<int> { };
+auto strand = asio::make_strand(context);
+// in connection class
+asio::async_read(socket, asio::buffer(buffer),
+asio::bind_executor(strand, [&](auto err, auto bytes) {
+auto result = parse(buffer);
+results.push_back(result); // <<< No more data race
+}));
+```
+
+
