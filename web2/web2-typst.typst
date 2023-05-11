@@ -2,8 +2,409 @@
 
 #show: doc => conf(
   author: "Fabio Lenherr",
-  "C++ Advanced",
+  "Web Engineering 2",
   "summary",
   doc,
 )
+
+#section("Translations etc")
+#subsection("Internationalization I18N")
+Different regions have different ways of defining things.\
+E.g. first name and last name is a thing in the west, is that the case for every country?\
+Or how about calendars? Not everyone uses the jeebus calendar.\
+This means we need a way to define these things for every country, without needing to rewrite the entire application or webpage.\
+\
+#text(purple, [Another good example is the space needed for different languages. One language might have 4 letters for this word, while the next language has 10 letters for the same thing.\
+Suddenly you might need more space for a certain button.])
+#subsection("Localization L10N")
+- Currency
+- Zip codes
+- Calendars
+- Cities, States etc.
+- Taxes
+- Legal requirements
+- placeholders in general
+
+#subsubsection("Quotes")
+```html
+<!DOCTYPE html>
+<html lang="gsw">
+<head>
+  <meta charset="UTF-8">
+  <title>swiss german local quotes</title>
+</head>
+<body>
+<p>
+Andrea fragte mich:
+  <q>Hast du Grass’
+    <q>Blechtrommel</q>
+    gelesen?</q>
+</p>
+</body>
+Secondary
+</html>
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>german local quotes</title>
+</head>
+...
+```
+
+#subsubsection("I18next")
+```js
+{
+I18next
+.use(i18nextXHRBackend)
+"button": {
+.use(i18nextBrowserLanguageDetector)
+"save": "save one change",
+.init(
+"save_plural": "save {{count}} chan
+{
+},
+fallbackLng: 'en’,
+"label": {
+ns: ['special', 'common'],
+"changes": "Number of Changes:"
+defaultNS: 'special',
+}
+backend: {
+}
+loadPath: 'locales/{{lng}}/{{ns}}.json’,
+},
+},
+```
+i18next-demo/locales/en/common.json
+```json
+function(err, t) { updateContent(); },
+{
+```
+i18next-demo/locales/en/special.json
+```json
+);
+"title": "{{what}} in english"
+}
+```
+```js
+function updateContent() {
+titleElement.innerHTML = i18next.t('title', {what: 'i18next'});
+updateChangesLbl.innerHTML = i18next.t('common:label.changes’);
+saveBtn.innerHTML = i18next.t('common:button.save', {
+count: parseInt(changesSlider.value),
+}); }
+```
+```js
+I18next
+.use(Backend)
+.use(i18nextMiddleware.LanguageDetector)
+.init({
+backend: {
+loadPath:
+__dirname + '/locales/{{lng}}/{{ns}}.json’,
+…
+}, … });
+…
+app.use(i18nextMiddleware.handle(i18next));
+app.get('/', (req, res) => {
+…
+const count = req.query.count || 1;
+res.render('index’,
+{count, plural:
+(parseInt(count) !== 1)});
+});
+```
+```html
+<h1>{{t "home.title" }}</h1>
+<div>
+<a href="/?lng=en">english</a>
+&nbsp; | &nbsp;
+<a href="/?lng=de">deutsch</a>
+</div>
+<form>
+<label for="count">
+{{t "home.setCount” }}
+</label>
+<input id="count" name="count"
+type="range" min="0" max="5"
+value="{{count}}">
+<button type="submit">Submit</button>
+</form>
+<div>{{#if plural}}
+{{count}} {{t "home.items"}}
+{{else}}
+{{count}} {{t "home.item"}}
+{{/if}}
+</div>
+```
+
+#subsubsection("Intl.Collator -> global string compare")
+```js
+// in German, ä sorts with a
+const compareGerman = new Intl.Collator('de').compare('ä', 'z');
+console.log({compareGerman});
+// → a negative value
+```
+
+#subsubsection("Intl.DateTimeFormat")
+```js
+const date = new Date(Date.UTC(2022, 4, 17, 13, 30, 0)));
+// US
+console.log(new Intl.DateTimeFormat('en-US').format(date));
+// → "5/17/2022"
+// GB 
+console.log(new Intl.DateTimeFormat('en-GB').format(date));
+// → "17/05/2022"
+
+// OR directly from date object
+
+const event = new Date('2022-05-17T15:30');
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+console.log(event.toLocaleDateString('de-DE', options));
+// expected output: Dienstag, 17. Mai 2022
+```
+#subsubsection("Intl.RelativeTime")
+```js
+const rtf_english = new Intl.RelativeTimeFormat("en", {
+  localeMatcher: "best fit", // other values: "lookup"
+  numeric: "always", // other values: "auto"
+  style: "long", // other values: "short" or "narrow"
+});
+console.log(rtf_english.format(-1, 'day'));
+//expected output: "1 day ago"
+//
+const rtf_german = new Intl.RelativeTimeFormat('de', { numeric: 'auto', style: 'short' });
+console.log(rtf_german.format(-1, 'day'));
+//expected output: "gestern"
+```
+
+#subsubsection("Intl.NumberFormat")
+```js
+const number = 123456.789;
+// CH
+console.log(new Intl.NumberFormat('de-CH').format(number));
+// → 123’456.789
+console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(number));
+// → 123.456,79 €
+```
+
+#subsubsection("Intl.ListFormat")
+```js
+const colorsEn = [
+'red',
+'blue',
+'pink',
+'orange'
+];
+const formatterEn = new Intl.ListFormat('en', {
+  style: 'long’,
+  type: 'conjunction'
+});
+// Logs "red, blue, pink, and orange"
+console.log(formatterEn.format(colorsEn));
+```
+
+#subsubsection("Intl.PluralRule")
+```js
+var westernPr = new Intl.PluralRules('de-CH');
+console.log(westernPr.select(0)); // → 'other' CH, US English, ...
+console.log(westernPr.select(1)); // → 'one'   CH, US English, ...
+console.log(westernPr.select(2)); // → 'other'
+// defines how 0,1,2,3,4,... or more are handled -> few,many,a lot etc.
+```
+
+#section("Animations with CSS")
+Animations are defined with a starting state and an endstate, the frames between are done via *tweening* which is automatic.\
+
+#subsection("Transition Properties")
+- transition-property: Which CSS property to change during the animation
+- transition-duration: how long the transition should take
+- transition-timing-function: the manner in which the transition accelerates
+- transition-delay: Whether or not there should be a pause before the transition starts and how long that pause should be (_in seconds_)
+
+#subsubsection("Example")
+```css
+.demo1 {
+  color: #fff;
+  background-color: mediumblue;
+  transition-property: background-color;
+  transition-duration: 3s;
+  transition-delay: 1s;
+}
+.demo:hover {
+  background-color: red;
+}
+/* 3 second duration with background being changed for the duration of the animation.  */ 
+/* also wait 1 second before animation starts */
+```
+#subsubsection("timing-functions")
+#text(purple, [Also defines how the animation happens -> bezier curve!!])
+possible values:
+- ease
+- linear
+- ease-in
+- ease-out
+- ease-in-out
+- step-start
+- step-end
+- steps(...)
+- cubic-besier(\#,\#,\#,\#)
+#align(center,[#image("../Screenshots/2023_05_11_04_15_01.png", width: 70%)])
+
+#subsubsection("Shorthand definition")
+```css
+.demo2 {
+  color: white;
+  background-color: mediumblue;
+  transition: background-color .3s ease-in-out 0.2s;
+}
+```
+#text(purple,[Or you can also define multiple curves for each property!!])
+```lang
+.demo3 {
+  transition: background-color 0.3s ease-out 0.2s,
+              color 2s ease-in,
+              letter-spacing 0.3s ease-out;
+}
+```
+Or auto define all:
+```css
+.demo4 {
+  transition: all 0.2s ease-in-out;
+}
+```
+
+#subsection("CSS Transforms")
+#align(center,[#image("../Screenshots/2023_05_11_04_18_12.png", width: 70%)])
+- rotate(), rotateX(), rorateY()
+- translate(), translateX(), translateY()
+- scale(), scaleX(), scaleY()
+- skew(), skewX(), skewY()
+- none
+Example:
+```css
+img {
+  width: 400px;
+  height: 300px;
+  transform: rotate(-10deg);
+}
+```
+#subsubsection("transform-origin")
+left, center, top or right
+#align(center,[#image("../Screenshots/2023_05_11_04_20_57.png", width: 70%)])
+
+#subsubsection("translate")
+```css
+transform: translate( 90px, 60px);
+code
+```
+#align(center,[#image("../Screenshots/2023_05_11_04_22_23.png", width: 70%)])
+
+#subsubsection("Scale")
+```css
+transform: scale(1.25);
+```
+#align(center,[#image("../Screenshots/2023_05_11_04_23_27.png", width: 70%)])
+
+#subsubsection("Skew")
+```css
+transform: skewX(15deg);
+```
+#align(center,[#image("../Screenshots/2023_05_11_04_24_07.png", width: 70%)])
+
+#subsubsection("Multiple Transforms")
+```css
+img:hover, img:focus {
+  transform: scale(1.5) rotate(-5deg) translate(50px,30px);
+}
+```
+NOTE: If you apply a transform on an element in a different state (for example, :hover), repeat all transforms applied so far to that element, or they will be overwritten.
+
+#subsubsection("Smoothing out Transformations")
+To smooth a transform, we use the transition property.
+```css
+img {
+  border-radius: 10px;
+  border: thick solid blueviolet;
+  transition: transform 1s;
+}
+img:hover {
+  transform: rotate(10deg) translate(50px) scale(1.2);
+  /*transform-origin: 0 0;*/
+}
+```
+#subsubsection("3D Transforms")
+#text(purple, [If you want a 3D animation, then you can use perspectives in order to make the picture appear to be 3D.])
+```css
+ul {
+  perspective: 600;
+{
+img {
+  transform: rotateY(45deg);
+  transform-origin: 0 0 0;
+}
+```
+
+#subsubsection("KeyFrames")
+#text(purple,[With keyframes, you can define individual steps for an animation])
+```css
+@keyframes rainbow {
+  0% { background-color: red; }
+  20% { background-color: orange; }
+  40% { background-color: yellow; }
+  60% { background-color: green; }
+  80% { background-color: blue; }
+  100% { background-color: purple;}
+}
+/* rainbow dash approves */
+```
+#text(purple,[Here you can also define specific properties over the keyframes!])
+```css
+#magic {
+  animation-name: rainbow;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+```
+Another example for a skew:
+```css
+@keyframes wiggleAnimation {
+  0% {
+    transform: skewX(9deg);
+  }
+  10% {
+    transform: skewX(-8deg);
+  }
+  20% {
+    transform: skewX(7deg);
+  }
+  30% {
+    transform: skewX(-6deg);
+  }
+  /* all other percentages */
+  90% {
+    transform: skewX(0deg);
+  }
+  100% {
+    transform: skewX(0deg);
+  }
+}
+```
+#subsubsection("Non-animatable CSS properties")
+There are some properties that you can't animate, like the border-style:
+- border-style
+- display (use opacity, then set invisible!)
+There are also non-animatable values;
+- auto
+- linear-gradient(...)
+
+#subsubsection("Accessibility")
+#align(center,[#image("../Screenshots/2023_05_11_04_33_16.png", width: 70%)])
+This is needed for screenreaders -> hidden attributes are not read!
+
+
 
