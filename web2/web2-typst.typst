@@ -406,5 +406,19 @@ There are also non-animatable values;
 #align(center,[#image("../Screenshots/2023_05_11_04_33_16.png", width: 70%)])
 This is needed for screenreaders -> hidden attributes are not read!
 
+#subsubsubsection("Other tipps")
+- don't overdo animations -> some people might have epilepsy etc.
+- browsers have an accessibility setting in order to reduce or even disable animations\
+  "perfers-reduces-animation"
+  ```css
+  .card {
+      animation: Show .2s ease;
+
+      @media (prefers-reduced-motion: no-preference) {
+          --_travel-distance: 30px;
+      }
+      /* can be set to simply reduce or even disable animations, once again the programmers job to make sure this is implemented! */
+    }
+  ```
 
 
