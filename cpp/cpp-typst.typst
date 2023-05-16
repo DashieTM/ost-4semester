@@ -677,4 +677,359 @@ results.push_back(result); // <<< No more data race
 }));
 ```
 
+#section("Exception Safety Levels")
+
+#subsection("Types of code with exceptions")
+#subsubsubsection("Exception throws")
+This code will throw exceptions
+
+#subsubsubsection("Exception handling")
+This code will handle exceptions
+
+#subsubsubsection("Exception neutral")
+This code will neither handle nor throw exceptions, it will simply forward all exceptions.
+
+#subsection("Levels of Safety")
+- noexcept -> no throw
+  This code will never throw an exception
+  Note, the code might still have throws internally -> but it will also handle them directly
+  aka it will not throw towards the caller
+- strong exception safety:
+  Operation succeeds and no exception is thrown, or nothing happens and an exception is thrown
+- basic exceptin safety:
+  does not leak resources in case of exception, but might not be complete -> not all operations done
+- no guarantee
+  You have to make sure there are no data leaks, dangling pointers etc.
+-  function is only as exception safe as it's weakest link.
+   
+#subsubsection("No Guarantee")
+```cpp
+auto & operator=(BoundedBuffer const & other) {
+  if (m_container != other.m_container) {
+    m_capacity = other.m_capacity;
+    // what if this allocation throws?
+    m_container = new char[sizeof(T) * m_capacity];
+    m_position = 0;
+    m_size = 0;
+    for (auto const & element : other){
+      this->push(element); // what if a copy throws?
+    }
+  }
+  return *this;
+}
+code
+```
+- Don't use this
+- Invalid or corrupted data when an exception is thrown
+- easy to implement, kekw, aka no handling
+
+#subsubsection("Basic Guarantee of an Operation")
+```cpp
+template<typename...TYPE>
+static auto make_buffer(const int size, TYPE&&...param) -> BoundedBuffer<value_type> {
+  int const number_of_arguments = sizeof...(TYPE);
+  if (number_of_arguments > size)
+    throw std::invalid_argument{"Invalid argument"};
+    // the only safety
+  BoundedBuffer<value_type> buffer{size};
+  buffer.push_many(std::forward<TYPE>(param)...);
+  return buffer;
+}
+```
+- no resource leaks
+- invariants are ok
+
+However, the push\_many() function might also throw -> aka the operation might not be completed
+
+```cpp
+auto push_many() -> void { }
+template<typename FIRST, typename...REST>
+auto push_many(FIRST && first, REST&&...rest) -> void {
+  push(std::forward<FIRST>(first));
+  push_many(std::forward<decltype(rest)>(rest)...);
+}
+auto push(value_type const & elem) -> void {
+  if(full()) throw std::logic_error{"full"};
+    auto pointer = reinterpret_cast<value_type*>(dynamic_container_) + tail_;
+  new (pointer) value_type{elem}; // might throw due to copy
+  tail_ = (tail_ + 1) % (capacity() + 1);
+  elements_++;
+}
+```
+Note the throw, this means the element might not be pushed
+
+#subsubsection("Strong Guarantee")
+```cpp
+auto & operator=(BoundedBuffer const & other) {
+  if (this != &other) {
+    BoundedBuffer copy {other}; // might throw
+    swap(copy); // mustn't throw
+  }
+  return *this;
+}
+```
+Problem: What happens when both functions throw?\
+How to guarantee that at least one function does not throw?
+
+- hard to guarantee a sequence
+- might need undo functions if exception happens
+- function that executes effect may not throw
+
+#subsubsection("No-Throw")
+```cpp
+auto std::vector<T>::empty() const noexcept -> bool;
+auto std::vector<T>::size() const noexcept -> size_type;
+auto std::vector<T>::capacity() const noexcept -> size_type;
+auto std::vector<T>::data() noexcept -> T *;
+// all iterator factories begin(), end()...
+auto std::vector<T>::clear() noexcept -> void;
+```
+- memory allocations can't do noexcept -> might always fail
+  hence pushback and popback can't be noexcept
+
+#subsubsection("Overview")
+#align(center, [#image("../Screenshots/2023_05_16_01_45_02.png", width: 70%)])
+
+#subsection("No Except")
+- noexcept(false): default
+- noexcept == noexcept(true) -> shorthand
+- noexcept(function()): asks if the function is noexcept -> returns bool
+- noexcept can't be overloaded
+
+```cpp
+auto function() noexcept -> void {
+  //...
+}
+
+template<typename T>
+auto function(T t) noexcept(<expression>) {
+  // the noexcept here checks if the expression is noexcept -> does NOT actually run it!
+  // then proceeds to set this functions noexcept based on the expression -> same except level!
+}
+
+auto main() -> int {
+  std::cout << "is function() noexcept? " << noexcept(function()) << '\n';
+  // returns bool whether or not function is noexcept
+}
+```
+
+#subsubsection("Explosive example")
+```cpp
+template <unsigned ChanceToExplode>
+struct Liquid;
+using Nitroglycerin = Liquid<75>;
+using JetFuel = Liquid<10>;
+using Water = Liquid<0>;
+template <typename Liquid>
+struct Barrel {
+  Barrel(Liquid && content): content{std::move(content)} {}
+  auto poke() noexcept(noexcept(std::declval<Liquid>().shake())) {
+    content.shake();
+  }
+private:
+  Liquid content;
+};
+```
+#subsubsection("Members should not throw")
+- destructors...
+- move constructors
+- swap
+- any sort of allocation or memory moving
+
+#subsubsection("std::move_if_noexcept")
+```cpp
+template <typename T>
+constexpr typename std::conditional<
+!std::is_nothrow_move_constructible<T>::value && std::is_copy_constructible<T>::value,
+const T&,
+T&&
+>::type move_if_noexcept(T & x);
+```
+#align(center, [#image("../Screenshots/2023_05_16_02_10_35.png", width: 70%)])
+#text(purple, [this moves the value if the type has a no except move operation -> otherwise copy])\
+Example:
+```cpp
+template<typename T>
+class _box {
+  T value;
+  public:
+  explicit _box(T const &t) noexcept(noexcept(T(t))) :
+  value(t) {}
+  explicit _box(T && t) noexcept(noexcept(T(std::move_if_noexcept(t)))) :
+  value(std::move_if_noexcept(t)) {}
+  auto get() noexcept -> T &{
+    return value;
+  }
+};
+```
+
+#subsubsection("Contracts")
+C++ has no native support for contracts, meaning it is only software engineering thing.\
+- narrow contract
+  - function expectes specific parameters -> may only be in range 50-100 etc
+  - other preconditions
+  - might not work properly if you don't make sure to pass the right stuff
+- wide contract
+  - function accepts any paramter with the correct type -> does internal checking
+  - will never fail
+  - no undefined behavior (if done properly)
+
+Example:
+```cpp
+// wide contract
+auto size() const _GLIBCXX_NOEXCEPT -> size_type {
+  return size_type(this->_M_impl._M_finish - this->_M_impl._M_start);
+}
+// narrow contract:
+explicit BoundedBuffer(size_type capacity): startIndex { 0 }, 
+                                            nOfElements { 0 }, 
+                                            capacity { capacity }, 
+                                            values { allocate(capacity) } {
+  if (capacity == 0) {
+    throw std::invalid_argument { "size must be > 0." };
+  }
+}
+```
+
+#subsubsection("Compiler and Noexcept")
+- compiler might optimize better with noexcept -> no stack unwinding preparation
+- compiler will not warn you if you use exceptions with noexcept....
+  - in this case std::terminate() will be called to avoid udef
+    ```cpp
+    struct Ball {};
+    auto barrater() noexcept -> void {
+      throw Ball{};
+      // terminate called!!
+    }
+    auto main() try -> int {
+        barrater();
+      } catch(Ball const & b) {
+        std::cout << "caught the ball!";
+      }
+    }
+    ```
+
+#section("Pimpl Idiom")
+#subsection("Opaque types")
+These are types that were declared first, but without definition.\
+Then later the actual definition is used:
+```cpp
+struct S; //Forward Declaration
+auto foo(S & s) -> void {
+  foo(s);
+  //S s{}; //Invalid
+}
+struct S{}; //Definition
+auto main() -> int {
+  S s{};
+  foo(s);
+}
+```
+The same is done in C with void \* -> casting to the actual type later (unsafe, kek)
+```cpp
+template<typename T>
+auto makeOpaque(T * ptr) -> void * {
+  return ptr;
+}
+template<typename T>
+auto ptrCast(void * p) -> T * {
+  return static_cast<T*>(p);
+}
+auto main() -> int {
+  int i{42};
+  void * const pi {makeOpaque(&i)};
+  cout << *ptrCast<int>(pi) << endl;
+}
+```
+
+#subsection("Pointer to Implementation")
+#text(purple, [This is used in order to avoid recompilatin for each file that uses the library.\
+C++ is a kappa language, which somehow recompiles the entire file if you use a library function directly.])
+```cpp
+class Wizard { // all magic details visible
+std::string name;
+MagicWand wand;
+std::vector<Spell> books;
+std::vector<Potion> potions;
+auto searchForSpell(std::string const & wish) -> std::string;
+Potion mixPotion(std::string const & recipe);
+auto castSpell(Spell spell) -> void;
+auto applyPotion(Potion phial) -> void;
+public:
+Wizard(std::string name = "Rincewind") :
+name{name}, wand{} {}
+auto doMagic(std::string const & wish) -> std::string;
+  //...
+};
+```
+In other words, if you change something here, then you will need to recompile all files that use wizard, as it has been seen as a change in that file.\
+To fix this, make the wizard a pointer wrapper to the implementation, hence the name pimpl.
+```cpp
+//wizard.hpp
+class Wizard {
+  std::shared_ptr<class WizardImpl> pImpl;
+public:
+  Wizard(std::string name = "Rincewind");
+  auto doMagic(std::string wish) -> std::string;
+};
+
+// wizard.cpp
+//Implementation of Wizard
+Wizard::Wizard(std::string name):
+pImpl{std::make_shared<WizardImpl>(name)} {}
+auto Wizard::doMagic(std::string wish) -> std::string {
+  return pImpl->doMagic(wish);
+}
+
+// class moved here
+#include "Wizard.hpp"
+#include "WizardIngredients.hpp"
+#include <vector>
+#include <algorithm>
+class WizardImpl {
+  std::string name;
+  MagicWand wand;
+  std::vector<Spell> books;
+  std::vector<Potion> potions;
+  auto searchForSpell(std::string const & wish) -> std::string;
+  auto mixPotion(std::string const & recipe) -> Potion;
+  auto castSpell(Spell spell) -> void;
+  auto applyPotion(Potion phial) -> void;
+  public:
+  WizardImpl(std::string name) : name{name}, wand{}{}
+  auto doMagic(std::string const & wish) -> std::string;
+  //...
+};
+```
+#text(purple, [Since we moved the entire class into a cpp, we no longer include the file in all other files -> hence, we no longer need to recompile everywhere.])
+
+#subsubsubsection("Defining size -> for unique pointer")
+#text(purple, [The problem with unique pointer, is that it requires the type to be sized, which the type WizardImpl isn't at this point.\
+So we need to define a destructor for the WizardImpl:])
+```cpp
+// wizard.hpp
+class Wizard {
+  std::unique_ptr<class WizardImpl> pImpl;
+  // size needs to be known here for wizardimpl
+public:
+  Wizard(std::string name);
+  ~Wizard();
+  auto doMagic(std::string wish) -> std::string;
+};
+
+// wizard.cpp
+//class WizardImpl {
+  //...
+};
+//...
+Wizard::~Wizard() = default;
+// this line makes it work
+// no implicit destructor for wizard -> at this point size for wizard impl is known
+// now you can let c++ auto define the destructor for the wizard wrapper
+```
+#align(center, [#image("../Screenshots/2023_05_16_02_43_26.png", width: 70%)])
+- pimpl should generally not be nullptr -> or rather not possible to be nullptr, should have used rust
+- don't inherit from the pimpl class
+  - not that I ever would since inheritance is crap.
+
 
