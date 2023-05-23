@@ -404,7 +404,24 @@ You can define barriers, which means all processes will wait when they reach thi
 This allows synchronization between threads in MPI, just like with regular parallel programming!
 #align(center, [#image("../Screenshots/2023_05_08_09_39_43.png", width: 50%)])
 
-
+#section("Performance")
+#subsection("Scalability")
+- software scaling -> ideal speedup compared to actual speedup (% lost due to software inefficiency)
+- hardware scaling -> speedup solely based on adding more cores etc.
+#subsubsection("Strong Scaling")
+- the number of processors is increased while the problem size remains constant
+- reduced workload per processor
+- can be difficult to keep all processors properly used (see gaming with weak cpu usage on many cores)
+- serial parts limit parallelization
+#align(center, [#image("../Screenshots/2023_05_22_09_30_55.png", width: 80%)])
+#align(center, [#image("../Screenshots/2023_05_22_09_32_51.png", width: 80%)])
+#subsubsection("Weak Scaling")
+- problem size grows alongside processor increases
+- load on processors stays the same
+- if the problem only requires a small amount of resources, then parallelizing this is not recommended
+   - again, you would also make the problem bigger, hence no increase in performance
+- mostly happens with memory-bound applications, where the required memory can't be satisfied by a single node.
+#align(center, [#image("../Screenshots/2023_05_22_09_48_21.png", width: 70%)])
 
 
 

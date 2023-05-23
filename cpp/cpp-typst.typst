@@ -1033,3 +1033,384 @@ Wizard::~Wizard() = default;
   - not that I ever would since inheritance is crap.
 
 
+#section("Hourglass Interfaces")
+#subsection("ABI")
+- name mangling
+  - used for things like overloading
+  - seen in c++ or rust
+- calling conventions
+- instruction sets -> intel64, arm, risc-V
+- c++ does not define a specific ABI as it is coupled to the platform
+  - done by the compiler -> GCC/G++ for example
+- ABIs change between OS, compiler, versions, library versions etc.
+
+#subsubsection("Comparison to C")
+- C also does not define a specific ABI
+  - but it is more stable
+    - no mangling
+    - no namespaces
+    - hence also no:
+      - exceptions
+      - templates
+      - member functions on structs or classes
+
+#subsection("Idea")
+The general idea of the hourglass interface is that you have an ABI that will allow you to use any language in order to use libraries.\
+Aka you can use c++ libraries with rust if you so chose to, for whatever reason.
+#align(center, [#image("../Screenshots/2023_05_23_01_29_24.png", width: 70%)])
+#text(purple, [Here the C ABI, which is more stable than the c++ library is used, hence it should be expected to work.])
+
+#subsubsection("Library")
+```cpp
+struct Wizard {
+  Wizard(std::string name = "Rincewind") : name{name}, wand{} {}
+  auto doMagic(std::string const & wish) -> char const *;
+  auto learnSpell(std::string const & newspell) -> void;
+  auto mixAndStorePotion(std::string const & potion) -> void;
+  auto getName() const -> char const * {
+    return name.c_str();
+  }
+};
+```
+#subsubsection("ABI")
+- represented by abstract pointers
+- member functions are handled by taking the abstract pointer as first argument -> see python and rust
+- requires factory and disposal functions to manage object lifetime
+- strings are represented by char\*
+- exceptions do not work across C ABI
+  - instead you can store the message of exceptions in parameters
+  - errors need to be cleaned up when they are no longer used -> char\* !
+```C
+// define abstract wizard
+typedef struct Wizard * wizard;
+// const version
+typedef struct Wizard const * cwizard;
+// create function
+wizard createWizard(char const * name, error_t * out_error);
+void disposeWizard(wizard toDispose);
+typedef struct Error * error_t;
+char const * error_message(error_t error);
+void error_dispose(error_t error);
+char const *doMagic(wizard w, char const * wish, error_t *out_error);
+void learnSpell(wizard w, char const * spell);
+void mixAndStorePotion(wizard w,
+char const * potion);
+char const *wizardName(cwizard w);
+```
+#text(purple, [This can also be done in C++ with extern C:])
+```cpp
+#ifdef __cplusplus
+extern "C" {
+  #endif
+  typedef struct Wizard * wizard;
+  typedef struct Wizard const * cwizard;
+  wizard createWizard(char const * name,
+  error_t * out_error);
+  void disposeWizard(wizard toDispose);
+  // ...
+  // Comments are ok too, as the preprocessor
+  // eliminates them anyway
+  #ifdef __cplusplus
+}
+#endif
+```
+- no overloading in extern
+- only primitive types and pointers 
+- structs are not the same as in c++
+- always forward declare structs!
+- enums unscoped
+- #text(purple, [Note, not all things are unallowed, namespaces can be used, they will simply be put back into the global scope at compile time\
+  Aka in here, the compiler will make the code C compliant, therefore making sure the ABI stability is guaranteed.])
+
+#subsubsection("Binding ABI to the library (Trampolin)")
+```cpp
+// wizard.cpp
+extern "C" {
+  struct Wizard { // C linkage trampolin
+  Wizard(char const * name) : wiz{name} {}
+  unseen::Wizard wiz;
+};
+
+// wizard.hpp
+namespace unseen {
+  struct Wizard {
+    Wizard(std::string name = "Rincewind") : name{name}, wand{} {}
+    auto doMagic(std::string const & wish) -> char const *;
+    auto learnSpell(std::string const & newspell) -> void;
+    auto mixAndStorePotion(std::string const & potion) -> void;
+    auto getName() const -> char const * {
+      return name.c_str();
+    }
+  };
+}
+```
+This binds the implementation in C++ to the C ABI by using namespaces.\
+Aka c++ defines both without causing naming issues\
+#text(red, [The wrapper is just needed in order to use the c++ features like overloads and templates.\
+Hence we need a C compatible wrapper, which is just a constructor that will be bound to a struct in C.])\
+Again note, it does not mean that you need to use straight C, just C ABI compatible code!
+
+#subsubsection("Dealing with Exceptions")
+- no references in C ABI -> pointer to pointer
+- in case of error, allocate error value on heap -> string
+  - provide disposal function as well
+- no usage of c++ types
+- it is safe to return char const \* -> receiving function owns the error string
+  - hence also needs to dispose of allocated memory!
+
+#subsubsubsection("Creating Error Messages")
+```cpp
+template<typename Fn>
+bool translateExceptions(error_t * out_error, Fn && fn)
+  try {
+    fn();
+    return true;
+  } catch (const std::exception& e) {
+    *out_error = new Error{e.what()};
+    return false;
+  } catch (...) {
+    *out_error = new Error{"Unknown internal error"};
+    return false;
+}
+
+wizard create_wizard(const char * name, error_t * out_error) {
+  wizard result = nullptr;
+  translateExceptions(out_error,[&] {
+    result = new Wizard{name};
+  });
+  return result;
+}
+```
+- translation from exceptions to bools etc. -> primitive types
+- map the info to an error struct
+- remember, no reference possible -> pointer to pointer (pointy point)
+
+#subsubsection("Client")
+#subsubsubsection("Error Handling on the Client Side")
+```cpp
+// could be any language
+// wizardclient.hpp
+struct ErrorRAII {
+  ErrorRAII(error_t error) : opaque {error} {}
+  ~ErrorRAII() {
+    if (opaque) {
+        error_dispose(opaque);
+    }
+  }
+  error_t opaque;
+};
+
+struct ThrowOnError {
+  ThrowOnError() = default;
+  ~ThrowOnError() noexcept(false) {
+    if (error.opaque) {
+      throw std::runtime_error{error_message(error.opaque)};
+    }
+  }
+  operator error_t*() {
+    return &error.opaque;
+  }
+private:
+  ErrorRAII error{nullptr};
+};
+```
+- map error codes back to exceptions if you would like to use exceptions
+  - once again, exception types can't be mapped through! -> only messages
+  - you could however use standard types, as you can store primitive types for resolution
+- temporary object with destructor that can throw error ? wat
+  - automatic type conversion passes adress of error content
+  - make sure not to leak memory -> deallocation must succeed!
+
+
+#subsubsubsection("General Usage")
+```cpp
+struct Wizard {
+  // note the passing of the ThrowOnError
+  // this will handle the storing of the error that can also propagate to the backend!
+  Wizard(std::string const & who = "Rincewind") : wiz {createWizard(who.c_str(), ThrowOnError{})} {
+  ~Wizard() {
+    dispose_wizard(wiz);
+  }
+  auto doMagic(std::string const &wish) -> std::string {
+    return ::do_magic(wiz, wish.c_str(), ThrowOnError{});
+  }
+  auto learnSpell(std::string const &spell) -> void {
+    ::learn_spell(wiz, spell.c_str());
+  }
+  auto mixAndStorePotion(std::string const & potion) -> void{
+    ::mix_and_store_potion(wiz, potion.c_str());
+  }
+  auto getName() const -> char const * {
+    return wizard_name(wiz);
+  }
+private:
+  Wizard(Wizard const &) = delete;
+  Wizard & operator=(Wizard const &) = delete;
+  wizard wiz;
+};
+```
+
+#subsubsubsection("DLL Hiding (Compiler Dependent)")
+```cpp
+#define WIZARD_EXPORT_DLL [[gnu::visibility("default")]]
+WIZARD_EXPORT_DLL
+char const * error_message(error_t error);
+WIZARD_EXPORT_DLL
+void error_dispose(error_t error);
+WIZARD_EXPORT_DLL
+wizard create_wizard(char const * name,
+error_t *out_error);
+WIZARD_EXPORT_DLL
+void dispose_wizard(wizard toDispose);
+WIZARD_EXPORT_DLL
+char const * do_magic(wizard w,
+char const * wish,
+error_t *out_error);
+WIZARD_EXPORT_DLL
+void learn_spell(wizard w, char const *spell);
+WIZARD_EXPORT_DLL
+void mix_and_store_potion(wizard w, char const *potion);
+WIZARD_EXPORT_DLL
+char const * wizard_name(cwizard w);
+```
+- use -fvisibility=hidden with GCC and clang in order to make library symbols hidden
+  - see above: all symbols that should be visible must be marked as such 
+- can also be done with windoof: \_\_declspec(dllexport)
+
+#subsection("Jafuck Natice Access (JNA)")
+- generates interfaces at runtime
+- single jar
+- cross platform -> compile once debug everywhere
+
+#subsubsubsection("Mappings")
+#align(center, [#image("../Screenshots/2023_05_23_02_27_32.png", width: 70%)])
+
+#subsubsubsection("Loading")
+```java
+public interface CplaLib extends Library {
+  CplaLib INSTANCE = (CplaLib) Native.load("cpla", CplaLib.class);
+}
+```
+- loader searches for suitable library -> libname.so libname.dylib libname.dll etc
+  - first in path specified by jna.library.path
+  - otherwise system default library path
+  - fallback into classpath
+
+#subsubsubsection("Interfacing with Functions")
+```java
+public interface CplaLib extends Library {
+  CplaLib INSTANCE = (CplaLib) Native.load("cpla", CplaLib.class);
+  // function that is defined in ABI
+  void printInt(int number);
+}
+```
+- names and types must match!
+  - see mappings!
+- parameter names do not matter
+
+#subsubsubsection("Interfacing with non-opaque Structs")
+```C
+extern "C" {
+  struct Point {
+    int x;
+    int y;
+  };
+  void printPoint(Point point);
+}
+```
+Can be translated to jafuck as follows:
+```java
+// translation
+public interface CplaLib extends Library {
+  CplaLib INSTANCE = (CplaLib) Native.load("cpla", CplaLib.class);
+  public static class Point extends Structure implements Structure.ByValue {
+    public int x, y;
+    Point(int x, int y) {
+      this.x = x;
+      this.y = y;
+  }
+    @Override
+    protected List<String> getFieldOrder() {
+      return List.of("x", "y");
+    }
+  }
+  void printPoint(Point point);
+}
+
+// USAGE
+CplaLib.Point p = new CplaLib.Point(12, 90);
+CplaLib.INSTANCE.printPoint(p);
+```
+- structs from C must override the getFieldOrder() function
+  - this function is needed since jafuck reorders members as it wants, but in C it is fixed, this makes sure the mapping still works!
+- can use tag-interface Structure.ByValue
+- you can access references with getPointer -> remember, jafuck has a garbage collector, might be cleaned up -> nullptr
+
+#subsubsubsection("Interfacing with opaque Structs")
+```C
+extern "C" {
+  typedef struct Unicorn * unicorn;
+  unicorn createUnicorn(char * name);
+  void disposeUnicorn(unicorn instance);
+  void printUnicorn(unicorn unicorn);
+}
+```
+This can be converted to jafuck as follows:
+```java
+public interface CplaLib extends Library {
+  CplaLib INSTANCE = (CplaLib) Native.load("cpla", CplaLib.class);
+  public static class Unicorn extends Pointer {
+    Unicorn(String name) {
+      super(Pointer.nativeValue(INSTANCE.createUnicorn(name)));
+    }
+    void dispose() {
+      INSTANCE.disposeUnicorn(this);
+    }
+  }
+  Pointer createUnicorn(String name);
+  void disposeUnicorn(Unicorn instance);
+  void printUnicorn(Unicorn unicorn);
+}
+
+// USAGE
+CplaLib.Unicorn u = new CplaLib.Unicorn("freddy");
+CplaLib.INSTANCE.printUnicorn(u);
+u.dispose();
+```
+- for opaque structs, you should inherit from Pointer, wowie inheritance, fuck me
+  - provide a constructor for this -> create()
+- managing lifetimes is not trivial -> not automatic
+  - provide a dispose method or implement AutoClosable and use it with try-with-resources (wat?)
+  - using dispose() in finalizers is not recommended
+
+#subsubsubsection("Using Raw byte arrays")
+```C
+extern "C" {
+  char * getData(int * size);
+  void freeData(char * data);
+}
+```
+Conversion to jafuck:
+```java
+public interface CplaLib extends Library {
+  CplaLib INSTANCE = (CplaLib) Native.load("cpla", CplaLib.class);
+  Pointer getData(IntByReference size);
+  void freeData(Pointer data);
+}
+
+// USAGE
+IntByReference size = new IntByReference();
+Pointer data = CplaLib.INSTANCE.getData(size);
+byte[] javaData = data.getByteArray(0, size.getValue());
+CplaLib.INSTANCE.freeData(data);
+for(byte b : javaData) {
+  System.out.println(b);
+}
+```
+- use IntByReference to retrieve the size of the buffer
+  - requires that API supports this
+- getByteArray() copies data from the buffer
+- make sure to free the buffer (why even bother with java then......)
+  - either with using free()
+  - or Native.free()
+    - apparently crashes on windoof because fuck you
