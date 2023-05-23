@@ -1102,6 +1102,7 @@ In case of inconsistency this is what will happen: *all* metadata is checked\
   - slower tha writeback
   - data can still be lost
     - aka error during writing means write all again
+    - if data is only temporary, data can be lost!
 
 #subsubsubsection("Writeback Journal Mode")
 #align(center, [#image("../Screenshots/2023_05_23_06_16_49.png", width: 70%)])
@@ -1113,6 +1114,7 @@ In case of inconsistency this is what will happen: *all* metadata is checked\
 - negatives:
   - data could have trash in it -> not completed
     - could be without error! commit before write is possible!
+    - if data is only temporary, data can be lost!
 
 #subsection("Comparison to Ext2")
 - ext2
