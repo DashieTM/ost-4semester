@@ -919,7 +919,7 @@ Multiple passes would mean too much latency, therefor all of this data encoded.]
 
 #subsubsection("File Holes in Inodes")
 - sections in a file, in which only 0s are stored
-  - entry in block set to 0 -> means block only has 0s -> no data
+  /* - entry in block set to 0 -> means block only has 0s -> no data */
   - block will not be allocated
   - NTFS -> sparse files
 #align(center, [#image("../Screenshots/2023_05_16_06_41_22.png", width: 70%)])
@@ -949,5 +949,180 @@ Multiple passes would mean too much latency, therefor all of this data encoded.]
   - file includes path of other file
   - if path is smaller than 60 characters, then path will be stored in the 15-index sized array of the blockreferences (i\_array), and no blocks are allocated\
     otherwise exactly 1 block is allocated
+
+#section("EXT-4")
+- Inodess 256bytes instead of 128
+- groupdescriptors 64Bytes instead of 32
+- Inodes manage blocks with "Extent Trees"
+- Journaling
+  - 2 layered: first data into journal, then position
+  - solves consistency issues on power cut
+  - just like databases
+
+#subsubsection("Example consecutively stored File")
+#text(red,[This is in ext2, to show why we want ext4 instead])
+#align(center, [#image("../Screenshots/2023_05_23_05_26_01.png", width: 70%)])
+- the first line is direct blocks
+- the next few lines are indirect blocks
+- from 801h onwards, we have doubly indirect blocks
+- problem, with doubly indirect blocks, there are lots of allocations for no reason
+  - instead we would like to express big files with as few bytes as possible, here we waste a lot
+  - namely 12 \* 4B + 33 \* 4KB -> 132KB just to express one single file! (not the data itself!!)
+
+#subsection("Extent Trees")
+- big files are usually written consecutively
+  - logical blocks are stored in physically consecutive blocks
+  - jumps on disk are avoided -> bulk operations are faster
+  - physical blocknumbers follow a simple increment system
+  - block references also follow consecutive numbers
+- defines an interval of consecutive physical blocks
+  - starting logical blocknumber (4B)
+  - starting physical blocknumber (6B)
+  - blockcount (2B, signed)
+  - hence, extent has 12Byte -> compare this to 132KB for ext2!
+  - negative numbers -> blocks are initialized
+  - positive numbers -> blocks are preallocated
+#align(center, [#image("../Screenshots/2023_05_23_05_16_57.png", width: 70%)])
+
+#subsubsection("Multi Extent")
+#columns(2, [
+#text(purple,[We can't always guarantee that a file is 100% consecutive, therefore we need multiple extents:])
+- header is needed to combine all extents
+- Inode has 15 \* 4 = 60Bytes for direct and indirect addressing of blocks
+  - space for 4 extents and one header
+#colbreak()
+#align(center, [#image("../Screenshots/2023_05_23_05_20_49.png", width: 100%)])
+])
+
+#subsubsubsection("Extent Tree Header")
+- for more than 4 extents, another block is needed
+- therefore first 12bytes are not an extent, but an extent tree header -> space for more extent headers
+  - magic number: 2bytes
+  - count of entries following directly on a header: 2bytes
+  - count of max entries following direclty on a header: 2bytes
+  - depth: 2bytes
+    - if depth is 0: entries are extents
+    - if depth is 1: entries are index Nodes(see below)
+  - 4bytes reserved
+
+#subsubsubsection("Index Nodes")
+#text(purple,[Not the same as inodes!!!!!])
+- specifies a block, which holds extents
+  - smallest possible logical blocknumber: 4Bytes
+  - physical blocknumber of block that references this index node: 6Bytes
+  - unused: 2Bytes
+- block holds:
+  - a header (like with inode, but depth is 0)
+  - all extents (max 340 at blocksize == 4KB)
+
+#subsubsubsection("Blocks with Index Nodes")
+- for more than 4 \* 340 -> 1360 extents, you would need blocks with index nodes...
+  - welcome back doubly indirect bs
+  - depth 2 for this block, in index-nodes 1
+  - smallest logical blocknumber is propagated through the tree
+  - maximum depth is 5 -> 4M blocks per file max
+
+#subsubsection("Tree Structure")
+#align(center, [#image("../Screenshots/2023_05_23_05_43_06.png", width: 70%)])
+- Index nodes
+  - all layers other than leaves
+  - index-entry (12Bytes) and index block
+- index-entry
+  - number for physical index-block
+  - smallest logical number of all childnodes -> propagates up to top
+    - helps with searching of logical blocknumbers in tree
+
+#subsubsubsection("Index Blocks")
+- includes the header for the own tree
+- includes references to child nodes
+- i\_block[0..14] in ext2 can be seen as a small index-block
+
+Each of these lines is one index block:
+#align(center, [#image("../Screenshots/2023_05_23_05_57_38.png", width: 70%)])
+Another example:
+#align(center, [#image("../Screenshots/2023_05_23_05_59_25.png", width: 70%)])
+
+#subsection("Journaling")
+#subsubsection("Motivation: extending of a file")
+- new blocks for the data are allocated
+- inode of file is updated to include new block references
+- block-usage-bitmap are updated
+- counter for free and used blocks are updated
+- data is written
+#text(purple,[Problem: what happens when the last part fails? We can't recover the data right now!])\
+Note, not just the last part is problematic, any kind of failure after the first step is problematic! Potential conflicts!
+
+#subsubsection("Motivation: Inconsistent Data")
+Should our system suffer a crash, or even power outtage, we could be left with an inconsistent filesystem.\
+In case of inconsistency this is what will happen: *all* metadata is checked\
+#text(purple,[With journaling, only the metadata in the journal need to be checked!])
+
+#subsubsection("Implementation")
+#align(center, [#image("../Screenshots/2023_05_23_06_06_06.png", width: 70%)])
+- Journal
+  - reserved file for fast writing
+  - typically Inode 8
+  - typically 128MB
+  - consists of few, but big extents, or in best case, 1 extent
+- transaction
+  - just like databases
+  - ensures atomicity -> all or none
+
+#subsubsubsection("Journaling and Committing")
+#align(center, [#image("../Screenshots/2023_05_23_06_07_56.png", width: 70%)])
+- data is first written to journal: *journaling*
+- then data is committed to file: *committing*
+- data is removed from journal
+- journaling is fast since all data is written in consecutive blocks
+- committing is slower, since it could have to modify a lot of blocks
+
+#subsubsubsection("Replay")
+- in case of a restart, the journal can check its metadata to see if the last transaction has been corrupted
+  - -> transactions that are still in the journal are not fully completed
+- Journal replay will execute these transactions again, or notices -> handles errors
+- compared to ext2, not the entire disk needs to be checked for errors (massive speedup)
+
+#subsubsubsection("Full Journal Mode")
+#align(center, [#image("../Screenshots/2023_05_23_06_13_16.png", width: 70%)])
+- positives: maximum data security
+  - both metadata and regular data are journaled
+- negatives: less speed
+
+#subsubsubsection("Ordered Journal Mode")
+#align(center, [#image("../Screenshots/2023_05_23_06_14_46.png", width: 70%)])
+- only metadata is stored in journal
+- data itself is written *before* commit!
+  - 1 transaction into journal
+  - 2 data is written to file
+  - 3 committing
+- positives:
+  - files have right data after commit
+  - faster than full journal
+- negatives:
+  - slower tha writeback
+  - data can still be lost
+    - aka error during writing means write all again
+
+#subsubsubsection("Writeback Journal Mode")
+#align(center, [#image("../Screenshots/2023_05_23_06_16_49.png", width: 70%)])
+- only metadata is stored in journal
+- commit and write are done in a random order
+- positives:
+  - fastest mode
+  - no synchronization needed between write and commit
+- negatives:
+  - data could have trash in it -> not completed
+    - could be without error! commit before write is possible!
+
+#subsection("Comparison to Ext2")
+- ext2
+  - performant
+  - easy to implement
+  - more complex than FAT
+  - less complex than NTFS
+- ext4 
+  - extension of ext2
+  - journaling
+  - efficient management of big directories and files via extents
 
 
