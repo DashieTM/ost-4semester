@@ -1414,3 +1414,112 @@ for(byte b : javaData) {
   - either with using free()
   - or Native.free()
     - apparently crashes on windoof because fuck you
+
+#section("Build Tools")
+#subsection("Scripts")
+- easy to write
+- platform dependent
+- *builds each binary every time...*
+- tend to become messy over time
+
+#subsection("Proper tools")
+list:
+- cmake
+- GNU make
+- ninja
+- meson
+- Scons
+
+Advantages:
+- incremental builds
+- parallel builds
+- automatic dependency resolution (within project)
+- package management
+- automatic test execution
+- platform independence
+- additional processing of build products
+  - something like signing
+*Note: not every tool will have all of the features above!*
+
+#subsubsection("Classes of Tools")
+Make-style build tools:
+- run build systems
+- produce final product
+- often verbose
+- language agnostic config language -> works for C, c++, Jafuck etc.
+
+build script generator:
+- wrapper for Make
+- automatic configuration (or at least tries to)
+- downloading of packages and dependencies
+- other advanced features
+
+#subsubsection("GNU Make")
+- understood by pretty much all IDEs
+- can be used without an IDE as well
+- rules via targets
+  - each target can have prerequisites
+  - executes one or more commands
+  - generates one or more reuse
+  - targets are executes top to bottom
+  - target only executed if required, either dependency or manually called
+
+#align(center, [#image("../Screenshots/2023_05_30_01_44_42.png", width: 70%)])
+
+#set text(green)
+Pros:
+- very generic, runs everywhere
+- powerful pattern matching mechanism
+- builds only what is needed, and when it is needed
+#set text(red)
+Negatives:
+- often platform specific commands used inside targets
+- you need to specify how to do things
+  - can be quite a bit of code!
+- may not feel native with some languages -> rather strange or unintuitive to use.
+
+#set text(black)
+#subsubsection("Build Script Generators")
+- define what to do now how
+- work on a higher level
+- lets you create actual build configurations
+- platform independent build specification
+- tool independent
+  - can be used by IDEs or other editors
+  - supports multiple build tools -> Make or more
+
+#subsubsubsection("Cmake")
+```cmake
+# sets minimum version
+cmake_minimum_required(VERSION "3.12.0")
+# set the name of the project and define language used
+project("my_app" LANGUAGES CXX)
+# add executables to build
+add_executable("my_app"
+  "main.cpp"
+)
+# add libraries to include
+# THIS DEFAULTS TO STATIC LINKING!
+# Use cmake -D BULD_SHARED_LIBS=YES for manual override to dynamic library!
+# run this command once for configuration, then just build as usual
+add_library("my_lib"
+  "lib.cpp"
+)
+# add library to be included in the executable
+target_link_libraries("my_app" PRIVATE "my_lib")
+# set compiler to use
+target_compile_features("my_app" PRIVATE
+  "cxx_std_17"
+)
+# set properties for targets
+set_target_properties("my_app" PROPERTIES
+  CXX_STANDARD_REQUIRED YES
+  CXX_EXTENSIONS NO
+)
+```
+```bash
+cmake -B build
+cmake --build build
+```
+
+

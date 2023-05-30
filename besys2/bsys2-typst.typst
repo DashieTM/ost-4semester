@@ -1127,4 +1127,355 @@ In case of inconsistency this is what will happen: *all* metadata is checked\
   - journaling
   - efficient management of big directories and files via extents
 
+#section("X11")
+- used to be a pure text oriented interface
+- just a terminal really
+#set text(green)
+positives:
+- resource efficient
+- for terminal usage sufficient
+#set text(red)
+negatives:
+- restrictive for advanced applications
+- not intuitive for non-terminal nerds
+#set text(black)
+
+#subsection("Terminal vs GUI")
+Terminal:
+#align(center, [#image("../Screenshots/2023_05_30_05_11_19.png", width: 70%)])
+GUI:
+#align(center, [#image("../Screenshots/2023_05_30_05_13_42.png", width: 70%)])
+Terminal is the user reacting to the program, wile the GUI is reacting to the user via events.\
+Remember, X11 is just a protocol that allows this by defining a standard to do so.
+
+#subsection("An X server")
+- builds on top of unix kernel
+- installable if needed -> modular
+- realizes network transparency (clients don't see where their GUI runs)
+- platform independent (could also be run on windoof lol)
+- X does not define how a client looks -> only implements rendering
+- initially made for universities -> run virtual desktops somewhere else (remote desktop)
+- good portability
+
+#subsection("Windows in X")
+#columns(2, [
+- in wayland these are called clients
+- every window has 0 to n child windows
+- the root window is always the screen, which does not have a parent
+- pretty much everything is a window
+- child windows are only visible inside the parent window
+  E.g. if you want a popup that should appear everywhere, you need to create another proper window!
+- window classes
+  - InputOutput
+  - InputOnly (popup?)
+#colbreak()
+#align(center, [#image("../Screenshots/2023_05_30_05_22_15.png", width: 70%)])
+])
+
+#subsection("Mouse and other Input")
+Mouse and keyboard inputs are handled via events, which are recorded by the drivers and then sent to the OS, which then relays that information to the application.
+#align(center, [#image("../Screenshots/2023_05_30_05_25_39.png", width: 70%)])
+- asynchronous
+- OS sends multiple data for mouse -> position and click
+- OS does not wait for application to handle event -> it will continue to update mouse as it would otherwise freeze
+
+#subsubsection("Hotspot")
+This refers to the actual position that will do the action, if the hotspot is not on the button, you will not click it.
+#align(center, [#image("../Screenshots/2023_05_30_05_29_46.png", width: 70%)])
+
+#subsection("From X to DE")
+- X system (protocol and server): handles rendering
+- Compositor/window manager: handle window snapping, window arranging, decorations etc.
+- Desktop Environment: Add typical applications, taskbars, runners, dashboards, file managers, etc.
+
+#subsection("CSD and SSD")
+Many Window managers in X do SSD, which means it will decorate other windows with decorations.\
+However that is not the only way to do it, GTK for example will always use CSD, here the windows themselves will draw their own decorations.\
+#columns(2, [
+CSD\
+Positives:
+- themeing will not break application look
+- client independent of window manager
+negatives:
+- less customization
+- less integration into DE
+  #colbreak()
+SSD\
+Positives:
+- integration 
+- consistency with all decorations
+- if app crashes, it can still be killed, as decorations are child windows of window manager
+negatives:
+- more work for window manager
+- decorations can break on clients
+])
+
+#subsection("QT and GTK")
+#align(center, [#image("../Screenshots/2023_05_30_05_58_11.png", width: 70%)])
+- GTK: GUI library
+- GDK: wrapper for xlib
+- GLIB: datastructures etc.
+
+#subsection("How these things work together")
+#align(center, [#image("../Screenshots/2023_05_30_06_01_02.png", width: 70%)])
+Note display, are the stack of screens, keyboard, pointing device etc.
+
+#subsection("X server and client")
+#align(center, [#image("../Screenshots/2023_05_30_06_02_19.png", width: 70%)])
+The clients do not need to be on the same pc as the server, that's the idea of X as said above.
+
+#subsection("Usage of Xlib")
+- Special Datatype called Display, which holds information about a display
+```C
+// open an X display
+// if displayname is NULL, then env variable is used
+Display *XOpenDisplay(char *display_name)
+
+// close display
+void XCloseDisplay(Display *display)
+
+// show display height
+int XDisplayHeight(Display *display)
+
+// show display width
+int XDisplayWidth(Display *display)
+
+// show root window -> window manager 
+int XRootWindow(Display *display)
+
+// various other parameters that are ommitted here
+// returns the Window ID of the created window
+// created windows are not shown at first!
+int XCreateWindow(params)
+// use this instead (simple variant of the above function)
+int XCreateSimpleWindow(Display *display, int parentwindow, int x, int y, int width, int height, int border_width, int border_style, int window_style)
+// x and y are coordinates of top left
+
+// removes all child windows as well
+ int XDestroyWindow(params)
+
+// shows window, if parent window is also visible
+// if window is overlapped, then it is not shown (below another window)
+XMapWindow (Display *, Window)
+
+// brings window to front (above other windows)
+XMapRaised (Display *, Window)
+
+// shows child windows 
+XMapSubwindows (Display *, Window)
+
+// hides a window and all its child windows
+XUnmapWindow (Display *, Window)
+
+// hides all child windows of a window
+XUnmapSubwindows (Display *, Windo
+```
+- for each window that is shown, an *exposed* event is triggered
+- for each window that is hidden, an *UnmapNotify* event is triggered
+
+#subsection("Messages in the X Protocol")
+4 types of messages:
+- Requests
+  Client -> Server
+- Responses:
+  Client \<- Server
+- Events:
+  Client \<- Server
+- Errors:
+  Client \<- Server
+
+#text(purple,[ E.g. t the only thing that the client sends are requests.])\
+*Requests are also buffered in order to not drop them if the server can't immediately act on them.\
+This also makes it possible to send an array of requests to the server, instead of each request one at a time.*
+- only send requests when necessary
+- delete buffer on client if client starts to wait on event (send buffer first ofc)
+- delete buffer when client-request needs a reply from server
+- delete buffer when client explicitly wants this (call of XFlush())
+
+#align(center, [#image("../Screenshots/2023_05_30_06_17_32.png", width: 70%)])
+
+#subsubsection("Event buffering")
+#text(red, [Events are double buffered, to ensure they do not get lost.])\
+This means that the server sends the entire array, which the client then uses one by one.
+#align(center, [#image("../Screenshots/2023_05_30_06_21_48.png", width: 70%)])
+- Server side buffering checks for network availability -> for remote desktop
+- client buffering holds events ready for client until usage
+- client reads message-loops via XNextEvent()
+- Each client decides at start which inputs to receive
+  - via XSelectInput
+  - selection per individual window -> popup might want different events
+  - default is empty (ClientMessage always selected)
+  - unwanted events are not sent to the window, instead they are sent to the parent
+    - to the windowmangager if top parent doesn't want it either
+    - this is also why the X protocol is unsecure
+
+#subsubsubsection("Event Selection")
+```C
+XSelectInput (Display *display, Window w, long event_mask)
+```
+- sets mask for which events to include
+- masks are predefined, e.g. ExposureMask for expose events
+- exception: ClientMessage Events are always selected
+
+```C
+XNextEvent (Display *display, Event *event)
+```
+- copies the next event from the client event buffer in event parameter
+- idenfitication of display and window is part of the event -> event.display and event.window
+
+#subsubsubsection("Example Event handling in Client")
+```C
+while (1) {
+  XNextEvent(display, &event);
+  switch (event.type) {
+    case Expose: // event that requires redraw 
+      break;
+    case KeyPress: 
+      // handle keypress 
+      // example exit -> if (keypress == Q) exit(0);
+      break;
+  }
+}
+```
+
+#subsubsubsection("Event Datatype")
+```C
+typedef union _XEvent {
+  // must not be changed;
+  // first element
+  int type;
+  XAnyEvent xany;
+  XKeyEvent xkey;
+  XButtonEvent xbutton;
+  /* ... */
+} XEvent;
+
+// usage 
+XEvent event;
+XNextEvent(display, &event);
+XLookupKeysym(&event.xkey, 0)
+```
+- C-union over all event types -> size is biggest event
+- 33 different event types with different sizes
+- each event-type is a struct, which has "event" as first member
+- program code should use the proper union-member based on type
+
+#subsection("Drawing in X")
+#align(center, [#image("../Screenshots/2023_05_30_06_32_14.png", width: 70%)])
+server side data storing for reductin of network traffic
+- holds information for client
+- clients identify information with an ID
+- therefore, no copying of complex datastructures is needed
+  - just say changes on ID x
+
+#subsubsection("Examples for Resources")
+- Window: describes window properties
+- Pixmap: Rastergraphics (for example icon redrawing)
+- Colormap: Colortable (converts colorvector into proper colors)
+- font
+- graphics-context (GC): graphicselementproperties (line width, colors, fillpatterns) (same GC can be used for multiple graphicselements)
+
+#subsubsection("Visbility and Redrawing of Windowcontent")
+- buffering of hidden content
+  - minimal: No buffering by xorg, client must redraw on becoming visible
+  - optional: Xorg has background memory for this window -> usage on becoming visible for client
+    - client can ask if this exists with: XDoesBackingStore()
+- X-Ressource Pixmap:
+  - server side graphicsmemory, allocated by client and usable by client
+  - usage: for example -> write complex content in pixmap, then copy pixmap into window
+
+#subsubsection("Graphic functions in X")
+- picture display via raster graphics and colortable
+- black-white: one bit per pixel
+- colors or gray tones: multiple bits per pixel
+  - no indirect color association to binary values
+  - index in a colortable (color lookup table, colormap)
+  - each window can theoretically have its own colortable
+  - in partice often only one colortable for all applications 
+  - reduction of bits per color from all *absolute displayable* colors, to all *simulatenously displayable* colors
+    - this only applies to regular windows, videos, games etc can still have the full color spectrum
+- drawing of primitives:
+  - polygons
+  - lines
+  - dots
+  - rectangles
+  - radials
+  - target for drawing:
+    - pixmap
+    - window
+
+#subsubsection("Graphics functions and GC")
+graphics functions need a graphics context (X Resource):
+- sets properties that are not directly supported by systemcalls (line width etc.)
+- client must first create GC before calling of a drawing function
+- client can use multiple GC at a time
+- XCreateGC creates a new GC
+- XCopyGC copies GC
+- XFreeGC destroys GC
+- XDefaultGC returns the standard GC of the screen
+
+#subsubsection("Graphic Primitives")
+#text(orange,[the (s) means there is also a plural version -> multiple at once])
+- simple forms
+  - XDrawPoint(s)
+  - XDrawLine(s)
+  - XDrawSegments
+  - XDrawRectangle(s)
+  - XDrawArc(s)
+  - XFillArcs
+- Text
+  - XDrawString
+  - XDrawText
+- Images
+  - XPutImage
+#subsection("Closing windows in X")
+Since the button is usually done by the window manager and not by the client itself (unless CSD is used), then the windowmanager must send the client a message.\
+However the window manager is also a client, so it sends a client Message called WM_DELETE_MESSAGE.\
+
+#subsubsection("Atoms")
+Instead of sending the string, we send an "atom" to the server to save bandwidth.\
+```C
+Atom XInternAtom (Display *, char *, Bool only_if_exists)
+```
+- WM_DELETE_MESSAGE has ID 5 -> char \* in the function will be 5
+- converts the string (WM_DELETE_MESSAGE for our case) for the display
+- only_if_exists: decides if the atom should be created if it doesn't exist
+- Window properties are identified over atoms
+  - windowmanager changes these properties with this
+  - for each property there is accompying data -> string for title of window\
+    Or a list of atoms
+
+#subsubsection("Setting of Properties")
+- X11 protocol defines a list of properties
+- client can set the protocols to be used
+  Client therefore saves the protocols in the WM_PROTOCOLS property\
+  This can be done with XSetWMProtocols (Display *, Window, Atom *first_proto, int count)SetWMProtocols
+
+```C
+XSetWMProtocols (Display *, Window, Atom *first_proto, int count)
+```
+saves the atoms of first_proto in the WM_PROTOCOLS property\
+The count is the amount of atoms in the first_proto array.
+
+#subsubsection("Deleting a Window with the windowmanager")
+```C
+// define atom
+Atom atom = XInternAtom (display, "WM_DELETE_WINDOW", False);
+// register window
+XSetWMProtocols (display, window, &atom, 1);
+
+// ....
+
+// then register event
+switch (event.type) {
+  case ClientMessage:
+  if (event.client->data.l[0] == atom) { // handle exlit -> exit(0) }
+  break;
+}
+```
+
+
+
+
+
 
