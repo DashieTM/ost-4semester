@@ -395,6 +395,19 @@ MPI_Recv(array, LENGTH, MPI_INT, senderRank, tag,
          MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 ```
 
+#subsubsection("MPI Gather")
+```C
+// send or receive data from all processors into one
+MPI_Gather(sendingValue, sendingSize, sendingType, receivingValue, receivingSize, receivingType, receivingRank, communicator);
+```
+#text(purple, [The receiving size is per processor, not the entirety!])
+
+#subsubsection("Barrier")
+Barriers make each processor wait for all others:
+```C
+MPI_Barrier(MPI_COMM_WORLD);
+```
+
 #subsubsection("Data Types in MPI")
 #align(center, [#image("../Screenshots/2023_05_08_09_37_12.png", width: 50%)])
 #text(purple,[custom types are possible with *MPI\_Type\_contiguous*])
@@ -423,20 +436,130 @@ This allows synchronization between threads in MPI, just like with regular paral
 - mostly happens with memory-bound applications, where the required memory can't be satisfied by a single node.
 #align(center, [#image("../Screenshots/2023_05_22_09_48_21.png", width: 70%)])
 
+#section("OpenMP")
+- shared memory
+- thread-based parallelism
+- explicit -> programmer has full control, OpenMPI is not automatic.
+- often specified via pragmas
 
+```C
+#include <stdio.h>
+#include <omp.h>
 
+int main(int argc, char* argv[]) {
+    const inst np = omp_get_max_threads();
+    printf("OpenMP with %d threads.\n", np);
+    // fork
+    // like rust with thread
+    #pragma omp parallel {
+        printf("henlo from thread %d\n", omp_get_thread_num());
+    }
+}
+```
+typical thread problems apply: order of execution is not guaranteed. -> random
 
+#subsubsection("For Loop")
+```C
+#pragma omp parallel for
+  for (i = 0; i < n ; i++) {
+    printf("Iteration %d, thread %d\n", i, omp_get_thread_num());
+    //Iterations will be distributed across available threads
+  }
+```
+- each thread executes one iteration -> *split for loop! great functionality*
+  - handled by openmp scheduler
+- if you don't have a thread per iteration, this will also be handled by openMP
+  - iterations / num of threads -> like in assignment 4
+- *values return to launching thread!*
 
+#subsubsection("Memory Model")
+```C
+int A, B
+#pragma omp parallel for private (A) shared (B)
+  // for (...)
+```
+- you can define either private, which means each thread has its own A, or shared, which means everyone accesses the same -> here B
+- *default is shared!!!*
+- alternative writing style:
+  ```C
+#pragma omp parallel
+  // private as it is defined in each thread!
+  int A = 0;
+#pragma omp for
+  for (...)
+  ```
 
+#subsubsection("Critical")
+```C
+int sum = 0;
+#pragma omp parallel for
+  for (int i = 0; i < n ; i++) {
+    #pragma omp critical {
+      // only one thread at a time executes the critical section
+      sum += i;
+    }
+  }
+```
+#text(purple, [This will ensure no dataraces, but it also downgrades to an iterative calculation as threads run one at a time!])
 
+#subsubsection("Atomic")
+```C
+int sum = 0;
+int i ;
+#pragma omp parallel for
+  for (i = 0; i < n ; i++) {
+    #pragma omp atomic {
+      sum += i;
+    }
+  }
 
+// more efficient implementation
+int final_sum = 0;
+#pragma omp parallel {
+  int intermediate_sum = 0; //private
+  #pragma omp for
+    for (i = 0; i < n ; i++) {
+      intermediate_sum += i;
+    }
+  #pragma omp atomic
+    final_sum += intermediate_sum;
+}
+```
+#text(purple,[This ensures that each calculation is done in full, but it doesn't guarantee order.])\
+Limitations:
+#align(center, [#image("../Screenshots/2023_06_05_09_35_33.png", width: 70%)])
 
+#subsubsection("Reduction")
+```C
+int sum = 0;
+#pragma omp parallel for reduction(+: sum)
+  for (int i = 0; i < n ; i++) {
+    sum += i;
+  }
 
+```
+This is much cleaner and faster than the other methods, as it handles the combining!\
+Limitations:
+#align(center, [#image("../Screenshots/2023_06_05_09_37_37.png", width: 70%)])
 
-
-
-
-
-
-
+#subsubsection("Combining OpenMP with MPI")
+```C
+int numprocs, rank;
+int iam = 0, np = 1;
+MPI_Init(&argc, &argv);
+MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+#pragma omp parallel default(shared)
+  private(iam, np) {
+    printf("Hello cluster from process %i
+    on %s\n", rank, name);
+    MPI_Finalize();
+    np = omp_get_num_threads();
+    iam = omp_get_thread_num();
+    printf("Hello from thread %d out of %d from
+            process %d out of %d\n", iam, np, rank,
+            numprocs,); 
+    }
+MPI_Finalize();
+```
 

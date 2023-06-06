@@ -1474,8 +1474,78 @@ switch (event.type) {
 }
 ```
 
+#section("Meltdown (not relevant for exam)")
+#subsubsection("Various performance optimizations in hardware and OS")
+- caches
+- out-of-order execution (hardware shuffles execution order to improve performance)
+- speculative execution (guess for execution -> might improve performance)
+- mapping of entire physical memory to each virtual address space
+  - previously only the OS was aditionally mapped to a process in order to not context switch to OS for every thread switch etc.
+  - later on entire memory was mapped for even better performance
+  - mmu needs to make sure each process only reads its own memory!
+  - *Meltdown is a vulnerability that breaks the MMU protection!*
+    - memory from other process was read!
 
+#subsubsection("Out-Of-Order Execution")
+```asa
+; reading of address takes multiple cycles
+sub rax , [0 x5678 ]
+; this can therefore be done before the action above!
+; hardware will reschedule!
+mov rbx , 98
 
+; new 
+mov rbx , 98
+sub rax , [0 x5678 ]
+```
+#text(purple,[Requirement: The execution does not change the end result, and the instructions do not depend on each other.])
+
+#subsubsection("Speculative Execution")
+#text("Essentially execute a branch even if it might not be used later on:")
+```asa
+sub rax , [0 x5678 ]
+; jumps to label if result is 0 -> rax 0
+jz label
+; this is a branch that will be executed either way to improve performance if jumped here
+mov rbx , 98
+
+label :
+```
+
+#subsubsubsection("Meltdown and Speculative Executions")
+#text(purple,[The idea is simple, if speculative execution allows code execution even if the branch might not be hit, what happens when we check for permissions?\
+Here we might still execute the receive data from address executing in the CPU due to speculative execution.\
+This data will then be stored in the L2 cache without the cache knowing that this is a speculative value.\
+Hence, if you can guess the right memory access in the cache, which has no permission checks, then you are now fucked :)])
+
+```C
+char dummy_array [256];
+char * sec_addr = 0 x12345678 ;
+char sec_data = * sec_addr ;            // exception, not allowed
+char dummy = dummy_array [ sec_data ];  // speculatively loaded into cache... :)
+```
+
+- sec data in cache -> loaded
+- tag is dummy_array + sec_data
+  - you can therefore access sec_data with this tag
+  - theoretically not an issue as the cache will check permission before releasing this data to a processor
+  - if cache was process based, then we would not have this issue
+    - it would however be really *slow*
+    - cache will instead be left as is (mostly) when switching processes
+      - if cache would be flushed, then this problem would not exist, but again this is slow
+- You can check if an address is loaded into cache by measuring access time :
+  -> long access == not in cache
+  -> short access == in cache
+
+#align(center, [#image("../Screenshots/2023_06_06_05_36_04.png", width: 70%)])
+#text(purple,[With clflush, you can flush the cache, start the attack, and therefore minimize the memory in the virtual address space used.\
+This means you have a higher chance of getting the right memory when trying to access the cache, remember, in cache means short access.])\
+#text(teal, [Problems with this attack: timing is not always consistent, was this a cache hit or miss? \
+Sometimes the process flushes the cache, here only a restart can help.])\
+\
+#text(red, [Mitigation: Different mapping for kernel space and user space.\
+Don't keep all processes in each virtual address table.\
+Performance mitigation sometimes lead to performance loss, etc.])
 
 
 
